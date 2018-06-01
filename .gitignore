@@ -3,4 +3,5 @@ node_modules/
 .idea/workspace.xml
 .idea
 build/
-debug.logconfig/dist/
+debug.log
+config/dist/

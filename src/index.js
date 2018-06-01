@@ -2,7 +2,7 @@ import vueScrollRangeDatepicker from './components/VueScrollRangeDatepicker.vue'
 import ClickOutside from './directives/ClickOutside'
 
 // Install the components
-export function install(Vue) {
+export function install(Vue, options) {
     Vue.directive('click-outside', ClickOutside);
     Vue.component(vueScrollRangeDatepicker.name, {
         ...options,

@@ -4,4 +4,4 @@ node_modules/
 .idea
 build/
 debug.log
-config/dist/
+config/dist/**

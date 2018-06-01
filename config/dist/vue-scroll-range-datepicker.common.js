@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8ecd7cf0d6132cc9a9c1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "26ce0c952d70443bbdf3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -11808,7 +11808,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       return _c('div', {
         key: day,
         staticClass: "asd__day-title"
-      }, [_vm._v(_vm._s(day))])
+      }, [_vm._v(_vm._s(day) + " ")])
     }))
   })), _vm._v(" "), _c('div', {
     staticClass: "asd__inner-wrapper",

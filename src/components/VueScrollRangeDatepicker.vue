@@ -94,7 +94,7 @@
                         :key="month"
                         :style="[monthWidthStyles, {left: (width * index) + 'px'}]"
                 >
-                    <div class="asd__day-title" v-for="day in daysShort" :key="day">{{ day }}</div>
+                    <div class="asd__day-title" v-for="day in daysShort" :key="day">{{ day }} </div>
                 </div>
             </div>
             <div class="asd__inner-wrapper" :style="innerStyles">

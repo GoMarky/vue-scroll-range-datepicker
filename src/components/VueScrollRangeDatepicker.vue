@@ -35,14 +35,14 @@
                     <div class="asd__time-current-inputs">
                         <div class="asd__time-input-wrapper">
                             <input class="asd__time-input" type="text" name="time" id="start-time" v-model="dateFrom"
-                                   v-on:keyup.enter="selectDate(dateFrom)">
+                                   v-on:keyup.enter="selectDate(dateFrom)" autocomplete="off">
                         </div>
                         <span>
                -
             </span>
                         <div class="asd__time-input-wrapper">
                             <input class="asd__time-input" type="text" name="time" id="end-time" v-model="dateTo"
-                                   v-on:keyup.enter="selectDate(dateTo)">
+                                   v-on:keyup.enter="selectDate(dateTo)" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -202,33 +202,30 @@
                 },
                 sundayFirst: false,
                 monthNames: [
-                    'Ноябрь',
-                    'Февраль',
-                    'Март',
-                    'Апрель',
-                    'Май',
-                    'Июнь',
-                    'Июль',
-                    'Август',
-                    'Сентябрь',
-                    'Октябрь',
-                    'Ноябрь',
-                    'Декабрь'
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'October',
+                    'November',
+                    'December'
                 ],
                 days: [
-                    'Понедельник',
-                    'Вторник',
-                    'Среда',
-                    'Четверг',
-                    'Пятница',
-                    'Суббота',
-                    'Воскресенье'
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
+                    'Sunday'
                 ],
                 daysShort: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
-                texts: {
-                    apply: 'Apply',
-                    cancel: 'Cancel'
-                },
+                texts: { apply: 'Apply', cancel: 'Cancel' },
                 startingDate: '',
                 months: [],
                 width: 250,

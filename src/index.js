@@ -1,15 +1,19 @@
-import Test from './components/Test.vue'
+import vueScrollRangeDatepicker from './components/VueScrollRangeDatepicker.vue'
+import ClickOutside from './directives/ClickOutside'
 
 // Install the components
-export function install (Vue) {
-  Vue.component('test', Test)
-  /* -- Add more components here -- */
+export function install(Vue) {
+    Vue.directive('click-outside', ClickOutside);
+    Vue.component(vueScrollRangeDatepicker.name, {
+        ...options,
+        ...vueScrollRangeDatepicker
+    })
 }
 
 // Expose the components
 export {
-  Test,
-  /* -- Add more components here -- */
+    vueScrollRangeDatepicker,
+    /* -- Add more components here -- */
 }
 
 /* -- Plugin definition & Auto-install -- */
@@ -17,9 +21,9 @@ export {
 
 // Plugin
 const plugin = {
-  /* eslint-disable no-undef */
-  version: VERSION,
-  install,
+    /* eslint-disable no-undef */
+    version: VERSION,
+    install,
 }
 
 export default plugin
@@ -27,10 +31,10 @@ export default plugin
 // Auto-install
 let GlobalVue = null
 if (typeof window !== 'undefined') {
-  GlobalVue = window.Vue
+    GlobalVue = window.Vue
 } else if (typeof global !== 'undefined') {
-  GlobalVue = global.Vue
+    GlobalVue = global.Vue
 }
 if (GlobalVue) {
-  GlobalVue.use(plugin)
+    GlobalVue.use(plugin)
 }

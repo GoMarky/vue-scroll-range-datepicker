@@ -1,0 +1,357 @@
+
+html,
+body {
+  min-height: 200vh;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  line-height: 18px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  padding: 10px;
+}
+.app.align-right {
+  text-align: right;
+}
+h1 {
+  font-size: 1.8em;
+  line-height: 1.5em;
+}
+.datepicker-container {
+  margin-bottom: 30px;
+}
+#datepicker-button-trigger {
+  background: #008489;
+  border: 1px solid #008489;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  min-width: 200px;
+}
+input {
+  padding: 6px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.asd__fade-enter-active,
+.asd__fade-leave-active {
+  transition: all 0.2s ease;
+}
+.asd__fade-enter,
+.asd__fade-leave-active {
+  opacity: 0;
+}
+.asd__list-complete-enter,
+.asd__list-complete-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.asd__list-complete-leave-active {
+  position: absolute;
+  visibility: hidden;
+}
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+.datepicker-trigger {
+  position: relative;
+  overflow: visible;
+}
+.asd__timebar {
+  margin-top: 40px;
+  position: relative;
+}
+.asd__time-input {
+  height: 40px;
+  width: 120px;
+  font-family: inherit;
+}
+.asd__time-list {
+  display: flex;
+}
+.asd__time-button {
+  border: 1px solid #eeeeee;
+  border-right: none;
+  background: none;
+  width: 80px;
+  height: 40px;
+  margin: 0;
+  padding: 10px 0;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+.asd__time-button:hover {
+    background-color: #e2f5f7;
+}
+.asd__time-button:last-child {
+    border-right: 1px solid #eeeeee;
+}
+.asd__datepicker-header {
+  padding: 40px;
+}
+.asd__timebar-years {
+  display: flex;
+  align-items: center;
+}
+.asd__time-current-inputs {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+}
+.asd__time-current-inputs > span {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.asd__time-header {
+  display: flex;
+  align-items: center;
+}
+.asd__days-legend-wrapper {
+  display: flex;
+  top: 65px;
+  position: relative;
+  align-items: center;
+}
+.asd__timebar-monthes {
+  width: 100%;
+  position: absolute;
+  height: 20px;
+  overflow: hidden;
+  user-select: none;
+  border-radius: 3px;
+  background: #f4f4f3;
+}
+.asd__timebar-progress {
+  background-color: #f1f2f2;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 15px;
+}
+.asd__timebar-progress > span {
+    position: absolute;
+    cursor: pointer;
+    width: 35px;
+    display: block;
+    text-align: center;
+}
+.asd__timebar-scroll {
+  position: absolute;
+  height: 40px;
+  width: 60px;
+  border: 3px solid #24a2b4;
+  display: block;
+  background-color: transparent;
+  top: -10px;
+  right: 0;
+  z-index: 1;
+  cursor: ew-resize;
+}
+.asd__timebar-scroll::after {
+    content: '';
+    display: block;
+    background: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.asd__timebar-progress-current {
+  background-color: #c8ebef;
+  position: absolute;
+  height: 20px;
+}
+.asd__wrapper {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  text-align: center;
+  overflow: hidden;
+  background-color: white;
+}
+.asd__wrapper--full-screen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: none;
+    z-index: 100;
+}
+.asd__inner-wrapper {
+  transition: all 0.3s ease;
+  position: relative;
+}
+.asd__datepicker-header {
+  position: relative;
+}
+.asd__change-month-button {
+  position: absolute;
+  bottom: -40px;
+  z-index: 10;
+  background: white;
+}
+.asd__change-month-button--previous {
+    left: 0;
+    padding-left: 15px;
+}
+.asd__change-month-button--next {
+    right: 0;
+    padding-right: 15px;
+}
+.asd__change-month-button > button {
+    background-color: white;
+    border: 1px solid #e4e7e7;
+    border-radius: 3px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+.asd__change-month-button > button:hover {
+      border: 1px solid #c4c4c4;
+}
+.asd__change-month-button > button > svg {
+      height: 19px;
+      width: 19px;
+      fill: #82888a;
+}
+.asd__days-legend {
+  padding: 0 10px;
+}
+.asd__day-title {
+  display: inline-block;
+  width: 14.28571%;
+  text-align: center;
+  margin-bottom: 4px;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 0.8em;
+  margin-left: -1px;
+  text-transform: lowercase;
+}
+.asd__month-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: white;
+  width: 100%;
+  max-width: 100%;
+}
+.asd__month {
+  transition: all 0.3s ease;
+  display: inline-block;
+  padding: 15px;
+}
+.asd__month--hidden {
+    height: 275px;
+    visibility: hidden;
+}
+.asd__month-name {
+  font-size: 1.3em;
+  text-align: center;
+  margin: 0 0 30px;
+  line-height: 1.4em;
+  text-transform: lowercase;
+  font-weight: bold;
+}
+.asd__day {
+  line-height: 38px;
+  height: 38px;
+  padding: 0;
+  overflow: hidden;
+}
+.asd__day--enabled:hover {
+    background-color: #e4e7e7;
+}
+.asd__day--disabled, .asd__day--empty {
+    opacity: 0.5;
+}
+.asd__day--disabled button, .asd__day--empty button {
+      cursor: default;
+}
+.asd__day--empty {
+    border: none;
+}
+.asd__day--disabled:hover {
+    background-color: transparent;
+}
+.asd__day-button {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  border: none;
+  cursor: pointer;
+  color: #222222;
+  text-align: center;
+  user-select: none;
+  font-size: 15px;
+  font-weight: inherit;
+  padding: 0;
+  outline: 0;
+}
+.asd__day-button_weekend {
+    color: #e66b4b;
+}
+.asd__action-buttons {
+  min-height: 50px;
+  padding-top: 10px;
+}
+.asd__action-buttons button {
+    display: block;
+    position: relative;
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+.asd__action-buttons button:hover {
+      text-decoration: underline;
+}
+.asd__action-buttons button:nth-child(1) {
+      float: left;
+      left: 15px;
+}
+.asd__action-buttons button:nth-child(2) {
+      float: right;
+      right: 15px;
+}
+.asd__mobile-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  padding: 15px 15px 15px 15px !important;
+  text-align: center;
+  height: 50px;
+}
+.asd__mobile-header h3 {
+    font-size: 20px;
+    margin: 0;
+}
+.asd__mobile-only {
+  display: none;
+}
+@media (max-width: 600px) {
+.asd__mobile-only {
+      display: block;
+}
+}
+.asd__mobile-close {
+  position: absolute;
+  top: 7px;
+  right: 5px;
+  padding: 5px;
+  z-index: 100;
+  cursor: pointer;
+}
+.asd__mobile-close__icon {
+    position: relative;
+    font-size: 1.6em;
+    font-weight: bold;
+    padding: 0;
+}
+
+/*# sourceMappingURL=vue-scroll-range-datepicker.css.map*/

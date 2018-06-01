@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5a00977f-18b8-4729-8ae6-830fed0dedb6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/dist/vue-scroll-range-datepicker.browser.js" afterPath="$PROJECT_DIR$/dist/vue-scroll-range-datepicker.browser.js" />
-      <change beforePath="$PROJECT_DIR$/dist/vue-scroll-range-datepicker.common.js" afterPath="$PROJECT_DIR$/dist/vue-scroll-range-datepicker.common.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Test.vue" afterPath="$PROJECT_DIR$/src/components/Test.vue" />
-    </list>
+    <list default="true" id="5a00977f-18b8-4729-8ae6-830fed0dedb6" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -203,12 +198,12 @@
       <updated>1527783136347</updated>
       <workItem from="1527783137895" duration="606000" />
       <workItem from="1527784304934" duration="1263000" />
-      <workItem from="1527785896840" duration="2301000" />
+      <workItem from="1527785896840" duration="2318000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4170000" />
+    <option name="totallyTimeSpent" value="4187000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />

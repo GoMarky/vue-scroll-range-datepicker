@@ -1,152 +1,154 @@
 <template>
-  <transition name="asd__fade">
-    <div
-            :id="wrapperId"
-            class="asd__wrapper"
-            v-show="showDatepicker"
-            :class="wrapperClasses"
-            :style="showFullscreen ? undefined : wrapperStyles"
-            v-click-outside="handleClickOutside"
-    >
-      <div class="asd__mobile-header asd__mobile-only" v-if="showFullscreen">
-        <div class="asd__mobile-close" @click="closeDatepicker">
-          <div class="asd__mobile-close-icon">X</div>
-        </div>
-        <h3>{{ mobileHeader }}</h3>
-      </div>
-      <div class="asd__datepicker-header">
-        <div class="asd__time-header">
-          <div class="asd__time-list">
-
-            <button class="asd__time-button" type="button" v-on:click="setFixedDate('week')">
-              Неделя
-            </button>
-            <button class="asd__time-button" type="button" v-on:click="setFixedDate('month')">
-              Месяц
-            </button>
-            <button class="asd__time-button" type="button" v-on:click="setFixedDate('quarter')">
-              Квартал
-            </button>
-            <button class="asd__time-button" type="button" v-on:click="setFixedDate('year')">
-              Год
-            </button>
-
-          </div>
-          <div class="asd__time-current-inputs">
-            <div class="asd__time-input-wrapper">
-              <input class="asd__time-input" type="text" name="time" id="start-time" v-model="dateFrom"
-                     v-on:keyup.enter="selectDate(dateFrom)">
+    <transition name="asd__fade">
+        <div
+                :id="wrapperId"
+                class="asd__wrapper"
+                v-show="showDatepicker"
+                :class="wrapperClasses"
+                :style="showFullscreen ? undefined : wrapperStyles"
+                v-click-outside="handleClickOutside"
+        >
+            <div class="asd__mobile-header asd__mobile-only" v-if="showFullscreen">
+                <div class="asd__mobile-close" @click="closeDatepicker">
+                    <div class="asd__mobile-close-icon">X</div>
+                </div>
+                <h3>{{ mobileHeader }}</h3>
             </div>
-            <span>
+            <div class="asd__datepicker-header">
+                <div class="asd__time-header">
+                    <div class="asd__time-list">
+
+                        <button class="asd__time-button" type="button" v-on:click="setFixedDate('week')">
+                            Неделя
+                        </button>
+                        <button class="asd__time-button" type="button" v-on:click="setFixedDate('month')">
+                            Месяц
+                        </button>
+                        <button class="asd__time-button" type="button" v-on:click="setFixedDate('quarter')">
+                            Квартал
+                        </button>
+                        <button class="asd__time-button" type="button" v-on:click="setFixedDate('year')">
+                            Год
+                        </button>
+
+                    </div>
+                    <div class="asd__time-current-inputs">
+                        <div class="asd__time-input-wrapper">
+                            <input class="asd__time-input" type="text" name="time" id="start-time" v-model="dateFrom"
+                                   v-on:keyup.enter="selectDate(dateFrom)">
+                        </div>
+                        <span>
                -
             </span>
-            <div class="asd__time-input-wrapper">
-              <input class="asd__time-input" type="text" name="time" id="end-time" v-model="dateTo"
-                     v-on:keyup.enter="selectDate(dateTo)">
-            </div>
-          </div>
-        </div>
-        <div class="asd__timebar">
-          <div class="asd__timebar-scroll"
-               v-on:mousedown="toggleScroll"
-               v-bind:style="scrollStyles"
-               ref="timebarScroll"
-          >
-          </div>
-          <div class="asd__timebar-monthes" ref="timebarWrapper">
-            <div class="asd__timebar-progress" v-bind:style="timebarStyles" ref="timebarProgress">
-              <div class="asd__timebar-progress-current" v-bind:style="currentTimebarStyles" ref="currentProgressBar">
+                        <div class="asd__time-input-wrapper">
+                            <input class="asd__time-input" type="text" name="time" id="end-time" v-model="dateTo"
+                                   v-on:keyup.enter="selectDate(dateTo)">
+                        </div>
+                    </div>
+                </div>
+                <div class="asd__timebar">
+                    <div class="asd__timebar-scroll"
+                         v-on:mousedown="toggleScroll"
+                         v-bind:style="scrollStyles"
+                         ref="timebarScroll"
+                    >
+                    </div>
+                    <div class="asd__timebar-monthes" ref="timebarWrapper">
+                        <div class="asd__timebar-progress" v-bind:style="timebarStyles" ref="timebarProgress">
+                            <div class="asd__timebar-progress-current" v-bind:style="currentTimebarStyles"
+                                 ref="currentProgressBar">
 
-              </div>
-              <span v-for="(year, index) in currentYears"
-                    :key="index"
-                    v-bind:style="{
+                            </div>
+                            <span v-for="(year, index) in currentYears"
+                                  :key="index"
+                                  v-bind:style="{
                     left: year.posLeft
                     }"
-                    v-on:click="selectDate(year.fullDate, true)"
-                    v-bind:data-year="year.item"
-              >{{ year.item }}</span>
+                                  v-on:click="selectDate(year.fullDate, true)"
+                                  v-bind:data-year="year.item"
+                            >{{ year.item }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="asd__change-month-button asd__change-month-button--previous">
+                    <button @click="previousMonth">
+                        <svg viewBox="0 0 1000 1000">
+                            <path
+                                    d="M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="asd__change-month-button asd__change-month-button--next">
+                    <button @click="nextMonth">
+                        <svg viewBox="0 0 1000 1000">
+                            <path
+                                    d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="asd__change-month-button asd__change-month-button--previous">
-          <button @click="previousMonth">
-            <svg viewBox="0 0 1000 1000">
-              <path
-                      d="M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z"/>
-            </svg>
-          </button>
-        </div>
-        <div class="asd__change-month-button asd__change-month-button--next">
-          <button @click="nextMonth">
-            <svg viewBox="0 0 1000 1000">
-              <path
-                      d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div class="asd__days-legend-wrapper">
-        <div
-                class="asd__days-legend"
-                v-for="(month, index) in showMonths"
-                :key="month"
-                :style="[monthWidthStyles, {left: (width * index) + 'px'}]"
-        >
-          <div class="asd__day-title" v-for="day in daysShort" :key="day">{{ day }}</div>
-        </div>
-      </div>
-      <div class="asd__inner-wrapper" :style="innerStyles">
-        <transition-group name="asd__list-complete" tag="div">
-          <div
-                  v-for="(month, monthIndex) in months"
-                  :key="month.firstDateOfMonth"
-                  class="asd__month"
-                  :class="{hidden: monthIndex === 0 || monthIndex > showMonths}"
-                  :style="monthWidthStyles"
-          >
-            <div class="asd__month-name">{{ month.monthName }} {{ month.year }}</div>
+            <div class="asd__days-legend-wrapper">
+                <div
+                        class="asd__days-legend"
+                        v-for="(month, index) in showMonths"
+                        :key="month"
+                        :style="[monthWidthStyles, {left: (width * index) + 'px'}]"
+                >
+                    <div class="asd__day-title" v-for="day in daysShort" :key="day">{{ day }}</div>
+                </div>
+            </div>
+            <div class="asd__inner-wrapper" :style="innerStyles">
+                <transition-group name="asd__list-complete" tag="div">
+                    <div
+                            v-for="(month, monthIndex) in months"
+                            :key="month.firstDateOfMonth"
+                            class="asd__month"
+                            :class="{hidden: monthIndex === 0 || monthIndex > showMonths}"
+                            :style="monthWidthStyles"
+                    >
+                        <div class="asd__month-name">{{ month.monthName }} {{ month.year }}</div>
 
-            <table class="asd__month-table" role="presentation">
-              <tbody>
-              <tr class="asd__week" v-for="(week, index) in month.weeks" :key="index">
-                <td
-                        class="asd__day"
-                        v-for="({fullDate, dayNumber}, index) in week"
-                        :key="index + '_' + dayNumber"
-                        :data-date="fullDate"
-                        :class="{
+                        <table class="asd__month-table" role="presentation">
+                            <tbody>
+                            <tr class="asd__week" v-for="(week, index) in month.weeks" :key="index">
+                                <td
+                                        class="asd__day"
+                                        v-for="({fullDate, dayNumber}, index) in week"
+                                        :key="index + '_' + dayNumber"
+                                        :data-date="fullDate"
+                                        :class="{
                       'asd__day--enabled': dayNumber !== 0,
                       'asd__day--empty': dayNumber === 0,
                       'asd__day--disabled': isDisabled(fullDate),
                       'asd__day--selected': selectedDate1 === fullDate || selectedDate2 === fullDate,
                       'asd__day--in-range': isInRange(fullDate)
                     }"
-                        :style="getDayStyles(fullDate)"
-                        @mouseover="() => { setHoverDate(fullDate) }"
-                >
-                  <button
-                          class="asd__day-button"
-                          v-if="dayNumber"
-                          :date="fullDate"
-                          :disabled="isDisabled(fullDate)"
-                          v-on:click="selectDate(fullDate)"
-                          v-bind:class="{ 'asd__day-button_weekend' : isWeekendDay(fullDate, dayNumber) }"
-                  >{{ dayNumber }}
-                  </button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </transition-group>
-      </div>
-      <div class="asd__action-buttons" v-if="mode !== 'single' && showActionButtons">
-        <button @click="closeDatepickerCancel">{{ texts.cancel }}</button>
-        <button @click="apply" :style="{color: colors.selected}">{{ texts.apply }}</button>
-      </div>
-    </div>
-  </transition>
+                                        :style="getDayStyles(fullDate)"
+                                        @mouseover="() => { setHoverDate(fullDate) }"
+                                >
+                                    <button
+                                            type="button"
+                                            class="asd__day-button"
+                                            v-if="dayNumber"
+                                            :date="fullDate"
+                                            :disabled="isDisabled(fullDate)"
+                                            v-on:click="selectDate(fullDate)"
+                                            v-bind:class="{ 'asd__day-button_weekend' : isWeekendDay(fullDate, dayNumber) }"
+                                    >{{ dayNumber }}
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </transition-group>
+            </div>
+            <div class="asd__action-buttons" v-if="mode !== 'single' && showActionButtons">
+                <button @click="closeDatepickerCancel">{{ texts.cancel }}</button>
+                <button @click="apply" :style="{color: colors.selected}">{{ texts.apply }}</button>
+            </div>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -973,358 +975,358 @@
 </script>
 
 <style lang="scss">
-  @import './../styles/transitions';
+    @import './../styles/transitions';
 
-  $tablet: 768px;
-  $color-gray: rgba(0, 0, 0, 0.2);
-  $border-normal: 1px solid $color-gray;
-  $border: 1px solid #e4e7e7;
-  $transition-time: 0.3s;
+    $tablet: 768px;
+    $color-gray: rgba(0, 0, 0, 0.2);
+    $border-normal: 1px solid $color-gray;
+    $border: 1px solid #e4e7e7;
+    $transition-time: 0.3s;
 
-  *,
-  *:after,
-  *:before {
-    box-sizing: border-box;
-  }
-
-  .datepicker-trigger {
-    position: relative;
-    overflow: visible;
-  }
-
-  .asd {
-
-    &__timebar {
-      margin-top: 40px;
-      position: relative;
+    *,
+    *:after,
+    *:before {
+        box-sizing: border-box;
     }
 
-    &__time-input {
-      height: 40px;
-      width: 120px;
-      font-family: inherit;
-    }
-
-    &__time-list {
-      display: flex;
-    }
-
-    &__time-button {
-      border: 1px solid #eeeeee;
-      border-right: none;
-      background: none;
-      width: 80px;
-      height: 40px;
-      margin: 0;
-      padding: 10px 0;
-      display: block;
-      text-align: center;
-      cursor: pointer;
-      font-size: 14px;
-
-      &:hover {
-        background-color: #e2f5f7;
-      }
-
-      &:last-child {
-        border-right: 1px solid #eeeeee;
-      }
-    }
-
-    &__datepicker-header {
-      padding: 40px
-    }
-
-    &__timebar-years {
-      display: flex;
-      align-items: center;
-    }
-
-    &__time-current-inputs {
-      display: flex;
-      margin-left: auto;
-      align-items: center;
-
-      & > span {
-        margin-left: 5px;
-        margin-right: 5px;
-      }
-    }
-
-    &__time-header {
-      display: flex;
-      align-items: center;
-    }
-
-    &__days-legend-wrapper {
-      display: flex;
-      top: 65px;
-      position: relative;
-      align-items: center;
-    }
-
-    &__timebar-monthes {
-      width: 100%;
-      position: absolute;
-      height: 20px;
-      overflow: hidden;
-      user-select: none;
-      border-radius: 3px;
-      background: #f4f4f3;
-    }
-
-    &__timebar-progress {
-      background-color: #f1f2f2;
-      height: 20px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding: 0 15px;
-
-      & > span {
-        position: absolute;
-        cursor: pointer;
-        width: 35px;
-        display: block;
-        text-align: center
-      }
-    }
-
-    &__timebar-scroll {
-      position: absolute;
-      height: 40px;
-      width: 60px;
-      border: 3px solid #24a2b4;
-      display: block;
-      background-color: transparent;
-      top: -10px;
-      right: 0;
-      z-index: 1;
-      cursor: ew-resize;
-
-      &::after {
-        content: '';
-        display: block;
-        background: rgba(255, 255, 255, .7);
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-      }
-    }
-
-    &__timebar-progress-current {
-      background-color: #c8ebef;
-      position: absolute;
-      height: 20px;
-    }
-
-    &__wrapper {
-      border: $border-normal;
-      white-space: nowrap;
-      text-align: center;
-      overflow: hidden;
-      background-color: white;
-
-      &--full-screen {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        border: none;
-        z-index: 100;
-      }
-    }
-    &__inner-wrapper {
-      transition: all $transition-time ease;
-      position: relative;
-    }
-    &__datepicker-header {
-      position: relative;
-    }
-    &__change-month-button {
-      position: absolute;
-      bottom: -40px;
-      z-index: 10;
-      background: white;
-
-      &--previous {
-        left: 0;
-        padding-left: 15px;
-      }
-      &--next {
-        right: 0;
-        padding-right: 15px;
-      }
-
-      > button {
-        background-color: white;
-        border: $border;
-        border-radius: 3px;
-        padding: 4px 8px;
-        cursor: pointer;
-
-        &:hover {
-          border: 1px solid #c4c4c4;
-        }
-
-        > svg {
-          height: 19px;
-          width: 19px;
-          fill: #82888a;
-        }
-      }
-    }
-
-    &__days-legend {
-      padding: 0 10px;
-    }
-    &__day-title {
-      display: inline-block;
-      width: percentage(1/7);
-      text-align: center;
-      margin-bottom: 4px;
-      color: rgba(0, 0, 0, 0.7);
-      font-size: 0.8em;
-      margin-left: -1px;
-      text-transform: lowercase;
-    }
-
-    &__month-table {
-      border-collapse: collapse;
-      border-spacing: 0;
-      background: white;
-      width: 100%;
-      max-width: 100%;
-    }
-
-    &__month {
-      transition: all $transition-time ease;
-      display: inline-block;
-      padding: 15px;
-
-      &--hidden {
-        height: 275px;
-        visibility: hidden;
-      }
-    }
-    &__month-name {
-      font-size: 1.3em;
-      text-align: center;
-      margin: 0 0 30px;
-      line-height: 1.4em;
-      text-transform: lowercase;
-      font-weight: bold;
-    }
-
-    &__day {
-      $size: 38px;
-      line-height: $size;
-      height: $size;
-      padding: 0;
-      overflow: hidden;
-
-      &--enabled {
-        &:hover {
-          background-color: #e4e7e7;
-        }
-      }
-      &--disabled,
-      &--empty {
-        opacity: 0.5;
-
-        button {
-          cursor: default;
-        }
-      }
-      &--empty {
-        border: none;
-      }
-      &--disabled {
-        &:hover {
-          background-color: transparent;
-        }
-      }
-    }
-    &__day-button {
-      background: transparent;
-      width: 100%;
-      height: 100%;
-      border: none;
-      cursor: pointer;
-      color: #222222;
-      text-align: center;
-      user-select: none;
-      font-size: 15px;
-      font-weight: inherit;
-      padding: 0;
-      outline: 0;
-
-      &_weekend {
-        color: #e66b4b;
-      }
-    }
-
-    &__action-buttons {
-      min-height: 50px;
-      padding-top: 10px;
-      button {
-        display: block;
+    .datepicker-trigger {
         position: relative;
-        background: transparent;
-        border: none;
-        font-weight: bold;
-        font-size: 15px;
-        cursor: pointer;
+        overflow: visible;
+    }
 
-        &:hover {
-          text-decoration: underline;
+    .asd {
+
+        &__timebar {
+            margin-top: 40px;
+            position: relative;
         }
-        &:nth-child(1) {
-          float: left;
-          left: 15px;
+
+        &__time-input {
+            height: 40px;
+            width: 120px;
+            font-family: inherit;
         }
-        &:nth-child(2) {
-          float: right;
-          right: 15px;
+
+        &__time-list {
+            display: flex;
         }
-      }
-    }
 
-    &__mobile-header {
-      border-bottom: $border-normal;
-      position: relative;
-      padding: 15px 15px 15px 15px !important;
-      text-align: center;
-      height: 50px;
+        &__time-button {
+            border: 1px solid #eeeeee;
+            border-right: none;
+            background: none;
+            width: 80px;
+            height: 40px;
+            margin: 0;
+            padding: 10px 0;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+            font-size: 14px;
 
-      h3 {
-        font-size: 20px;
-        margin: 0;
-      }
-    }
-    &__mobile-only {
-      display: none;
-      @media (max-width: 600px) {
-        display: block;
-      }
-    }
-    &__mobile-close {
-      position: absolute;
-      top: 7px;
-      right: 5px;
-      padding: 5px;
-      z-index: 100;
-      cursor: pointer;
+            &:hover {
+                background-color: #e2f5f7;
+            }
 
-      &__icon {
-        position: relative;
-        font-size: 1.6em;
-        font-weight: bold;
-        padding: 0;
-      }
+            &:last-child {
+                border-right: 1px solid #eeeeee;
+            }
+        }
+
+        &__datepicker-header {
+            padding: 40px
+        }
+
+        &__timebar-years {
+            display: flex;
+            align-items: center;
+        }
+
+        &__time-current-inputs {
+            display: flex;
+            margin-left: auto;
+            align-items: center;
+
+            & > span {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+        }
+
+        &__time-header {
+            display: flex;
+            align-items: center;
+        }
+
+        &__days-legend-wrapper {
+            display: flex;
+            top: 65px;
+            position: relative;
+            align-items: center;
+        }
+
+        &__timebar-monthes {
+            width: 100%;
+            position: absolute;
+            height: 20px;
+            overflow: hidden;
+            user-select: none;
+            border-radius: 3px;
+            background: #f4f4f3;
+        }
+
+        &__timebar-progress {
+            background-color: #f1f2f2;
+            height: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 0 15px;
+
+            & > span {
+                position: absolute;
+                cursor: pointer;
+                width: 35px;
+                display: block;
+                text-align: center
+            }
+        }
+
+        &__timebar-scroll {
+            position: absolute;
+            height: 40px;
+            width: 60px;
+            border: 3px solid #24a2b4;
+            display: block;
+            background-color: transparent;
+            top: -10px;
+            right: 0;
+            z-index: 1;
+            cursor: ew-resize;
+
+            &::after {
+                content: '';
+                display: block;
+                background: rgba(255, 255, 255, .7);
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        }
+
+        &__timebar-progress-current {
+            background-color: #c8ebef;
+            position: absolute;
+            height: 20px;
+        }
+
+        &__wrapper {
+            border: $border-normal;
+            white-space: nowrap;
+            text-align: center;
+            overflow: hidden;
+            background-color: white;
+
+            &--full-screen {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                border: none;
+                z-index: 100;
+            }
+        }
+        &__inner-wrapper {
+            transition: all $transition-time ease;
+            position: relative;
+        }
+        &__datepicker-header {
+            position: relative;
+        }
+        &__change-month-button {
+            position: absolute;
+            bottom: -40px;
+            z-index: 10;
+            background: white;
+
+            &--previous {
+                left: 0;
+                padding-left: 15px;
+            }
+            &--next {
+                right: 0;
+                padding-right: 15px;
+            }
+
+            > button {
+                background-color: white;
+                border: $border;
+                border-radius: 3px;
+                padding: 4px 8px;
+                cursor: pointer;
+
+                &:hover {
+                    border: 1px solid #c4c4c4;
+                }
+
+                > svg {
+                    height: 19px;
+                    width: 19px;
+                    fill: #82888a;
+                }
+            }
+        }
+
+        &__days-legend {
+            padding: 0 10px;
+        }
+        &__day-title {
+            display: inline-block;
+            width: percentage(1/7);
+            text-align: center;
+            margin-bottom: 4px;
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 0.8em;
+            margin-left: -1px;
+            text-transform: lowercase;
+        }
+
+        &__month-table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            background: white;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        &__month {
+            transition: all $transition-time ease;
+            display: inline-block;
+            padding: 15px;
+
+            &--hidden {
+                height: 275px;
+                visibility: hidden;
+            }
+        }
+        &__month-name {
+            font-size: 1.3em;
+            text-align: center;
+            margin: 0 0 30px;
+            line-height: 1.4em;
+            text-transform: lowercase;
+            font-weight: bold;
+        }
+
+        &__day {
+            $size: 38px;
+            line-height: $size;
+            height: $size;
+            padding: 0;
+            overflow: hidden;
+
+            &--enabled {
+                &:hover {
+                    background-color: #e4e7e7;
+                }
+            }
+            &--disabled,
+            &--empty {
+                opacity: 0.5;
+
+                button {
+                    cursor: default;
+                }
+            }
+            &--empty {
+                border: none;
+            }
+            &--disabled {
+                &:hover {
+                    background-color: transparent;
+                }
+            }
+        }
+        &__day-button {
+            background: transparent;
+            width: 100%;
+            height: 100%;
+            border: none;
+            cursor: pointer;
+            color: #222222;
+            text-align: center;
+            user-select: none;
+            font-size: 15px;
+            font-weight: inherit;
+            padding: 0;
+            outline: 0;
+
+            &_weekend {
+                color: #e66b4b;
+            }
+        }
+
+        &__action-buttons {
+            min-height: 50px;
+            padding-top: 10px;
+            button {
+                display: block;
+                position: relative;
+                background: transparent;
+                border: none;
+                font-weight: bold;
+                font-size: 15px;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+                &:nth-child(1) {
+                    float: left;
+                    left: 15px;
+                }
+                &:nth-child(2) {
+                    float: right;
+                    right: 15px;
+                }
+            }
+        }
+
+        &__mobile-header {
+            border-bottom: $border-normal;
+            position: relative;
+            padding: 15px 15px 15px 15px !important;
+            text-align: center;
+            height: 50px;
+
+            h3 {
+                font-size: 20px;
+                margin: 0;
+            }
+        }
+        &__mobile-only {
+            display: none;
+            @media (max-width: 600px) {
+                display: block;
+            }
+        }
+        &__mobile-close {
+            position: absolute;
+            top: 7px;
+            right: 5px;
+            padding: 5px;
+            z-index: 100;
+            cursor: pointer;
+
+            &__icon {
+                position: relative;
+                font-size: 1.6em;
+                font-weight: bold;
+                padding: 0;
+            }
+        }
     }
-  }
 </style>

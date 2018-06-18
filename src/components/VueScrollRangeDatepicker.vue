@@ -94,7 +94,7 @@
                         :key="month"
                         :style="[monthWidthStyles, {left: (width * index) + 'px'}]"
                 >
-                    <div class="asd__day-title" v-for="day in daysShort" :key="day">{{ day }} </div>
+                    <div class="asd__day-title" v-for="day in daysShort" :key="day">{{ day }}</div>
                 </div>
             </div>
             <div class="asd__inner-wrapper" :style="innerStyles">
@@ -182,6 +182,11 @@
             isTest: {
                 type: Boolean,
                 default: () => process.env.NODE_ENV === 'test'
+            },
+            dateFormat: {
+                type: String,
+                required: false,
+                default: `YYYY.MM.DD`
             }
         },
         data() {
@@ -189,7 +194,6 @@
                 dateTo: '',
                 dateFrom: '',
                 wrapperId: 'airbnb-style-datepicker-wrapper-' + randomString(5),
-                dateFormat: 'YYYY-MM-DD',
                 showDatepicker: false,
                 showMonths: 2,
                 colors: {
@@ -225,7 +229,7 @@
                     'Sunday'
                 ],
                 daysShort: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
-                texts: { apply: 'Apply', cancel: 'Cancel' },
+                texts: {apply: 'Apply', cancel: 'Cancel'},
                 startingDate: '',
                 months: [],
                 width: 250,
@@ -551,7 +555,6 @@
                             }
 
                             this.startingDate = `${this.currentYears[i].item - 1}-${month}-${i}`;
-                            console.log(this.startingDate);
                             this.generateMonths();
                         }
                     }

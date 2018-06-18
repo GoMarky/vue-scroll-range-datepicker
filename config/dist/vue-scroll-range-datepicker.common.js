@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "26ce0c952d70443bbdf3"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "295887417d4d69d809ce"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9788,7 +9788,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            dateFormat: 'YYYY-MM-DD', //'D MMM',
+            dateFormat: 'YYYY.MM.DD', //'D MMM',
             inputDateOne: '',
             inputDateTwo: '',
             inputSingleDateOne: '',
@@ -10429,7 +10429,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.9",
+    version: "2.0.10",
     install: install
 };
 
@@ -10700,6 +10700,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             default: function _default() {
                 return process.env.NODE_ENV === 'test';
             }
+        },
+        dateFormat: {
+            type: String,
+            required: false,
+            default: 'YYYY.MM.DD'
         }
     },
     data: function data() {
@@ -10707,7 +10712,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             dateTo: '',
             dateFrom: '',
             wrapperId: 'airbnb-style-datepicker-wrapper-' + Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["f" /* randomString */])(5),
-            dateFormat: 'YYYY-MM-DD',
             showDatepicker: false,
             showMonths: 2,
             colors: {
@@ -11033,7 +11037,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         }
 
                         _this2.startingDate = _this2.currentYears[i].item - 1 + '-' + month + '-' + i;
-                        console.log(_this2.startingDate);
                         _this2.generateMonths();
                     }
                 }
@@ -11808,7 +11811,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       return _c('div', {
         key: day,
         staticClass: "asd__day-title"
-      }, [_vm._v(_vm._s(day) + " ")])
+      }, [_vm._v(_vm._s(day))])
     }))
   })), _vm._v(" "), _c('div', {
     staticClass: "asd__inner-wrapper",

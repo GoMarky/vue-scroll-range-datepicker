@@ -40,7 +40,7 @@
     export default {
         data() {
             return {
-                dateFormat: 'YYYY-MM-DD', //'D MMM',
+                dateFormat: 'YYYY.MM.DD', //'D MMM',
                 inputDateOne: '',
                 inputDateTwo: '',
                 inputSingleDateOne: '',
@@ -63,7 +63,7 @@
         },
         methods: {
             formatDates(dateOne, dateTwo) {
-                let formattedDates = ''
+                let formattedDates = '';
                 if (dateOne) {
                     formattedDates = format(dateOne, this.dateFormat)
                 }

@@ -17,7 +17,6 @@
             <div class="asd__datepicker-header">
                 <div class="asd__time-header">
                     <div class="asd__time-list">
-
                         <button class="asd__time-button" type="button" v-on:click="setFixedDate('week')">
                             Неделя
                         </button>
@@ -30,16 +29,13 @@
                         <button class="asd__time-button" type="button" v-on:click="setFixedDate('year')">
                             Год
                         </button>
-
                     </div>
                     <div class="asd__time-current-inputs">
                         <div class="asd__time-input-wrapper">
                             <input class="asd__time-input" type="text" name="time" id="start-time" v-model="dateFrom"
                                    v-on:keyup.enter="selectDate(dateFrom)" autocomplete="off">
                         </div>
-                        <span>
-               -
-            </span>
+                        <span> - </span>
                         <div class="asd__time-input-wrapper">
                             <input class="asd__time-input" type="text" name="time" id="end-time" v-model="dateTo"
                                    v-on:keyup.enter="selectDate(dateTo)" autocomplete="off">
@@ -57,13 +53,10 @@
                         <div class="asd__timebar-progress" v-bind:style="timebarStyles" ref="timebarProgress">
                             <div class="asd__timebar-progress-current" v-bind:style="currentTimebarStyles"
                                  ref="currentProgressBar">
-
                             </div>
                             <span v-for="(year, index) in currentYears"
                                   :key="index"
-                                  v-bind:style="{
-                    left: year.posLeft
-                    }"
+                                  v-bind:style="{left: year.posLeft}"
                                   v-on:click="selectDate(year.fullDate, true)"
                                   v-bind:data-year="year.item"
                             >{{ year.item }}</span>
@@ -98,50 +91,48 @@
                 </div>
             </div>
             <div class="asd__inner-wrapper" :style="innerStyles">
-                <transition-group name="asd__list-complete" tag="div">
-                    <div
-                            v-for="(month, monthIndex) in months"
-                            :key="month.firstDateOfMonth"
-                            class="asd__month"
-                            :class="{hidden: monthIndex === 0 || monthIndex > showMonths}"
-                            :style="monthWidthStyles"
-                    >
-                        <div class="asd__month-name">{{ month.monthName }} {{ month.year }}</div>
+                <div
+                        v-for="(month, monthIndex) in months"
+                        :key="month.firstDateOfMonth"
+                        class="asd__month"
+                        :class="{hidden: monthIndex === 0 || monthIndex > showMonths}"
+                        :style="monthWidthStyles"
+                >
+                    <div class="asd__month-name">{{ month.monthName }} {{ month.year }}</div>
 
-                        <table class="asd__month-table" role="presentation">
-                            <tbody>
-                            <tr class="asd__week" v-for="(week, index) in month.weeks" :key="index">
-                                <td
-                                        class="asd__day"
-                                        v-for="({fullDate, dayNumber}, index) in week"
-                                        :key="index + '_' + dayNumber"
-                                        :data-date="fullDate"
-                                        :class="{
+                    <table class="asd__month-table" role="presentation">
+                        <tbody>
+                        <tr class="asd__week" v-for="(week, index) in month.weeks" :key="index">
+                            <td
+                                    class="asd__day"
+                                    v-for="({fullDate, dayNumber}, index) in week"
+                                    :key="index + '_' + dayNumber"
+                                    :data-date="fullDate"
+                                    :class="{
                       'asd__day--enabled': dayNumber !== 0,
                       'asd__day--empty': dayNumber === 0,
                       'asd__day--disabled': isDisabled(fullDate),
                       'asd__day--selected': selectedDate1 === fullDate || selectedDate2 === fullDate,
                       'asd__day--in-range': isInRange(fullDate)
                     }"
-                                        :style="getDayStyles(fullDate)"
-                                        @mouseover="() => { setHoverDate(fullDate) }"
-                                >
-                                    <button
-                                            type="button"
-                                            class="asd__day-button"
-                                            v-if="dayNumber"
-                                            :date="fullDate"
-                                            :disabled="isDisabled(fullDate)"
-                                            v-on:click="selectDate(fullDate)"
-                                            v-bind:class="{ 'asd__day-button_weekend' : isWeekendDay(fullDate, dayNumber) }"
-                                    >{{ dayNumber }}
-                                    </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </transition-group>
+                                    :style="getDayStyles(fullDate)"
+                                    @mouseover="() => { setHoverDate(fullDate) }"
+                            >
+                                <button
+                                        type="button"
+                                        class="asd__day-button"
+                                        v-if="dayNumber"
+                                        :date="fullDate"
+                                        :disabled="isDisabled(fullDate)"
+                                        v-on:click="selectDate(fullDate)"
+                                        v-bind:class="{ 'asd__day-button_weekend' : isWeekendDay(fullDate, dayNumber) }"
+                                >{{ dayNumber }}
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="asd__action-buttons" v-if="mode !== 'single' && showActionButtons">
                 <button type="button" @click="closeDatepickerCancel">{{ texts.cancel }}</button>
@@ -159,7 +150,7 @@
     import isBefore from 'date-fns/is_before'
     import isAfter from 'date-fns/is_after'
     import isValid from 'date-fns/is_valid'
-    import {debounce, copyObject, findAncestor, randomString, isWeekend, compareNumbers, inRange} from './../helpers'
+    import {debounce, copyObject, findAncestor, randomString, isWeekend, reverseDate, inRange} from './../helpers'
 
     export default {
         name: 'vueScrollRangeDatepicker',
@@ -186,7 +177,7 @@
             dateFormat: {
                 type: String,
                 required: false,
-                default: `YYYY.MM.DD`
+                default: `DD.MM.YYYY`
             }
         },
         data() {
@@ -384,8 +375,13 @@
                 this.currentTimebarWidth = 0;
 
                 let bars = Array.from(document.querySelectorAll(`.asd__timebar-progress > span`));
-                let split = newVal.split('-');
-                let date = {year: +split[0], month: +split[1], day: +split[2]};
+                let split = newVal.split('.');
+
+                let date = {
+                    year: +split[2],
+                    month: +split[1],
+                    day: +split[0]
+                };
                 let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
                 this.currentTimebarStart = currentYear.offsetLeft;
@@ -395,9 +391,19 @@
                 this.currentTimebarEnd = 0;
                 this.currentTimebarWidth = 0;
 
+                if (newVal === `undefined.undefined.`) {
+                    this.selectedDate2 = this.dateOne;
+                    return;
+                }
+
                 let bars = Array.from(document.querySelectorAll(`.asd__timebar-progress > span`));
-                let split = newVal.split('-');
-                let date = {year: +split[0], month: +split[1], day: +split[2]};
+                let split = newVal.split('.');
+
+                let date = {
+                    year: +split[2],
+                    month: +split[1],
+                    day: +split[0]
+                };
                 let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
                 this.currentTimebarEnd = currentYear.offsetLeft;
@@ -408,14 +414,16 @@
                     !newValue || newValue === '' ? '' : format(newValue, this.dateFormat);
                 this.$emit('date-one-selected', newDate);
 
-                this.dateFrom = newDate;
+                this.dateFrom = reverseDate(newDate);
             },
             selectedDate2(newValue, oldValue) {
+
                 let newDate =
                     !newValue || newValue === '' ? '' : format(newValue, this.dateFormat);
+
                 this.$emit('date-two-selected', newDate);
 
-                this.dateTo = newDate;
+                this.dateTo = reverseDate(newDate)
             },
             mode(newValue, oldValue) {
                 this.setStartDates()
@@ -544,7 +552,7 @@
                         if (inRange(realPassedX, this.currentYears[i - 1].leftCoords, this.currentYears[i].leftCoords)) {
 
                             if (realPassedX === 0) {
-                                this.startingDate = `${this.currentYears[i].item}-1-${i}`;
+                                this.startingDate = `${i}.1.${this.currentYears[i].item}`;
                                 this.generateMonths();
 
                                 break;
@@ -554,7 +562,7 @@
                                 month = 1
                             }
 
-                            this.startingDate = `${this.currentYears[i].item - 1}-${month}-${i}`;
+                            this.startingDate = `${i}.${month}.${this.currentYears[i].item}`;
                             this.generateMonths();
                         }
                     }
@@ -822,7 +830,9 @@
                         this.startingDate = format(date, this.dateFormat);
                         this.generateMonths();
                     }
+
                     this.isSelectingDate1 = false;
+
 
                     if (isBefore(this.selectedDate2, date)) {
                         this.selectedDate2 = ''

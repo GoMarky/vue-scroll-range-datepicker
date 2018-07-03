@@ -23,6 +23,7 @@
                             v-on:date-two-selected="val => { inputDateTwo = val }"
                             v-on:apply="applyMethod"
                             v-on:closed="closedMethod"
+                            v-bind:dateFormat="dateFormat"
                     />
                 </div>
             </div>
@@ -36,11 +37,12 @@
 
 <script>
     import format from 'date-fns/format'
+    import {reverseDate} from "../src/helpers";
 
     export default {
         data() {
             return {
-                dateFormat: 'YYYY.MM.DD', //'D MMM',
+                dateFormat: 'YYYY.MM.DD',
                 inputDateOne: '',
                 inputDateTwo: '',
                 inputSingleDateOne: '',
@@ -55,20 +57,14 @@
             }
         },
         computed: {},
-        created() {
-            // setTimeout(() => {
-            //   this.inputDateOne = '2019-01-12'
-            //   this.inputDateTwo = '2019-01-15'
-            // }, 5000)
-        },
         methods: {
             formatDates(dateOne, dateTwo) {
                 let formattedDates = '';
                 if (dateOne) {
-                    formattedDates = format(dateOne, this.dateFormat)
+                    formattedDates = reverseDate(format(dateOne, this.dateFormat))
                 }
                 if (dateTwo) {
-                    formattedDates += ' - ' + format(dateTwo, this.dateFormat)
+                    formattedDates += ' - ' + reverseDate(format(dateTwo, this.dateFormat))
                 }
                 return formattedDates
             },
@@ -82,13 +78,10 @@
                 this.trigger = !this.trigger
             },
             applyMethod() {
-                console.log('apply')
             },
             openedMethod() {
-                console.log('opened')
             },
             closedMethod() {
-                console.log('closed')
                 this.trigger = false
             }
         }

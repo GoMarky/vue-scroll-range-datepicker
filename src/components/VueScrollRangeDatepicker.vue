@@ -405,7 +405,9 @@
                     return;
                 }
 
-                let bars = Array.from(document.querySelectorAll(`.asd__timebar-progress > span`));
+                const wrapper = document.querySelector(`#${this.wrapperId}`);
+
+                let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
                 let split = newVal.split('.');
 
                 let date = {year: +split[2], month: +split[1], day: +split[0]};

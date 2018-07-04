@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b07af7c2b4be6fbf4c54"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d043a579faa835d596d1"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10533,7 +10533,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.12",
+    version: "2.0.13",
     install: install
 };
 
@@ -10963,15 +10963,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.currentTimebarEnd = 0;
             this.currentTimebarWidth = 0;
 
-            var bars = Array.from(document.querySelectorAll('.asd__timebar-progress > span'));
+            var wrapper = document.querySelector('#' + this.wrapperId);
+
+            var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
             var split = newVal.split('.');
+
             var date = { year: +split[2], month: +split[1], day: +split[0] };
 
             var currentYear = bars.find(function (it) {
                 return +it.textContent.trim() === date.year;
             });
 
-            console.log(currentYear);
             this.currentTimebarStart = currentYear.offsetLeft;
             this.currentTimebarLeftPos = parseInt(currentYear.style.left);
         },
@@ -10994,7 +10996,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return +it.textContent.trim() === date.year;
             });
 
-            console.log(currentYear);
             this.currentTimebarEnd = currentYear.offsetLeft;
             this.currentTimebarWidth = this.currentProgress;
         },
@@ -11154,6 +11155,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         if (month === 0) {
                             month = 1;
                         }
+
+                        console.log(_this2.currentYears[i - 1].item + '-' + month + '-' + i);
 
                         _this2.startingDate = _this2.currentYears[i - 1].item + '-' + month + '-' + i;
                         _this2.generateMonths();

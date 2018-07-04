@@ -382,13 +382,15 @@
                 this.currentTimebarEnd = 0;
                 this.currentTimebarWidth = 0;
 
-                let bars = Array.from(document.querySelectorAll(`.asd__timebar-progress > span`));
+                const wrapper = document.querySelector(`#${this.wrapperId}`);
+
+                let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
                 let split = newVal.split('.');
+
                 let date = {year: +split[2], month: +split[1], day: +split[0]};
 
                 let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
-                console.log(currentYear);
                 this.currentTimebarStart = currentYear.offsetLeft;
                 this.currentTimebarLeftPos = parseInt(currentYear.style.left);
             },
@@ -409,7 +411,6 @@
                 let date = {year: +split[2], month: +split[1], day: +split[0]};
                 let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
-                console.log(currentYear);
                 this.currentTimebarEnd = currentYear.offsetLeft;
                 this.currentTimebarWidth = this.currentProgress;
             },
@@ -568,6 +569,8 @@
                             if (month === 0) {
                                 month = 1
                             }
+
+                            console.log(`${this.currentYears[i - 1].item}-${month}-${i}`);
 
                             this.startingDate = `${this.currentYears[i - 1].item}-${month}-${i}`;
                             this.generateMonths();
@@ -818,7 +821,7 @@
             selectDate(date, isFixed, posLeft) {
 
                 if (isFixed) {
-                    this.currentPointScroll =  this.timebarPosLeft + parseInt(posLeft);
+                    this.currentPointScroll = this.timebarPosLeft + parseInt(posLeft);
                     this.startingDate = date;
                     this.generateMonths();
                 }

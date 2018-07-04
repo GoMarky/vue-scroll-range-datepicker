@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4be31e945418525d5fbb"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5fa59dd14e6daafc9d32"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10760,6 +10760,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -10840,7 +10848,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currentTimebarWidth: 0,
             currentTimebarLeftPos: 0,
             currentTimebarStart: 0,
-            currentTimebarEnd: 0
+            currentTimebarEnd: 0,
+            timebarPosLeft: 0
         };
     },
 
@@ -10858,7 +10867,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 currentYears.push({
                     item: currentYear,
-                    fullDate: currentYear + '-01-01',
+                    fullDate: currentYear + '.01.01',
                     posLeft: 120 * i + 'px',
                     leftCoords: 120 * i
                 });
@@ -10940,7 +10949,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.width * this.showMonths;
         },
         datePropsCompound: function datePropsCompound() {
-            // used to watch for changes in props, and update GUI accordingly
             return this.dateOne + this.dateTwo;
         },
         isDateTwoBeforeDateOne: function isDateTwoBeforeDateOne() {
@@ -10975,7 +10983,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.currentTimebarWidth = 0;
 
             if (newVal === 'undefined.undefined.') {
-                this.selectedDate2 = this.dateOne;
+                this.selectedDate2 = this.selectedDate1;
+                // костыль, надо будет убрать. Надо разобраться с окончательным форматом всех дат, и перевести ее на русскоязычную версию. А влиять на формат дат, можно будет только
+                // через props: {}
                 return;
             }
 
@@ -11127,6 +11137,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.$refs.timebarProgress.style.left = -Math.abs(passedX * 2) + 'px';
                 }
 
+                _this2.timebarPosLeft = -Math.abs(passedX * 2);
+
                 var currentWay = 1800;
 
                 for (var i = _this2.currentYears.length - 1; i > 0; --i) {
@@ -11138,7 +11150,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     if (Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["d" /* inRange */])(realPassedX, _this2.currentYears[i - 1].leftCoords, _this2.currentYears[i].leftCoords)) {
 
                         if (realPassedX === 0) {
-                            _this2.startingDate = i + '.1.' + _this2.currentYears[i].item;
+
+                            _this2.startingDate = _this2.currentYears[i - 1].item + '-1-' + i;
                             _this2.generateMonths();
 
                             break;
@@ -11148,7 +11161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             month = 1;
                         }
 
-                        _this2.startingDate = i + '.' + month + '.' + _this2.currentYears[i].item;
+                        _this2.startingDate = _this2.currentYears[i - 1].item + '-' + month + '-' + i;
                         _this2.generateMonths();
                     }
                 }
@@ -11357,7 +11370,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             return weeks;
         },
-        selectDate: function selectDate(date, isFixed) {
+        selectDate: function selectDate(date, isFixed, posLeft) {
+
+            if (isFixed) {
+                this.currentPointScroll = this.timebarPosLeft + parseInt(posLeft);
+                this.startingDate = date;
+                this.generateMonths();
+            }
+
             if (this.isBeforeMinDate(date) || this.isAfterEndDate(date) || this.isDateDisabled(date)) {
                 return;
             }
@@ -11370,12 +11390,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.isSelectingDate1 || __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.selectedDate1)) {
                 this.selectedDate1 = date;
-
-                if (isFixed) {
-                    this.startingDate = __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(date, this.dateFormat);
-                    this.generateMonths();
-                }
-
                 this.isSelectingDate1 = false;
 
                 if (__WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(this.selectedDate2, date)) {
@@ -11772,7 +11786,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.selectDate(year.fullDate, true)
+          _vm.selectDate(year.fullDate, true, year.posLeft)
         }
       }
     }, [_vm._v(_vm._s(year.item))])

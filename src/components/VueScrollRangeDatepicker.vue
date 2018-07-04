@@ -17,16 +17,24 @@
             <div class="asd__datepicker-header">
                 <div class="asd__time-header">
                     <div class="asd__time-list">
-                        <button class="asd__time-button" type="button" v-on:click="setFixedDate('week')">
+                        <button
+                                class="asd__time-button" type="button"
+                                v-on:click="setFixedDate('week')">
                             Неделя
                         </button>
-                        <button class="asd__time-button" type="button" v-on:click="setFixedDate('month')">
+                        <button class="asd__time-button"
+                                type="button"
+                                v-on:click="setFixedDate('month')">
                             Месяц
                         </button>
-                        <button class="asd__time-button" type="button" v-on:click="setFixedDate('quarter')">
+                        <button class="asd__time-button"
+                                type="button"
+                                v-on:click="setFixedDate('quarter')">
                             Квартал
                         </button>
-                        <button class="asd__time-button" type="button" v-on:click="setFixedDate('year')">
+                        <button class="asd__time-button"
+                                type="button"
+                                v-on:click="setFixedDate('year')">
                             Год
                         </button>
                     </div>
@@ -57,7 +65,7 @@
                             <span v-for="(year, index) in currentYears"
                                   :key="index"
                                   v-bind:style="{left: year.posLeft}"
-                                  v-on:click="selectDate(year.fullDate, true)"
+                                  v-on:click="selectDate(year.fullDate, true, year.posLeft)"
                                   v-bind:data-year="year.item"
                             >{{ year.item }}</span>
                         </div>
@@ -239,7 +247,8 @@
                 currentTimebarWidth: 0,
                 currentTimebarLeftPos: 0,
                 currentTimebarStart: 0,
-                currentTimebarEnd: 0
+                currentTimebarEnd: 0,
+                timebarPosLeft: 0
             }
         },
         computed: {
@@ -256,7 +265,7 @@
 
                     currentYears.push({
                         item: currentYear,
-                        fullDate: `${currentYear}-01-01`,
+                        fullDate: `${currentYear}.01.01`,
                         posLeft: `${120 * i}px`,
                         leftCoords: 120 * i
                     });
@@ -359,7 +368,6 @@
                 return this.width * this.showMonths
             },
             datePropsCompound() {
-                // used to watch for changes in props, and update GUI accordingly
                 return this.dateOne + this.dateTwo
             },
             isDateTwoBeforeDateOne() {
@@ -392,7 +400,9 @@
                 this.currentTimebarWidth = 0;
 
                 if (newVal === `undefined.undefined.`) {
-                    this.selectedDate2 = this.dateOne;
+                    this.selectedDate2 = this.selectedDate1;
+                    // костыль, надо будет убрать. Надо разобраться с окончательным форматом всех дат, и перевести ее на русскоязычную версию. А влиять на формат дат, можно будет только
+                    // через props: {}
                     return;
                 }
 
@@ -541,6 +551,8 @@
                         this.$refs.timebarProgress.style.left = `${-Math.abs(passedX * 2)}px`;
                     }
 
+                    this.timebarPosLeft = -Math.abs(passedX * 2);
+
                     let currentWay = 1800;
 
                     for (let i = this.currentYears.length - 1; i > 0; --i) {
@@ -552,7 +564,8 @@
                         if (inRange(realPassedX, this.currentYears[i - 1].leftCoords, this.currentYears[i].leftCoords)) {
 
                             if (realPassedX === 0) {
-                                this.startingDate = `${i}.1.${this.currentYears[i].item}`;
+
+                                this.startingDate = `${this.currentYears[i - 1].item}-1-${i}`;
                                 this.generateMonths();
 
                                 break;
@@ -562,7 +575,7 @@
                                 month = 1
                             }
 
-                            this.startingDate = `${i}.${month}.${this.currentYears[i].item}`;
+                            this.startingDate = `${this.currentYears[i - 1].item}-${month}-${i}`;
                             this.generateMonths();
                         }
                     }
@@ -808,7 +821,14 @@
                 }
                 return weeks
             },
-            selectDate(date, isFixed) {
+            selectDate(date, isFixed, posLeft) {
+
+                if (isFixed) {
+                    this.currentPointScroll =  this.timebarPosLeft + parseInt(posLeft);
+                    this.startingDate = date;
+                    this.generateMonths();
+                }
+
                 if (
                     this.isBeforeMinDate(date) ||
                     this.isAfterEndDate(date) ||
@@ -825,12 +845,6 @@
 
                 if (this.isSelectingDate1 || isBefore(date, this.selectedDate1)) {
                     this.selectedDate1 = date;
-
-                    if (isFixed) {
-                        this.startingDate = format(date, this.dateFormat);
-                        this.generateMonths();
-                    }
-
                     this.isSelectingDate1 = false;
 
 

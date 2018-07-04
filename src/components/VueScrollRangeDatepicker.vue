@@ -384,14 +384,11 @@
 
                 let bars = Array.from(document.querySelectorAll(`.asd__timebar-progress > span`));
                 let split = newVal.split('.');
+                let date = {year: +split[2], month: +split[1], day: +split[0]};
 
-                let date = {
-                    year: +split[2],
-                    month: +split[1],
-                    day: +split[0]
-                };
                 let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
+                console.log(currentYear);
                 this.currentTimebarStart = currentYear.offsetLeft;
                 this.currentTimebarLeftPos = parseInt(currentYear.style.left);
             },
@@ -409,13 +406,10 @@
                 let bars = Array.from(document.querySelectorAll(`.asd__timebar-progress > span`));
                 let split = newVal.split('.');
 
-                let date = {
-                    year: +split[2],
-                    month: +split[1],
-                    day: +split[0]
-                };
+                let date = {year: +split[2], month: +split[1], day: +split[0]};
                 let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
+                console.log(currentYear);
                 this.currentTimebarEnd = currentYear.offsetLeft;
                 this.currentTimebarWidth = this.currentProgress;
             },

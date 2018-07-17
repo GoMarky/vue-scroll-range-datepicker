@@ -52,6 +52,36 @@ input {
   position: absolute;
   visibility: hidden;
 }
+.close-icon {
+  border: none;
+  font-size: 0;
+  background: none;
+  width: 10px;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  height: 10px;
+}
+.close-icon::before {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 2px;
+    background-color: #24a2b4;
+    transform: rotate(45deg);
+    top: 0;
+    left: 6px;
+}
+.close-icon::after {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 2px;
+    background-color: #24a2b4;
+    transform: rotate(-45deg);
+    top: 0;
+    left: 6px;
+}
 *,
 *:after,
 *:before {
@@ -60,6 +90,19 @@ input {
 .datepicker-trigger {
   position: relative;
   overflow: visible;
+}
+.asd__close-icon {
+  display: block;
+  border: none;
+  background: none;
+  color: #24a2b4;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 9px;
+  z-index: 5;
+  right: 8px;
+  cursor: pointer;
 }
 .asd__timebar {
   margin-top: 40px;
@@ -191,6 +234,8 @@ input {
 }
 .asd__datepicker-header {
   position: relative;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 .asd__change-month-button {
   position: absolute;
@@ -200,11 +245,11 @@ input {
 }
 .asd__change-month-button--previous {
     left: 0;
-    padding-left: 15px;
+    padding-left: 40px;
 }
 .asd__change-month-button--next {
     right: 0;
-    padding-right: 15px;
+    padding-right: 40px;
 }
 .asd__change-month-button > button {
     background-color: white;
@@ -234,9 +279,12 @@ input {
   margin-left: -1px;
   text-transform: lowercase;
 }
+.asd__day-title:nth-last-child(-n+2) {
+    color: #e45f3e;
+}
 .asd__month-table {
-  border-collapse: collapse;
-  border-spacing: 0;
+  border-collapse: separate;
+  border-spacing: 0 10px;
   background: white;
   width: 100%;
   max-width: 100%;
@@ -251,16 +299,19 @@ input {
     visibility: hidden;
 }
 .asd__month-name {
-  font-size: 1.3em;
+  font-size: 17px;
   text-align: center;
   margin: 0 0 30px;
   line-height: 1.4em;
   text-transform: lowercase;
-  font-weight: bold;
+  font-weight: normal;
+}
+.asd__month-name:first-letter {
+    text-transform: uppercase;
 }
 .asd__day {
-  line-height: 38px;
-  height: 38px;
+  line-height: 15px;
+  height: 15px;
   padding: 0;
   overflow: hidden;
 }
@@ -299,26 +350,20 @@ input {
 .asd__action-buttons {
   min-height: 50px;
   padding-top: 10px;
+  margin-bottom: 40px;
 }
 .asd__action-buttons button {
     display: block;
     position: relative;
-    background: transparent;
     border: none;
     font-weight: bold;
     font-size: 15px;
     cursor: pointer;
-}
-.asd__action-buttons button:hover {
-      text-decoration: underline;
-}
-.asd__action-buttons button:nth-child(1) {
-      float: left;
-      left: 15px;
-}
-.asd__action-buttons button:nth-child(2) {
-      float: right;
-      right: 15px;
+    margin: 0 auto;
+    width: 121px;
+    color: #ffffff;
+    background-color: #008489;
+    padding: 15px 20px;
 }
 .asd__mobile-header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);

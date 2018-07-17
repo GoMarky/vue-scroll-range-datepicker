@@ -8,6 +8,7 @@
                 :style="showFullscreen ? undefined : wrapperStyles"
                 v-click-outside="handleClickOutside"
         >
+            <button type="button" class="asd__close-icon close-icon" @click="closeDatepickerCancel"></button>
             <div class="asd__mobile-header asd__mobile-only" v-if="showFullscreen">
                 <div class="asd__mobile-close" @click="closeDatepicker">
                     <div class="asd__mobile-close-icon">X</div>
@@ -143,8 +144,7 @@
                 </div>
             </div>
             <div class="asd__action-buttons" v-if="mode !== 'single' && showActionButtons">
-                <button type="button" @click="closeDatepickerCancel">{{ texts.cancel }}</button>
-                <button type="button" @click="apply" :style="{color: colors.selected}">{{ texts.apply }}</button>
+                <button type="button" @click="apply">{{ texts.apply }}</button>
             </div>
         </div>
     </transition>
@@ -610,11 +610,6 @@
                     color: isSelected
                         ? this.colors.selectedText
                         : isInRange ? this.colors.selectedText : this.colors.text,
-                    border: isSelected
-                        ? '1px double ' + this.colors.selected
-                        : isInRange && this.allDatesSelected
-                            ? '1px double ' + this.colors.inRangeBorder
-                            : ''
                 };
 
                 if (isDisabled) {
@@ -1006,6 +1001,39 @@
     $border: 1px solid #e4e7e7;
     $transition-time: 0.3s;
 
+    .close-icon {
+        border: none;
+        font-size: 0;
+        background: none;
+        width: 10px;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+        height: 10px;
+
+        &::before {
+            content: "";
+            position: absolute;
+            height: 10px;
+            width: 2px;
+            background-color: #24a2b4;
+            transform: rotate(45deg);
+            top: 0;
+            left: 6px;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 10px;
+            width: 2px;
+            background-color: #24a2b4;
+            transform: rotate(-45deg);
+            top: 0;
+            left: 6px;
+        }
+    }
+
     *,
     *:after,
     *:before {
@@ -1018,6 +1046,20 @@
     }
 
     .asd {
+
+        &__close-icon {
+            display: block;
+            border: none;
+            background: none;
+            color: #24a2b4;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            top: 9px;
+            z-index: 5;
+            right: 8px;
+            cursor: pointer;
+        }
 
         &__timebar {
             margin-top: 40px;
@@ -1168,6 +1210,8 @@
         }
         &__datepicker-header {
             position: relative;
+            padding-left: 40px;
+            padding-right: 40px;
         }
         &__change-month-button {
             position: absolute;
@@ -1177,11 +1221,11 @@
 
             &--previous {
                 left: 0;
-                padding-left: 15px;
+                padding-left: 40px;
             }
             &--next {
                 right: 0;
-                padding-right: 15px;
+                padding-right: 40px;
             }
 
             > button {
@@ -1206,6 +1250,7 @@
         &__days-legend {
             padding: 0 10px;
         }
+
         &__day-title {
             display: inline-block;
             width: percentage(1/7);
@@ -1215,11 +1260,16 @@
             font-size: 0.8em;
             margin-left: -1px;
             text-transform: lowercase;
+
+            &:nth-last-child(-n+2) {
+                color: #e45f3e;
+            }
+
         }
 
         &__month-table {
-            border-collapse: collapse;
-            border-spacing: 0;
+            border-collapse: separate;
+            border-spacing: 0 10px;
             background: white;
             width: 100%;
             max-width: 100%;
@@ -1236,16 +1286,21 @@
             }
         }
         &__month-name {
-            font-size: 1.3em;
+            font-size: 17px;
             text-align: center;
             margin: 0 0 30px;
             line-height: 1.4em;
             text-transform: lowercase;
-            font-weight: bold;
+            font-weight: normal;
+
+            &:first-letter {
+                text-transform: uppercase;
+            }
+
         }
 
         &__day {
-            $size: 38px;
+            $size: 15px;
             line-height: $size;
             height: $size;
             padding: 0;
@@ -1295,26 +1350,20 @@
         &__action-buttons {
             min-height: 50px;
             padding-top: 10px;
+            margin-bottom: 40px;
+
             button {
                 display: block;
                 position: relative;
-                background: transparent;
                 border: none;
                 font-weight: bold;
                 font-size: 15px;
                 cursor: pointer;
-
-                &:hover {
-                    text-decoration: underline;
-                }
-                &:nth-child(1) {
-                    float: left;
-                    left: 15px;
-                }
-                &:nth-child(2) {
-                    float: right;
-                    right: 15px;
-                }
+                margin: 0 auto;
+                width: 121px;
+                color: #ffffff;
+                background-color: #008489;
+                padding: 15px 20px;
             }
         }
 

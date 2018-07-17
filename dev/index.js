@@ -21,16 +21,16 @@ Vue.use(VueScrollRangeDatepicker, {
         'Декабрь'
     ],
     colors: {
-        selected: '#00a699',
-        inRange: '#66e2da',
+        selected: '#e2f5f7',
+        inRange: '#e2f5f7',
         selectedText: '#fff',
         text: '#565a5c',
-        inRangeBorder: '#33dacd',
+        inRangeBorder: 'e2f5f7',
         disabled: '#fff'
     },
     texts: {
-        apply: 'Tillämpa',
-        cancel: 'Avbryt'
+        apply: 'Применить',
+        cancel: 'Отменить'
     }
 });
 

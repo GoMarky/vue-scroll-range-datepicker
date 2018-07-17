@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d043a579faa835d596d1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a6540d2310c386f07c38"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9534,16 +9534,16 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_2__sr
     daysShort: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
     monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
     colors: {
-        selected: '#00a699',
-        inRange: '#66e2da',
+        selected: '#e2f5f7',
+        inRange: '#e2f5f7',
         selectedText: '#fff',
         text: '#565a5c',
-        inRangeBorder: '#33dacd',
+        inRangeBorder: 'e2f5f7',
         disabled: '#fff'
     },
     texts: {
-        apply: 'Tillämpa',
-        cancel: 'Avbryt'
+        apply: 'Применить',
+        cancel: 'Отменить'
     }
 });
 
@@ -9896,6 +9896,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -9906,6 +9928,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             dateFormat: 'YYYY.MM.DD',
             inputDateOne: '',
             inputDateTwo: '',
+            inputDateThree: '',
+            inputDateFour: '',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10481,6 +10505,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "apply": _vm.applyMethod,
       "closed": _vm.closedMethod
     }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "datepicker-trigger",
+    staticStyle: {
+      "margin-top": "70px"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "text",
+      "id": "datepicker-input-trigger-2",
+      "placeholder": "Select dates"
+    },
+    domProps: {
+      "value": _vm.formatDates(_vm.inputDateThree, _vm.inputDateFour)
+    }
+  }), _vm._v(" "), _c('vue-scroll-range-datepicker', {
+    attrs: {
+      "trigger-element-id": 'datepicker-input-trigger-2',
+      "mode": 'range',
+      "date-one": _vm.inputDateThree,
+      "date-two": _vm.inputDateFour,
+      "months-to-show": 3,
+      "show-action-buttons": true,
+      "dateFormat": _vm.dateFormat
+    },
+    on: {
+      "date-one-selected": function (val) {
+        _vm.inputDateThree = val
+      },
+      "date-two-selected": function (val) {
+        _vm.inputDateFour = val
+      },
+      "apply": _vm.applyMethod,
+      "closed": _vm.closedMethod
+    }
   })], 1)])]) : _vm._e(), _vm._v(" "), _c('button', {
     on: {
       "click": _vm.toggleDatepickers
@@ -10533,7 +10591,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.13",
+    version: "2.0.15",
     install: install
 };
 
@@ -10988,7 +11046,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            var bars = Array.from(document.querySelectorAll('.asd__timebar-progress > span'));
+            var wrapper = document.querySelector('#' + this.wrapperId);
+
+            var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
             var split = newVal.split('.');
 
             var date = { year: +split[2], month: +split[1], day: +split[0] };
@@ -11193,8 +11253,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var styles = {
                 width: (this.width - 30) / 7 + 'px',
                 background: isSelected ? this.colors.selected : isInRange ? this.colors.inRange : '',
-                color: isSelected ? this.colors.selectedText : isInRange ? this.colors.selectedText : this.colors.text,
-                border: isSelected ? '1px double ' + this.colors.selected : isInRange && this.allDatesSelected ? '1px double ' + this.colors.inRangeBorder : ''
+                color: isSelected ? this.colors.selectedText : isInRange ? this.colors.selectedText : this.colors.text
             };
 
             if (isDisabled) {
@@ -11637,7 +11696,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": _vm.wrapperId
     }
-  }, [(_vm.showFullscreen) ? _c('div', {
+  }, [_c('button', {
+    staticClass: "asd__close-icon close-icon",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.closeDatepickerCancel
+    }
+  }), _vm._v(" "), (_vm.showFullscreen) ? _c('div', {
     staticClass: "asd__mobile-header asd__mobile-only"
   }, [_c('div', {
     staticClass: "asd__mobile-close",
@@ -11902,16 +11969,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })), _vm._v(" "), (_vm.mode !== 'single' && _vm.showActionButtons) ? _c('div', {
     staticClass: "asd__action-buttons"
   }, [_c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.closeDatepickerCancel
-    }
-  }, [_vm._v(_vm._s(_vm.texts.cancel))]), _vm._v(" "), _c('button', {
-    style: ({
-      color: _vm.colors.selected
-    }),
     attrs: {
       "type": "button"
     },

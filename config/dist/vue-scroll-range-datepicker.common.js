@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a6540d2310c386f07c38"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "0d437d555feb13979631"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -11021,10 +11021,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.currentTimebarEnd = 0;
             this.currentTimebarWidth = 0;
 
+            var value = newVal;
+
+            console.log(value);
+
             var wrapper = document.querySelector('#' + this.wrapperId);
 
             var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
-            var split = newVal.split('.');
+            var split = value.split('.');
 
             var date = { year: +split[2], month: +split[1], day: +split[0] };
 
@@ -11032,45 +11036,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return +it.textContent.trim() === date.year;
             });
 
-            this.currentTimebarStart = currentYear.offsetLeft;
-            this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+            if (!currentYear) {
+                this.currentTimebarStart = 0;
+            } else {
+                this.currentTimebarStart = currentYear.offsetLeft;
+                this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+            }
         },
         dateTo: function dateTo(newVal) {
             this.currentTimebarEnd = 0;
             this.currentTimebarWidth = 0;
 
-            if (newVal === 'undefined.undefined.') {
-                this.selectedDate2 = this.selectedDate1;
-                // костыль, надо будет убрать. Надо разобраться с окончательным форматом всех дат, и перевести ее на русскоязычную версию. А влиять на формат дат, можно будет только
-                // через props: {}
-                return;
-            }
-
+            var value = newVal;
             var wrapper = document.querySelector('#' + this.wrapperId);
 
             var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
-            var split = newVal.split('.');
+            var split = value.split('.');
 
             var date = { year: +split[2], month: +split[1], day: +split[0] };
             var currentYear = bars.find(function (it) {
                 return +it.textContent.trim() === date.year;
             });
 
-            this.currentTimebarEnd = currentYear.offsetLeft;
-            this.currentTimebarWidth = this.currentProgress;
+            if (!currentYear) {
+                this.currentTimebarWidth = 1800;
+            } else {
+                this.currentTimebarEnd = currentYear.offsetLeft;
+                this.currentTimebarWidth = this.currentProgress;
+            }
         },
         selectedDate1: function selectedDate1(newValue, oldValue) {
             var newDate = !newValue || newValue === '' ? '' : __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(newValue, this.dateFormat);
-            this.$emit('date-one-selected', newDate);
 
+            this.$emit('date-one-selected', newDate);
             this.dateFrom = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(newDate);
         },
         selectedDate2: function selectedDate2(newValue, oldValue) {
-
             var newDate = !newValue || newValue === '' ? '' : __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(newValue, this.dateFormat);
 
             this.$emit('date-two-selected', newDate);
-
             this.dateTo = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(newDate);
         },
         mode: function mode(newValue, oldValue) {
@@ -11081,10 +11085,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.startingDate = this.dateOne;
                 this.setStartDates();
                 this.generateMonths();
-            }
-            if (this.isDateTwoBeforeDateOne) {
-                this.selectedDate2 = '';
-                this.$emit('date-two-selected', '');
             }
         }
     },
@@ -11153,9 +11153,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     break;
             }
 
-            this.selectedDate1 = __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(startDate, this.dateFormat);
-            this.selectedDate2 = __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(currentDate, this.dateFormat);
-            this.startingDate = __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(startDate, this.dateFormat);
+            this.selectedDate1 = startDate;
+            this.selectedDate2 = currentDate;
+            this.startingDate = startDate;
+
             this.generateMonths();
         },
         toggleScroll: function toggleScroll(e) {
@@ -11215,8 +11216,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         if (month === 0) {
                             month = 1;
                         }
-
-                        console.log(_this2.currentYears[i - 1].item + '-' + month + '-' + i);
 
                         _this2.startingDate = _this2.currentYears[i - 1].item + '-' + month + '-' + i;
                         _this2.generateMonths();
@@ -11299,11 +11298,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!isFormatYearFirst && !isFormatDayFirst) {
                 return;
             }
-            if (isFormatDayFirst) {
-                //convert to YYYY-MM-DD
-                value = value.substring(6, 10) + '-' + value.substring(3, 5) + '-' + value.substring(0, 2);
-            }
-
             var valueAsDateObject = new Date(value);
             if (!__WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid___default()(valueAsDateObject)) {
                 return;
@@ -11428,35 +11422,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         selectDate: function selectDate(date, isFixed, posLeft) {
 
+            var reversedDate = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(date);
+
             if (isFixed) {
                 this.currentPointScroll = this.timebarPosLeft + parseInt(posLeft);
-                this.startingDate = date;
+
+                this.startingDate = reversedDate;
                 this.generateMonths();
             }
 
-            if (this.isBeforeMinDate(date) || this.isAfterEndDate(date) || this.isDateDisabled(date)) {
+            if (this.isBeforeMinDate(reversedDate) || this.isAfterEndDate(reversedDate) || this.isDateDisabled(reversedDate)) {
                 return;
             }
 
             if (this.mode === 'single') {
-                this.selectedDate1 = date;
+                this.selectedDate1 = reversedDate;
                 this.closeDatepicker();
                 return;
             }
 
-            if (this.isSelectingDate1 || __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.selectedDate1)) {
-                this.selectedDate1 = date;
+            if (this.isSelectingDate1 || __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(reversedDate, this.selectedDate1)) {
+                this.selectedDate1 = reversedDate;
                 this.isSelectingDate1 = false;
 
-                if (__WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(this.selectedDate2, date)) {
-                    this.selectedDate2 = '';
+                if (__WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(this.selectedDate2, reversedDate)) {
+                    //this.selectedDate2 = ''
                 }
             } else {
-                this.selectedDate2 = date;
+                this.selectedDate2 = reversedDate;
                 this.isSelectingDate1 = true;
 
-                if (__WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default()(this.selectedDate1, date)) {
-                    this.selectedDate1 = '';
+                if (__WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default()(this.selectedDate1, reversedDate)) {
+                    //this.selectedDate1 = ''
                 }
             }
         },
@@ -11783,7 +11780,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) { return null; }
-        _vm.selectDate(_vm.dateFrom)
+        _vm.setDateFromText(_vm.dateFrom)
       },
       "input": function($event) {
         if ($event.target.composing) { return; }
@@ -11812,7 +11809,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) { return null; }
-        _vm.selectDate(_vm.dateTo)
+        _vm.setDateFromText(_vm.dateTo)
       },
       "input": function($event) {
         if ($event.target.composing) { return; }

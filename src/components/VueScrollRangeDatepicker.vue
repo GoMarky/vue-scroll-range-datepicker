@@ -42,12 +42,12 @@
                     <div class="asd__time-current-inputs">
                         <div class="asd__time-input-wrapper">
                             <input class="asd__time-input" type="text" name="time" id="start-time" v-model="dateFrom"
-                                   v-on:keyup.enter="selectDate(dateFrom)" autocomplete="off">
+                                   v-on:keyup.enter="setDateFromText(dateFrom)" autocomplete="off">
                         </div>
                         <span> - </span>
                         <div class="asd__time-input-wrapper">
                             <input class="asd__time-input" type="text" name="time" id="end-time" v-model="dateTo"
-                                   v-on:keyup.enter="selectDate(dateTo)" autocomplete="off">
+                                   v-on:keyup.enter="setDateFromText(dateTo)" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -382,55 +382,58 @@
                 this.currentTimebarEnd = 0;
                 this.currentTimebarWidth = 0;
 
+                let value = newVal;
                 const wrapper = document.querySelector(`#${this.wrapperId}`);
 
                 let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
-                let split = newVal.split('.');
+                let split = value.split('.');
 
                 let date = {year: +split[2], month: +split[1], day: +split[0]};
 
                 let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
-                this.currentTimebarStart = currentYear.offsetLeft;
-                this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+                if (!currentYear) {
+                    this.currentTimebarStart = 0;
+                } else {
+                    this.currentTimebarStart = currentYear.offsetLeft;
+                    this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+                }
+
             },
             dateTo(newVal) {
                 this.currentTimebarEnd = 0;
                 this.currentTimebarWidth = 0;
 
-                if (newVal === `undefined.undefined.`) {
-                    this.selectedDate2 = this.selectedDate1;
-                    // костыль, надо будет убрать. Надо разобраться с окончательным форматом всех дат, и перевести ее на русскоязычную версию. А влиять на формат дат, можно будет только
-                    // через props: {}
-                    return;
-                }
-
+                let value = newVal;
                 const wrapper = document.querySelector(`#${this.wrapperId}`);
 
                 let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
-                let split = newVal.split('.');
+                let split = value.split('.');
 
                 let date = {year: +split[2], month: +split[1], day: +split[0]};
                 let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
-                this.currentTimebarEnd = currentYear.offsetLeft;
-                this.currentTimebarWidth = this.currentProgress;
+                if (!currentYear) {
+                    this.currentTimebarWidth = 1800;
+                } else {
+                    this.currentTimebarEnd = currentYear.offsetLeft;
+                    this.currentTimebarWidth = this.currentProgress;
+                }
+
             },
             selectedDate1(newValue, oldValue) {
                 let newDate =
                     !newValue || newValue === '' ? '' : format(newValue, this.dateFormat);
-                this.$emit('date-one-selected', newDate);
 
+                this.$emit('date-one-selected', newDate);
                 this.dateFrom = reverseDate(newDate);
             },
             selectedDate2(newValue, oldValue) {
-
                 let newDate =
                     !newValue || newValue === '' ? '' : format(newValue, this.dateFormat);
 
                 this.$emit('date-two-selected', newDate);
-
-                this.dateTo = reverseDate(newDate)
+                this.dateTo = reverseDate(newDate);
             },
             mode(newValue, oldValue) {
                 this.setStartDates()
@@ -440,10 +443,6 @@
                     this.startingDate = this.dateOne;
                     this.setStartDates();
                     this.generateMonths()
-                }
-                if (this.isDateTwoBeforeDateOne) {
-                    this.selectedDate2 = '';
-                    this.$emit('date-two-selected', '')
                 }
             }
         },
@@ -511,9 +510,13 @@
                         break;
                 }
 
-                this.selectedDate1 = format(startDate, this.dateFormat);
-                this.selectedDate2 = format(currentDate, this.dateFormat);
-                this.startingDate = format(startDate, this.dateFormat);
+
+
+
+                this.selectedDate1 = startDate
+                this.selectedDate2 = currentDate
+                this.startingDate = startDate
+
                 this.generateMonths();
             },
             toggleScroll(e) {
@@ -571,8 +574,6 @@
                             if (month === 0) {
                                 month = 1
                             }
-
-                            console.log(`${this.currentYears[i - 1].item}-${month}-${i}`);
 
                             this.startingDate = `${this.currentYears[i - 1].item}-${month}-${i}`;
                             this.generateMonths();
@@ -679,14 +680,6 @@
                 if (!isFormatYearFirst && !isFormatDayFirst) {
                     return
                 }
-                if (isFormatDayFirst) {
-                    //convert to YYYY-MM-DD
-                    value = `${value.substring(6, 10)}-${value.substring(
-                        3,
-                        5
-                    )}-${value.substring(0, 2)}`
-                }
-
                 const valueAsDateObject = new Date(value);
                 if (!isValid(valueAsDateObject)) {
                     return
@@ -817,40 +810,43 @@
             },
             selectDate(date, isFixed, posLeft) {
 
+                let reversedDate = reverseDate(date);
+
                 if (isFixed) {
                     this.currentPointScroll = this.timebarPosLeft + parseInt(posLeft);
-                    this.startingDate = date;
+
+                    this.startingDate = reversedDate;
                     this.generateMonths();
                 }
 
                 if (
-                    this.isBeforeMinDate(date) ||
-                    this.isAfterEndDate(date) ||
-                    this.isDateDisabled(date)
+                    this.isBeforeMinDate(reversedDate) ||
+                    this.isAfterEndDate(reversedDate) ||
+                    this.isDateDisabled(reversedDate)
                 ) {
                     return
                 }
 
                 if (this.mode === 'single') {
-                    this.selectedDate1 = date;
+                    this.selectedDate1 = reversedDate;
                     this.closeDatepicker();
                     return
                 }
 
-                if (this.isSelectingDate1 || isBefore(date, this.selectedDate1)) {
-                    this.selectedDate1 = date;
+                if (this.isSelectingDate1 || isBefore(reversedDate, this.selectedDate1)) {
+                    this.selectedDate1 = reversedDate;
                     this.isSelectingDate1 = false;
 
 
-                    if (isBefore(this.selectedDate2, date)) {
-                        this.selectedDate2 = ''
+                    if (isBefore(this.selectedDate2, reversedDate)) {
+                        //this.selectedDate2 = ''
                     }
                 } else {
-                    this.selectedDate2 = date;
+                    this.selectedDate2 = reversedDate;
                     this.isSelectingDate1 = true;
 
-                    if (isAfter(this.selectedDate1, date)) {
-                        this.selectedDate1 = ''
+                    if (isAfter(this.selectedDate1, reversedDate)) {
+                        //this.selectedDate1 = ''
                     }
                 }
             },

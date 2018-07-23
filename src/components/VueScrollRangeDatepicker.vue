@@ -379,42 +379,6 @@
             }
         },
         watch: {
-            dateOne(val) {
-                console.log(val, 'первое значение');
-
-                if (!val) {
-                    console.log('первое значение пусто')
-                    this.dateOne = ``;
-                }
-
-                if (val === `.undefined.undefined.`) {
-                    console.log('первый невалиден')
-                    this.dateOne = ``;
-                }
-
-                if (val === `undefined.undefined.Invalid Date`) {
-                    console.log('первый невалиден')
-                    this.dateOne = ``;
-                }
-            },
-            dateTwo(val) {
-                console.log(val, 'второе значение');
-
-                if (!val) {
-                    console.log('второй пусто')
-                    this.dateTwo = ``;
-                }
-
-                if (val === `.undefined.undefined.`) {
-                    console.log('второй невалиден')
-                    this.dateTwo = ``;
-                }
-
-                if (val === `undefined.undefined.Invalid Date`) {
-                    console.log('второй невалиден')
-                    this.dateTwo = ``;
-                }
-            },
             dateFrom(newVal) {
                 this.currentTimebarEnd = 0;
                 this.currentTimebarWidth = 0;

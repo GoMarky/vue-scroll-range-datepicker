@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f744b1c53b1588f8fb2f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b7b7cd60862040b218f1"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10959,42 +10959,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     watch: {
-        dateOne: function dateOne(val) {
-            console.log(val, 'первое значение');
-
-            if (!val) {
-                console.log('первое значение пусто');
-                this.dateOne = '';
-            }
-
-            if (val === '.undefined.undefined.') {
-                console.log('первый невалиден');
-                this.dateOne = '';
-            }
-
-            if (val === 'undefined.undefined.Invalid Date') {
-                console.log('первый невалиден');
-                this.dateOne = '';
-            }
-        },
-        dateTwo: function dateTwo(val) {
-            console.log(val, 'второе значение');
-
-            if (!val) {
-                console.log('второй пусто');
-                this.dateTwo = '';
-            }
-
-            if (val === '.undefined.undefined.') {
-                console.log('второй невалиден');
-                this.dateTwo = '';
-            }
-
-            if (val === 'undefined.undefined.Invalid Date') {
-                console.log('второй невалиден');
-                this.dateTwo = '';
-            }
-        },
         dateFrom: function dateFrom(newVal) {
             this.currentTimebarEnd = 0;
             this.currentTimebarWidth = 0;

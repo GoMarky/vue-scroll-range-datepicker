@@ -79,7 +79,15 @@ export const isWeekend = date => {
 };
 
 export const reverseDate = function (date) {
+
+    if (!date) {
+        return;
+    }
+
     let splitDate = date.split(`.`);
+    if (splitDate.count === 0) {
+        return null;
+    }
 
     let year = splitDate[0];
     let month = splitDate[1];

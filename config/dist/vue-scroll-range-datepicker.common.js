@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b7b7cd60862040b218f1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a07ac4f4ee9b0fb87123"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9422,7 +9422,15 @@ var isWeekend = function isWeekend(date) {
 };
 
 var reverseDate = function reverseDate(date) {
+
+    if (!date) {
+        return;
+    }
+
     var splitDate = date.split('.');
+    if (splitDate.count === 0) {
+        return null;
+    }
 
     var year = splitDate[0];
     var month = splitDate[1];

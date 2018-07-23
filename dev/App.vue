@@ -43,8 +43,8 @@
         data() {
             return {
                 dateFormat: 'YYYY.MM.DD',
-                inputDateOne: '01.01.2009',
-                inputDateTwo: '01.01.2014',
+                inputDateOne: '01.01.2004',
+                inputDateTwo: '01.01.2005',
                 inputSingleDateOne: '',
                 buttonDateOne: '',
                 buttonDateTwo: '',
@@ -56,7 +56,6 @@
                 trigger: false
             }
         },
-        computed: {},
         methods: {
             formatDates(dateOne, dateTwo) {
                 let formattedDates = '';

@@ -395,16 +395,16 @@
 
                 if (!currentYear) {
                     this.currentTimebarStart = 0;
-                    console.log('меня нет начало');
                 } else {
                     this.currentTimebarStart = parseInt(currentYear.style.left);
                     this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+                    this.currentPointScroll = this.currentTimebarWidth;
 
                     if (this.isFirstLoaded) {
+                        this.currentPointScroll = 0;
                         this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
                     }
 
-                    this.isFirstLoaded = false;
                 }
 
             },
@@ -423,18 +423,16 @@
 
                 if (!currentYear) {
                     this.currentTimebarWidth = 1800;
-                    console.log('меня нет конца');
                 } else {
                     this.currentTimebarEnd = parseInt(currentYear.style.left);
                     this.currentTimebarWidth = this.currentProgress;
 
-                    console.log(this.currentPointScroll);
-                    console.log(parseInt(currentYear.style.left));
-
-                    this.$refs.timebarProgress.style.left = -Math.abs(currentYear.style.left);
-                    this.currentPointScroll = this.currentTimebarWidth;
+                    if (!this.isFirstLoaded) {
+                        this.currentPointScroll = this.currentTimebarWidth;
+                    }
                 }
 
+                this.isFirstLoaded = false;
             },
             selectedDate1(newValue, oldValue) {
                 let newDate =
@@ -506,9 +504,6 @@
             this.triggerElement.removeEventListener('keyup', this.handleTriggerInput)
         },
         methods: {
-            setUpAllScrolls() {
-
-            },
             setFixedDate(type) {
                 let currentDate = new Date();
                 let startDate;

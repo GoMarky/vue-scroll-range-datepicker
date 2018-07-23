@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "48d5f5220c181196393c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ea813062e311ec285ef3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9904,8 +9904,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             dateFormat: 'YYYY.MM.DD',
-            inputDateOne: '01.01.2009',
-            inputDateTwo: '01.01.2014',
+            inputDateOne: '01.01.2004',
+            inputDateTwo: '01.01.2005',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -9918,7 +9918,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    computed: {},
     methods: {
         formatDates: function formatDates(dateOne, dateTwo) {
             var formattedDates = '';
@@ -10978,16 +10977,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (!currentYear) {
                 this.currentTimebarStart = 0;
-                console.log('меня нет начало');
             } else {
                 this.currentTimebarStart = parseInt(currentYear.style.left);
                 this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+                this.currentPointScroll = this.currentTimebarWidth;
 
                 if (this.isFirstLoaded) {
+                    this.currentPointScroll = 0;
                     this.$refs.timebarProgress.style.left = -Math.abs(this.currentTimebarStart) + 'px';
                 }
-
-                this.isFirstLoaded = false;
             }
         },
         dateTo: function dateTo(newVal) {
@@ -11007,17 +11005,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (!currentYear) {
                 this.currentTimebarWidth = 1800;
-                console.log('меня нет конца');
             } else {
                 this.currentTimebarEnd = parseInt(currentYear.style.left);
                 this.currentTimebarWidth = this.currentProgress;
 
-                console.log(this.currentPointScroll);
-                console.log(parseInt(currentYear.style.left));
-
-                this.$refs.timebarProgress.style.left = -Math.abs(currentYear.style.left);
-                this.currentPointScroll = this.currentTimebarWidth;
+                if (!this.isFirstLoaded) {
+                    this.currentPointScroll = this.currentTimebarWidth;
+                }
             }
+
+            this.isFirstLoaded = false;
         },
         selectedDate1: function selectedDate1(newValue, oldValue) {
             var newDate = !newValue || newValue === '' ? '' : __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(newValue, this.dateFormat);
@@ -11088,7 +11085,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        setUpAllScrolls: function setUpAllScrolls() {},
         setFixedDate: function setFixedDate(type) {
             var currentDate = new Date();
             var startDate = void 0;

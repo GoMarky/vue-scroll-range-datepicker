@@ -44,7 +44,7 @@
             return {
                 dateFormat: 'YYYY.MM.DD',
                 inputDateOne: '01.01.2004',
-                inputDateTwo: '01.01.2005',
+                inputDateTwo: '',
                 inputSingleDateOne: '',
                 buttonDateOne: '',
                 buttonDateTwo: '',

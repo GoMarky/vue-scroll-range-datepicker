@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ea813062e311ec285ef3"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e769ba653b626b6fe0d0"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9905,7 +9905,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             dateFormat: 'YYYY.MM.DD',
             inputDateOne: '01.01.2004',
-            inputDateTwo: '01.01.2005',
+            inputDateTwo: '',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10959,6 +10959,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     watch: {
+        dateOne: function dateOne(val) {
+            console.log(val);
+
+            if (!val) {
+                console.log('пусто');
+            }
+
+            if (val === 'undefined.undefined.Invalid Date') {
+                console.log('значение не валидно');
+            }
+        },
+        dateTwo: function dateTwo(val) {
+            if (!val) {
+                console.log('пусто');
+            }
+
+            if (val === 'undefined.undefined.Invalid Date') {
+                console.log('значение не валидно');
+            }
+        },
         dateFrom: function dateFrom(newVal) {
             this.currentTimebarEnd = 0;
             this.currentTimebarWidth = 0;
@@ -11449,6 +11469,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         previousMonth: function previousMonth() {
             this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
 
+            this.currentPointScroll = this.currentPointScroll - 10;
+
             this.months.unshift(this.getMonth(this.startingDate));
             this.months.splice(this.months.length - 1, 1);
         },
@@ -11457,6 +11479,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.startingDate = this.addMonths(this.months[this.months.length - 1].firstDateOfMonth);
             this.months.push(this.getMonth(this.startingDate));
+
+            this.currentPointScroll = this.currentPointScroll + 10;
 
             setTimeout(function () {
                 _this3.months.splice(0, 1);

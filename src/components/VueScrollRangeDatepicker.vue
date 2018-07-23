@@ -379,6 +379,26 @@
             }
         },
         watch: {
+            dateOne(val) {
+                console.log(val);
+
+                if (!val) {
+                    console.log('пусто')
+                }
+
+                if (val === `undefined.undefined.Invalid Date`) {
+                    console.log('значение не валидно')
+                }
+            },
+            dateTwo(val) {
+                if (!val) {
+                    console.log('пусто')
+                }
+
+                if (val === `undefined.undefined.Invalid Date`) {
+                    console.log('значение не валидно')
+                }
+            },
             dateFrom(newVal) {
                 this.currentTimebarEnd = 0;
                 this.currentTimebarWidth = 0;
@@ -912,6 +932,8 @@
             previousMonth() {
                 this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
 
+                this.currentPointScroll = this.currentPointScroll - 10;
+
                 this.months.unshift(this.getMonth(this.startingDate));
                 this.months.splice(this.months.length - 1, 1)
             },
@@ -920,6 +942,8 @@
                     this.months[this.months.length - 1].firstDateOfMonth
                 );
                 this.months.push(this.getMonth(this.startingDate));
+
+                this.currentPointScroll = this.currentPointScroll + 10;
 
                 setTimeout(() => {
                     this.months.splice(0, 1)

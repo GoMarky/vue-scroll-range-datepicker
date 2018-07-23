@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0d437d555feb13979631"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "adf141f9c1eae6b6538f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9896,28 +9896,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -9926,10 +9904,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             dateFormat: 'YYYY.MM.DD',
-            inputDateOne: '',
-            inputDateTwo: '',
-            inputDateThree: '',
-            inputDateFour: '',
+            inputDateOne: '01.01.2004',
+            inputDateTwo: '01.01.2007',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10505,40 +10481,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "apply": _vm.applyMethod,
       "closed": _vm.closedMethod
     }
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "datepicker-trigger",
-    staticStyle: {
-      "margin-top": "70px"
-    }
-  }, [_c('input', {
-    attrs: {
-      "type": "text",
-      "id": "datepicker-input-trigger-2",
-      "placeholder": "Select dates"
-    },
-    domProps: {
-      "value": _vm.formatDates(_vm.inputDateThree, _vm.inputDateFour)
-    }
-  }), _vm._v(" "), _c('vue-scroll-range-datepicker', {
-    attrs: {
-      "trigger-element-id": 'datepicker-input-trigger-2',
-      "mode": 'range',
-      "date-one": _vm.inputDateThree,
-      "date-two": _vm.inputDateFour,
-      "months-to-show": 3,
-      "show-action-buttons": true,
-      "dateFormat": _vm.dateFormat
-    },
-    on: {
-      "date-one-selected": function (val) {
-        _vm.inputDateThree = val
-      },
-      "date-two-selected": function (val) {
-        _vm.inputDateFour = val
-      },
-      "apply": _vm.applyMethod,
-      "closed": _vm.closedMethod
-    }
   })], 1)])]) : _vm._e(), _vm._v(" "), _c('button', {
     on: {
       "click": _vm.toggleDatepickers
@@ -10591,7 +10533,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.15",
+    version: "2.0.17",
     install: install
 };
 
@@ -11022,9 +10964,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.currentTimebarWidth = 0;
 
             var value = newVal;
-
-            console.log(value);
-
             var wrapper = document.querySelector('#' + this.wrapperId);
 
             var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
@@ -11039,7 +10978,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!currentYear) {
                 this.currentTimebarStart = 0;
             } else {
-                this.currentTimebarStart = currentYear.offsetLeft;
+                this.currentTimebarStart = parseInt(currentYear.style.left);
                 this.currentTimebarLeftPos = parseInt(currentYear.style.left);
             }
         },
@@ -11061,7 +11000,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!currentYear) {
                 this.currentTimebarWidth = 1800;
             } else {
-                this.currentTimebarEnd = currentYear.offsetLeft;
+                this.currentPointScroll = parseInt(currentYear.style.left);
+                this.currentTimebarEnd = parseInt(currentYear.style.left);
                 this.currentTimebarWidth = this.currentProgress;
             }
         },

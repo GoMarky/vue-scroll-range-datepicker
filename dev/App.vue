@@ -26,28 +26,6 @@
                             v-bind:dateFormat="dateFormat"
                     />
                 </div>
-                <div class="datepicker-trigger" style="margin-top: 70px">
-                    <input
-                            type="text"
-                            id="datepicker-input-trigger-2"
-                            :value="formatDates(inputDateThree, inputDateFour)"
-                            placeholder="Select dates"
-                    >
-
-                    <vue-scroll-range-datepicker
-                            v-bind:trigger-element-id="'datepicker-input-trigger-2'"
-                            v-bind:mode="'range'"
-                            v-bind:date-one="inputDateThree"
-                            v-bind:date-two="inputDateFour"
-                            v-bind:months-to-show="3"
-                            v-bind:show-action-buttons="true"
-                            v-on:date-one-selected="val => { inputDateThree = val }"
-                            v-on:date-two-selected="val => { inputDateFour = val }"
-                            v-on:apply="applyMethod"
-                            v-on:closed="closedMethod"
-                            v-bind:dateFormat="dateFormat"
-                    />
-                </div>
             </div>
         </div>
 
@@ -65,10 +43,8 @@
         data() {
             return {
                 dateFormat: 'YYYY.MM.DD',
-                inputDateOne: '',
-                inputDateTwo: '',
-                inputDateThree: '',
-                inputDateFour: '',
+                inputDateOne: '01.01.2004',
+                inputDateTwo: '01.01.2007',
                 inputSingleDateOne: '',
                 buttonDateOne: '',
                 buttonDateTwo: '',

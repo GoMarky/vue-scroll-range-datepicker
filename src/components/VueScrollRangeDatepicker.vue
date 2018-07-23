@@ -395,7 +395,7 @@
                 if (!currentYear) {
                     this.currentTimebarStart = 0;
                 } else {
-                    this.currentTimebarStart = currentYear.offsetLeft;
+                    this.currentTimebarStart = parseInt(currentYear.style.left);
                     this.currentTimebarLeftPos = parseInt(currentYear.style.left);
                 }
 
@@ -416,7 +416,8 @@
                 if (!currentYear) {
                     this.currentTimebarWidth = 1800;
                 } else {
-                    this.currentTimebarEnd = currentYear.offsetLeft;
+                    this.currentPointScroll = parseInt(currentYear.style.left);
+                    this.currentTimebarEnd = parseInt(currentYear.style.left);
                     this.currentTimebarWidth = this.currentProgress;
                 }
 

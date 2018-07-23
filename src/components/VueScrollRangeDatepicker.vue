@@ -380,23 +380,33 @@
         },
         watch: {
             dateOne(val) {
-                console.log(val);
+                console.log(val, 'первое значение');
 
                 if (!val) {
-                    console.log('пусто')
+                    console.log('первое значение пусто')
+                }
+
+                if (val === `undefined.undefined.`) {
+                    console.log('первый невалиден')
                 }
 
                 if (val === `undefined.undefined.Invalid Date`) {
-                    console.log('значение не валидно')
+                    console.log('первый невалиден')
                 }
             },
             dateTwo(val) {
+                console.log(val, 'второе значение');
+                
                 if (!val) {
-                    console.log('пусто')
+                    console.log('второй пусто')
+                }
+
+                if (val === `undefined.undefined.`) {
+                    console.log('второй невалиден')
                 }
 
                 if (val === `undefined.undefined.Invalid Date`) {
-                    console.log('значение не валидно')
+                    console.log('второй невалиден')
                 }
             },
             dateFrom(newVal) {
@@ -613,8 +623,6 @@
                             this.generateMonths();
                         }
                     }
-
-                    console.log(passedX);
 
                     this.currentPointScroll = passedX;
                 };

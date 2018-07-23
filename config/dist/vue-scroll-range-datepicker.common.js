@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e769ba653b626b6fe0d0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "cab45f5b3c8d788625d7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10960,23 +10960,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     watch: {
         dateOne: function dateOne(val) {
-            console.log(val);
+            console.log(val, 'первое значение');
 
             if (!val) {
-                console.log('пусто');
+                console.log('первое значение пусто');
+            }
+
+            if (val === 'undefined.undefined.') {
+                console.log('первый невалиден');
             }
 
             if (val === 'undefined.undefined.Invalid Date') {
-                console.log('значение не валидно');
+                console.log('первый невалиден');
             }
         },
         dateTwo: function dateTwo(val) {
+            console.log(val, 'второе значение');
+
             if (!val) {
-                console.log('пусто');
+                console.log('второй пусто');
+            }
+
+            if (val === 'undefined.undefined.') {
+                console.log('второй невалиден');
             }
 
             if (val === 'undefined.undefined.Invalid Date') {
-                console.log('значение не валидно');
+                console.log('второй невалиден');
             }
         },
         dateFrom: function dateFrom(newVal) {
@@ -11195,8 +11205,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this2.generateMonths();
                     }
                 }
-
-                console.log(passedX);
 
                 _this2.currentPointScroll = passedX;
             };

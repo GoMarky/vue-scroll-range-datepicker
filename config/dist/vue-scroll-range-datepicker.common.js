@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a07ac4f4ee9b0fb87123"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "54a6b2fdba1400a6c58a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10857,7 +10857,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currentTimebarStart: 0,
             currentTimebarEnd: 0,
             timebarPosLeft: 0,
-            isFirstLoaded: true
+            isFirstLoaded: true,
+            parentToggleScrollWidth: 0
         };
     },
 
@@ -10967,6 +10968,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     watch: {
+        currentPointScroll: function currentPointScroll(val) {
+            var PARENT_WIDTH = 668;
+            var TOGGLE_WIDTH = 60;
+            var currentWay = 1800;
+
+            if (val > PARENT_WIDTH - TOGGLE_WIDTH) {
+                this.currentPointScroll = PARENT_WIDTH - TOGGLE_WIDTH;
+            }
+
+            if (val < 0) {
+                this.currentPointScroll = 0;
+            }
+
+            if (val > this.parentToggleScrollWidth / 2) {
+                this.$refs.timebarProgress.style.left = -Math.abs(val * 2) + 'px';
+
+                if (this.currentPointScroll < this.parentToggleScrollWidth / 2) {
+                    this.$refs.timebarProgress.style.left = -Math.abs(val * 2) + 'px';
+                }
+            }
+
+            if (this.currentPointScroll < this.parentToggleScrollWidth / 2) {
+                this.$refs.timebarProgress.style.left = -Math.abs(val * 2) + 'px';
+            }
+
+            var realPassedX = val * 3;
+            for (var i = this.currentYears.length - 1; i > 0; --i) {
+                currentWay = currentWay - 120;
+                var total = currentWay - realPassedX;
+                var month = Math.abs(Math.ceil(total / 10));
+
+                if (Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["d" /* inRange */])(realPassedX, this.currentYears[i - 1].leftCoords, this.currentYears[i].leftCoords)) {
+                    if (realPassedX === 0) {
+                        this.startingDate = this.currentYears[i - 1].item + '-1-' + i;
+                        this.generateMonths();
+
+                        break;
+                    }
+
+                    if (month === 0) {
+                        month = 1;
+                    }
+                    this.startingDate = this.currentYears[i - 1].item + '-' + month + '-' + i;
+                    this.generateMonths();
+                }
+            }
+        },
         dateFrom: function dateFrom(newVal) {
             this.currentTimebarEnd = 0;
             this.currentTimebarWidth = 0;
@@ -11004,6 +11052,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var wrapper = document.querySelector('#' + this.wrapperId);
 
             var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
+
             var split = value.split('.');
 
             var date = { year: +split[2], month: +split[1], day: +split[0] };
@@ -11125,75 +11174,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             e.preventDefault();
-
             var currentPointX = e.clientX;
-            var parentWidth = e.target.parentNode.offsetWidth - e.target.offsetWidth;
 
             var onMouseMove = function onMouseMove(moveEvt) {
                 moveEvt.preventDefault();
-
                 var pressedX = currentPointX - moveEvt.clientX;
                 currentPointX = moveEvt.clientX;
                 var passedX = e.target.offsetLeft - pressedX;
-                var realPassedX = passedX * 3;
-
-                if (passedX < 0) {
-                    passedX = 0;
-                }
-                if (passedX > parentWidth) {
-                    passedX = parentWidth;
-                }
-
-                if (_this2.currentPointScroll > parentWidth / 2) {
-                    _this2.$refs.timebarProgress.style.left = -Math.abs(passedX * 2) + 'px';
-
-                    if (_this2.currentPointScroll < parentWidth / 2) {
-                        _this2.$refs.timebarProgress.style.left = -Math.abs(passedX * 2) + 'px';
-                    }
-                }
-                if (_this2.currentPointScroll < parentWidth / 2) {
-                    _this2.$refs.timebarProgress.style.left = -Math.abs(passedX * 2) + 'px';
-                }
-
                 _this2.timebarPosLeft = -Math.abs(passedX * 2);
-
-                var currentWay = 1800;
-
-                for (var i = _this2.currentYears.length - 1; i > 0; --i) {
-
-                    currentWay = currentWay - 120;
-                    var total = currentWay - realPassedX;
-                    var month = Math.abs(Math.ceil(total / 10));
-
-                    if (Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["d" /* inRange */])(realPassedX, _this2.currentYears[i - 1].leftCoords, _this2.currentYears[i].leftCoords)) {
-
-                        if (realPassedX === 0) {
-
-                            _this2.startingDate = _this2.currentYears[i - 1].item + '-1-' + i;
-                            _this2.generateMonths();
-
-                            break;
-                        }
-
-                        if (month === 0) {
-                            month = 1;
-                        }
-
-                        _this2.startingDate = _this2.currentYears[i - 1].item + '-' + month + '-' + i;
-                        _this2.generateMonths();
-                    }
-                }
-
                 _this2.currentPointScroll = passedX;
             };
 
             var onMouseUp = function onMouseUp(upEvt) {
                 upEvt.preventDefault();
-
                 document.removeEventListener('mousemove', onMouseMove);
                 document.removeEventListener('mouseup', onMouseUp);
             };
-
             document.addEventListener('mousemove', onMouseMove);
             document.addEventListener('mouseup', onMouseUp);
         },
@@ -11283,6 +11279,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.$options.sundayFirst) {
                 this.sundayFirst = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["a" /* copyObject */])(this.$options.sundayFirst);
             }
+
+            this.$nextTick(function () {
+                this.parentToggleScrollWidth = this.$refs.timebarScroll.parentNode.offsetWidth - this.$refs.timebarScroll.offsetWidth;
+            });
+
             if (this.$options.colors) {
                 var colors = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["a" /* copyObject */])(this.$options.colors);
                 this.colors.selected = colors.selected || this.colors.selected;
@@ -11455,7 +11456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         previousMonth: function previousMonth() {
             this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
 
-            this.currentPointScroll = this.currentPointScroll - 10;
+            this.currentPointScroll = this.currentPointScroll - 4;
 
             this.months.unshift(this.getMonth(this.startingDate));
             this.months.splice(this.months.length - 1, 1);
@@ -11466,7 +11467,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.startingDate = this.addMonths(this.months[this.months.length - 1].firstDateOfMonth);
             this.months.push(this.getMonth(this.startingDate));
 
-            this.currentPointScroll = this.currentPointScroll + 10;
+            this.currentPointScroll = this.currentPointScroll + 4;
 
             setTimeout(function () {
                 _this3.months.splice(0, 1);

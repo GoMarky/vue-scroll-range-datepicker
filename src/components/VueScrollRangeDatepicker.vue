@@ -249,7 +249,8 @@
                 currentTimebarStart: 0,
                 currentTimebarEnd: 0,
                 timebarPosLeft: 0,
-                isFirstLoaded: true
+                isFirstLoaded: true,
+                parentToggleScrollWidth: 0
             }
         },
         computed: {
@@ -379,6 +380,55 @@
             }
         },
         watch: {
+            currentPointScroll(val) {
+                const PARENT_WIDTH = 668;
+                const TOGGLE_WIDTH = 60;
+                let currentWay = 1800;
+
+                if (val > (PARENT_WIDTH - TOGGLE_WIDTH)) {
+                    this.currentPointScroll = PARENT_WIDTH - TOGGLE_WIDTH;
+                }
+
+                if (val < 0) {
+                    this.currentPointScroll = 0;
+                }
+
+                if (val > this.parentToggleScrollWidth / 2) {
+                    this.$refs.timebarProgress.style.left = `${-Math.abs(val * 2)}px`;
+
+                    if (this.currentPointScroll < this.parentToggleScrollWidth / 2) {
+                        this.$refs.timebarProgress.style.left = `${-Math.abs(val * 2)}px`;
+                    }
+                }
+
+                if (this.currentPointScroll < this.parentToggleScrollWidth / 2) {
+                    this.$refs.timebarProgress.style.left = `${-Math.abs(val * 2)}px`;
+                }
+
+
+                let realPassedX = (val * 3);
+                for (let i = this.currentYears.length - 1; i > 0; --i) {
+                    currentWay = currentWay - 120;
+                    let total = currentWay - realPassedX;
+                    let month = Math.abs(Math.ceil(total / 10));
+
+                    if (inRange(realPassedX, this.currentYears[i - 1].leftCoords, this.currentYears[i].leftCoords)) {
+                        if (realPassedX === 0) {
+                            this.startingDate = `${this.currentYears[i - 1].item}-1-${i}`;
+                            this.generateMonths();
+
+                            break;
+                        }
+
+                        if (month === 0) {
+                            month = 1
+                        }
+                        this.startingDate = `${this.currentYears[i - 1].item}-${month}-${i}`;
+                        this.generateMonths();
+                    }
+                }
+
+            },
             dateFrom(newVal) {
                 this.currentTimebarEnd = 0;
                 this.currentTimebarWidth = 0;
@@ -404,9 +454,7 @@
                         this.currentPointScroll = 0;
                         this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
                     }
-
                 }
-
             },
             dateTo(newVal) {
                 this.currentTimebarEnd = 0;
@@ -416,6 +464,7 @@
                 const wrapper = document.querySelector(`#${this.wrapperId}`);
 
                 let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
+
                 let split = value.split('.');
 
                 let date = {year: +split[2], month: +split[1], day: +split[0]};
@@ -527,83 +576,30 @@
                 }
 
 
-                this.selectedDate1 = startDate
-                this.selectedDate2 = currentDate
-                this.startingDate = startDate
+                this.selectedDate1 = startDate;
+                this.selectedDate2 = currentDate;
+                this.startingDate = startDate;
 
                 this.generateMonths();
             },
             toggleScroll(e) {
                 e.preventDefault();
-
                 let currentPointX = e.clientX;
-                let parentWidth = e.target.parentNode.offsetWidth - e.target.offsetWidth;
 
                 let onMouseMove = moveEvt => {
                     moveEvt.preventDefault();
-
                     let pressedX = currentPointX - moveEvt.clientX;
                     currentPointX = moveEvt.clientX;
                     let passedX = e.target.offsetLeft - pressedX;
-                    let realPassedX = (passedX * 3);
-
-                    if (passedX < 0) {
-                        passedX = 0;
-                    }
-                    if (passedX > parentWidth) {
-                        passedX = parentWidth;
-                    }
-
-                    if (this.currentPointScroll > parentWidth / 2) {
-                        this.$refs.timebarProgress.style.left = `${-Math.abs(passedX * 2)}px`;
-
-                        if (this.currentPointScroll < parentWidth / 2) {
-                            this.$refs.timebarProgress.style.left = `${-Math.abs(passedX * 2)}px`;
-                        }
-                    }
-                    if (this.currentPointScroll < parentWidth / 2) {
-                        this.$refs.timebarProgress.style.left = `${-Math.abs(passedX * 2)}px`;
-                    }
-
                     this.timebarPosLeft = -Math.abs(passedX * 2);
-
-                    let currentWay = 1800;
-
-                    for (let i = this.currentYears.length - 1; i > 0; --i) {
-
-                        currentWay = currentWay - 120;
-                        let total = currentWay - realPassedX;
-                        let month = Math.abs(Math.ceil(total / 10));
-
-                        if (inRange(realPassedX, this.currentYears[i - 1].leftCoords, this.currentYears[i].leftCoords)) {
-
-                            if (realPassedX === 0) {
-
-                                this.startingDate = `${this.currentYears[i - 1].item}-1-${i}`;
-                                this.generateMonths();
-
-                                break;
-                            }
-
-                            if (month === 0) {
-                                month = 1
-                            }
-
-                            this.startingDate = `${this.currentYears[i - 1].item}-${month}-${i}`;
-                            this.generateMonths();
-                        }
-                    }
-
                     this.currentPointScroll = passedX;
                 };
 
                 let onMouseUp = upEvt => {
                     upEvt.preventDefault();
-
                     document.removeEventListener('mousemove', onMouseMove);
                     document.removeEventListener('mouseup', onMouseUp);
                 };
-
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
             },
@@ -721,6 +717,11 @@
                 if (this.$options.sundayFirst) {
                     this.sundayFirst = copyObject(this.$options.sundayFirst)
                 }
+
+                this.$nextTick(function () {
+                    this.parentToggleScrollWidth = this.$refs.timebarScroll.parentNode.offsetWidth - this.$refs.timebarScroll.offsetWidth;
+                });
+
                 if (this.$options.colors) {
                     const colors = copyObject(this.$options.colors);
                     this.colors.selected = colors.selected || this.colors.selected;
@@ -910,7 +911,7 @@
             previousMonth() {
                 this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
 
-                this.currentPointScroll = this.currentPointScroll - 10;
+                this.currentPointScroll = this.currentPointScroll - 4;
 
                 this.months.unshift(this.getMonth(this.startingDate));
                 this.months.splice(this.months.length - 1, 1)
@@ -921,7 +922,7 @@
                 );
                 this.months.push(this.getMonth(this.startingDate));
 
-                this.currentPointScroll = this.currentPointScroll + 10;
+                this.currentPointScroll = this.currentPointScroll + 4;
 
                 setTimeout(() => {
                     this.months.splice(0, 1)

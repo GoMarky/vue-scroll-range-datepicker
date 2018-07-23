@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "adf141f9c1eae6b6538f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "48d5f5220c181196393c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9904,8 +9904,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             dateFormat: 'YYYY.MM.DD',
-            inputDateOne: '01.01.2004',
-            inputDateTwo: '01.01.2007',
+            inputDateOne: '01.01.2009',
+            inputDateTwo: '01.01.2014',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10849,7 +10849,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currentTimebarLeftPos: 0,
             currentTimebarStart: 0,
             currentTimebarEnd: 0,
-            timebarPosLeft: 0
+            timebarPosLeft: 0,
+            isFirstLoaded: true
         };
     },
 
@@ -10977,9 +10978,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (!currentYear) {
                 this.currentTimebarStart = 0;
+                console.log('меня нет начало');
             } else {
                 this.currentTimebarStart = parseInt(currentYear.style.left);
                 this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+
+                if (this.isFirstLoaded) {
+                    this.$refs.timebarProgress.style.left = -Math.abs(this.currentTimebarStart) + 'px';
+                }
+
+                this.isFirstLoaded = false;
             }
         },
         dateTo: function dateTo(newVal) {
@@ -10999,10 +11007,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (!currentYear) {
                 this.currentTimebarWidth = 1800;
+                console.log('меня нет конца');
             } else {
-                this.currentPointScroll = parseInt(currentYear.style.left);
                 this.currentTimebarEnd = parseInt(currentYear.style.left);
                 this.currentTimebarWidth = this.currentProgress;
+
+                console.log(this.currentPointScroll);
+                console.log(parseInt(currentYear.style.left));
+
+                this.$refs.timebarProgress.style.left = -Math.abs(currentYear.style.left);
+                this.currentPointScroll = this.currentTimebarWidth;
             }
         },
         selectedDate1: function selectedDate1(newValue, oldValue) {
@@ -11063,6 +11077,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.triggerElement.addEventListener('keyup', this.handleTriggerInput);
     },
+    beforeDestroy: function beforeDestroy() {
+        this.isFirstLoaded = true;
+    },
     destroyed: function destroyed() {
         window.removeEventListener('resize', this._handleWindowResizeEvent);
         window.removeEventListener('click', this._handleWindowClickEvent);
@@ -11071,6 +11088,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        setUpAllScrolls: function setUpAllScrolls() {},
         setFixedDate: function setFixedDate(type) {
             var currentDate = new Date();
             var startDate = void 0;
@@ -11161,6 +11179,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this2.generateMonths();
                     }
                 }
+
+                console.log(passedX);
 
                 _this2.currentPointScroll = passedX;
             };
@@ -11365,8 +11385,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var reversedDate = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(date);
 
             if (isFixed) {
-                this.currentPointScroll = this.timebarPosLeft + parseInt(posLeft);
-
                 this.startingDate = reversedDate;
                 this.generateMonths();
             }

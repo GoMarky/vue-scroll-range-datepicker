@@ -248,7 +248,8 @@
                 currentTimebarLeftPos: 0,
                 currentTimebarStart: 0,
                 currentTimebarEnd: 0,
-                timebarPosLeft: 0
+                timebarPosLeft: 0,
+                isFirstLoaded: true
             }
         },
         computed: {
@@ -394,9 +395,16 @@
 
                 if (!currentYear) {
                     this.currentTimebarStart = 0;
+                    console.log('меня нет начало');
                 } else {
                     this.currentTimebarStart = parseInt(currentYear.style.left);
                     this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+
+                    if (this.isFirstLoaded) {
+                        this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
+                    }
+
+                    this.isFirstLoaded = false;
                 }
 
             },
@@ -415,10 +423,16 @@
 
                 if (!currentYear) {
                     this.currentTimebarWidth = 1800;
+                    console.log('меня нет конца');
                 } else {
-                    this.currentPointScroll = parseInt(currentYear.style.left);
                     this.currentTimebarEnd = parseInt(currentYear.style.left);
                     this.currentTimebarWidth = this.currentProgress;
+
+                    console.log(this.currentPointScroll);
+                    console.log(parseInt(currentYear.style.left));
+
+                    this.$refs.timebarProgress.style.left = -Math.abs(currentYear.style.left);
+                    this.currentPointScroll = this.currentTimebarWidth;
                 }
 
             },
@@ -482,6 +496,9 @@
 
             this.triggerElement.addEventListener('keyup', this.handleTriggerInput)
         },
+        beforeDestroy() {
+            this.isFirstLoaded = true;
+        },
         destroyed() {
             window.removeEventListener('resize', this._handleWindowResizeEvent);
             window.removeEventListener('click', this._handleWindowClickEvent);
@@ -489,6 +506,9 @@
             this.triggerElement.removeEventListener('keyup', this.handleTriggerInput)
         },
         methods: {
+            setUpAllScrolls() {
+
+            },
             setFixedDate(type) {
                 let currentDate = new Date();
                 let startDate;
@@ -510,8 +530,6 @@
                         startDate = new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), currentDate.getDate());
                         break;
                 }
-
-
 
 
                 this.selectedDate1 = startDate
@@ -580,6 +598,8 @@
                             this.generateMonths();
                         }
                     }
+
+                    console.log(passedX);
 
                     this.currentPointScroll = passedX;
                 };
@@ -814,8 +834,6 @@
                 let reversedDate = reverseDate(date);
 
                 if (isFixed) {
-                    this.currentPointScroll = this.timebarPosLeft + parseInt(posLeft);
-
                     this.startingDate = reversedDate;
                     this.generateMonths();
                 }

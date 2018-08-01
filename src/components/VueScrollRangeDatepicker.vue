@@ -20,22 +20,26 @@
                     <div class="asd__time-list">
                         <button
                                 class="asd__time-button" type="button"
-                                v-on:click="setFixedDate('week')">
+                                v-on:click="setFixedDate('week')"
+                                v-bind:class="{ 'asd__time-button_current' : currentFixedTime === 'week' }">
                             Неделя
                         </button>
                         <button class="asd__time-button"
                                 type="button"
-                                v-on:click="setFixedDate('month')">
+                                v-on:click="setFixedDate('month')"
+                                v-bind:class="{ 'asd__time-button_current' : currentFixedTime === 'month' }">
                             Месяц
                         </button>
                         <button class="asd__time-button"
                                 type="button"
-                                v-on:click="setFixedDate('quarter')">
+                                v-on:click="setFixedDate('quarter')"
+                                v-bind:class="{ 'asd__time-button_current' : currentFixedTime === 'quarter' }">
                             Квартал
                         </button>
                         <button class="asd__time-button"
                                 type="button"
-                                v-on:click="setFixedDate('year')">
+                                v-on:click="setFixedDate('year')"
+                                v-bind:class="{ 'asd__time-button_current' : currentFixedTime === 'year' }">
                             Год
                         </button>
                     </div>
@@ -74,17 +78,15 @@
                 </div>
                 <div class="asd__change-month-button asd__change-month-button--previous">
                     <button @click="previousMonth" type="button">
-                        <svg viewBox="0 0 1000 1000">
-                            <path
-                                    d="M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z"/>
+                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 6L6 0V4H13V8H6V12L0 6Z" fill="#24A2B4"/>
                         </svg>
                     </button>
                 </div>
                 <div class="asd__change-month-button asd__change-month-button--next">
                     <button @click="nextMonth" type="button">
-                        <svg viewBox="0 0 1000 1000">
-                            <path
-                                    d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z"/>
+                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13 6L7 12V8H0V4H7V0L13 6Z" fill="#24A2B4"/>
                         </svg>
                     </button>
                 </div>
@@ -250,7 +252,8 @@
                 currentTimebarEnd: 0,
                 timebarPosLeft: 0,
                 isFirstLoaded: true,
-                parentToggleScrollWidth: 0
+                parentToggleScrollWidth: 0,
+                currentFixedTime: ``
             }
         },
         computed: {
@@ -427,7 +430,6 @@
                         this.generateMonths();
                     }
                 }
-
             },
             dateFrom(newVal) {
                 this.currentTimebarEnd = 0;
@@ -554,6 +556,8 @@
         },
         methods: {
             setFixedDate(type) {
+                this.currentFixedTime = type;
+
                 let currentDate = new Date();
                 let startDate;
 
@@ -823,7 +827,9 @@
                 }
                 return weeks
             },
-            selectDate(date, isFixed, posLeft) {
+            selectDate(date, isFixed) {
+
+                this.currentFixedTime = ``;
 
                 let reversedDate = reverseDate(date);
 
@@ -852,14 +858,14 @@
 
 
                     if (isBefore(this.selectedDate2, reversedDate)) {
-                        //this.selectedDate2 = ''
+                        this.selectedDate2 = ''
                     }
                 } else {
                     this.selectedDate2 = reversedDate;
                     this.isSelectingDate1 = true;
 
                     if (isAfter(this.selectedDate1, reversedDate)) {
-                        //this.selectedDate1 = ''
+                        this.selectedDate1 = ''
                     }
                 }
             },
@@ -898,8 +904,7 @@
                 return isAfter(date, this.endDate)
             },
             isDateDisabled(date) {
-                const isDisabled = this.disabledDates.indexOf(date) > -1;
-                return isDisabled
+                return this.disabledDates.indexOf(date) > -1;
             },
             isDisabled(date) {
                 return (
@@ -1243,8 +1248,7 @@
 
             > button {
                 background-color: white;
-                border: $border;
-                border-radius: 3px;
+                border: none;
                 padding: 4px 8px;
                 cursor: pointer;
 
@@ -1414,4 +1418,82 @@
             }
         }
     }
+
+    @media (min-width: 320px) and (max-width: 1280px) {
+
+        .asd__datepicker-header {
+            padding: 25px;
+        }
+
+        .asd__timebar {
+            display: none
+        }
+
+        .asd__time-list {
+            display: grid;
+            grid-auto-flow: column;
+            margin-bottom: 20px;
+            overflow: auto;
+            border-bottom: 2px solid #E8E8E8;
+            padding-bottom: 2px;
+        }
+
+        .asd__time-header {
+            display: block;
+            overflow: hidden;
+        }
+
+        .asd__time-input {
+            max-width: 120px;
+            width: 100%;
+        }
+
+        .asd__time-button {
+            border: none;
+            color: #24A2B4;
+            position: relative;
+
+
+            &:last-child {
+                border-right: none;
+            }
+
+            &_current {
+                color: #222222;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 2px;
+                    left: 0;
+                    bottom: -2px;
+                    background-color: #222;
+                }
+            }
+        }
+
+        .asd__time-current-inputs {
+            margin-left: 0;
+            justify-content: center;
+        }
+
+        .asd__change-month-button {
+
+            &--previous {
+                padding-left: 25px;
+            }
+
+            &--next {
+                padding-right: 25px;
+            }
+
+        }
+
+        .asd__action-buttons {
+            margin-bottom: 20px;
+        }
+
+    }
+
 </style>

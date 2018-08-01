@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "812de1acb94bd4cc6fc1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "13d0dc1063037361badf"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10540,7 +10540,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.24",
+    version: "2.0.25",
     install: install
 };
 
@@ -10623,6 +10623,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers__ = __webpack_require__(11);
+//
+//
 //
 //
 //
@@ -10858,7 +10860,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currentTimebarEnd: 0,
             timebarPosLeft: 0,
             isFirstLoaded: true,
-            parentToggleScrollWidth: 0
+            parentToggleScrollWidth: 0,
+            currentFixedTime: ''
         };
     },
 
@@ -11143,6 +11146,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         setFixedDate: function setFixedDate(type) {
+            this.currentFixedTime = type;
+
             var currentDate = new Date();
             var startDate = void 0;
 
@@ -11383,7 +11388,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             return weeks;
         },
-        selectDate: function selectDate(date, isFixed, posLeft) {
+        selectDate: function selectDate(date, isFixed) {
+
+            this.currentFixedTime = '';
 
             var reversedDate = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(date);
 
@@ -11407,14 +11414,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.isSelectingDate1 = false;
 
                 if (__WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(this.selectedDate2, reversedDate)) {
-                    //this.selectedDate2 = ''
+                    this.selectedDate2 = '';
                 }
             } else {
                 this.selectedDate2 = reversedDate;
                 this.isSelectingDate1 = true;
 
                 if (__WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default()(this.selectedDate1, reversedDate)) {
-                    //this.selectedDate1 = ''
+                    this.selectedDate1 = '';
                 }
             }
         },
@@ -11447,8 +11454,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return __WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default()(date, this.endDate);
         },
         isDateDisabled: function isDateDisabled(date) {
-            var isDisabled = this.disabledDates.indexOf(date) > -1;
-            return isDisabled;
+            return this.disabledDates.indexOf(date) > -1;
         },
         isDisabled: function isDisabled(date) {
             return this.isDateDisabled(date) || this.isBeforeMinDate(date) || this.isAfterEndDate(date);
@@ -11683,6 +11689,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "asd__time-list"
   }, [_c('button', {
     staticClass: "asd__time-button",
+    class: {
+      'asd__time-button_current': _vm.currentFixedTime === 'week'
+    },
     attrs: {
       "type": "button"
     },
@@ -11693,6 +11702,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                        Неделя\n                    ")]), _vm._v(" "), _c('button', {
     staticClass: "asd__time-button",
+    class: {
+      'asd__time-button_current': _vm.currentFixedTime === 'month'
+    },
     attrs: {
       "type": "button"
     },
@@ -11703,6 +11715,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                        Месяц\n                    ")]), _vm._v(" "), _c('button', {
     staticClass: "asd__time-button",
+    class: {
+      'asd__time-button_current': _vm.currentFixedTime === 'quarter'
+    },
     attrs: {
       "type": "button"
     },
@@ -11713,6 +11728,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                        Квартал\n                    ")]), _vm._v(" "), _c('button', {
     staticClass: "asd__time-button",
+    class: {
+      'asd__time-button_current': _vm.currentFixedTime === 'year'
+    },
     attrs: {
       "type": "button"
     },
@@ -11827,11 +11845,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('svg', {
     attrs: {
-      "viewBox": "0 0 1000 1000"
+      "width": "13",
+      "height": "12",
+      "viewBox": "0 0 13 12",
+      "fill": "none",
+      "xmlns": "http://www.w3.org/2000/svg"
     }
   }, [_c('path', {
     attrs: {
-      "d": "M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z"
+      "fill-rule": "evenodd",
+      "clip-rule": "evenodd",
+      "d": "M0 6L6 0V4H13V8H6V12L0 6Z",
+      "fill": "#24A2B4"
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "asd__change-month-button asd__change-month-button--next"
@@ -11844,11 +11869,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('svg', {
     attrs: {
-      "viewBox": "0 0 1000 1000"
+      "width": "13",
+      "height": "12",
+      "viewBox": "0 0 13 12",
+      "fill": "none",
+      "xmlns": "http://www.w3.org/2000/svg"
     }
   }, [_c('path', {
     attrs: {
-      "d": "M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z"
+      "fill-rule": "evenodd",
+      "clip-rule": "evenodd",
+      "d": "M13 6L7 12V8H0V4H7V0L13 6Z",
+      "fill": "#24A2B4"
     }
   })])])])]), _vm._v(" "), _c('div', {
     staticClass: "asd__days-legend-wrapper"

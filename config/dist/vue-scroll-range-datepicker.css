@@ -253,8 +253,7 @@ input {
 }
 .asd__change-month-button > button {
     background-color: white;
-    border: 1px solid #e4e7e7;
-    border-radius: 3px;
+    border: none;
     padding: 4px 8px;
     cursor: pointer;
 }
@@ -397,6 +396,63 @@ input {
     font-size: 1.6em;
     font-weight: bold;
     padding: 0;
+}
+@media (min-width: 320px) and (max-width: 1280px) {
+.asd__datepicker-header {
+    padding: 25px;
+}
+.asd__timebar {
+    display: none;
+}
+.asd__time-list {
+    display: grid;
+    grid-auto-flow: column;
+    margin-bottom: 20px;
+    overflow: auto;
+    border-bottom: 2px solid #E8E8E8;
+    padding-bottom: 2px;
+}
+.asd__time-header {
+    display: block;
+    overflow: hidden;
+}
+.asd__time-input {
+    max-width: 120px;
+    width: 100%;
+}
+.asd__time-button {
+    border: none;
+    color: #24A2B4;
+    position: relative;
+}
+.asd__time-button:last-child {
+      border-right: none;
+}
+.asd__time-button_current {
+      color: #222222;
+}
+.asd__time-button_current::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        left: 0;
+        bottom: -2px;
+        background-color: #222;
+}
+.asd__time-current-inputs {
+    margin-left: 0;
+    justify-content: center;
+}
+.asd__change-month-button--previous {
+    padding-left: 25px;
+}
+.asd__change-month-button--next {
+    padding-right: 25px;
+}
+.asd__action-buttons {
+    margin-bottom: 20px;
+}
 }
 
 /*# sourceMappingURL=vue-scroll-range-datepicker.css.map*/

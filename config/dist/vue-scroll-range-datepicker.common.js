@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b4a1934ea2449e5f0877"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "09b175460119d3218345"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10540,7 +10540,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.27",
+    version: "2.0.29",
     install: install
 };
 
@@ -11514,11 +11514,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         apply: function apply() {
             if (this.dateTo) {
-                this.$emit('date-one-selected', this.dateFrom);
+                this.$emit('date-one-selected', Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(this.dateFrom));
             }
 
             if (this.dateFrom) {
-                this.$emit('date-two-selected', this.dateTo);
+                this.$emit('date-two-selected', Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(this.dateTo));
             }
 
             this.$emit('apply');
@@ -11670,7 +11670,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": _vm.wrapperId
     }
   }, [_c('button', {
-    staticClass: "asd__close-icon close-icon",
+    staticClass: "asd__close-icon",
     attrs: {
       "type": "button"
     },

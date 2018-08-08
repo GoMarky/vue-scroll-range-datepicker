@@ -8,7 +8,7 @@
                 :style="showFullscreen ? undefined : wrapperStyles"
                 v-click-outside="handleClickOutside"
         >
-            <button type="button" class="asd__close-icon close-icon" @click="closeDatepickerCancel"></button>
+            <button type="button" class="asd__close-icon" @click="closeDatepickerCancel"></button>
             <div class="asd__mobile-header asd__mobile-only" v-if="showFullscreen">
                 <div class="asd__mobile-close" @click="closeDatepicker">
                     <div class="asd__mobile-close-icon">X</div>
@@ -1023,40 +1023,7 @@
     $border-normal: 1px solid $color-gray;
     $border: 1px solid #e4e7e7;
     $transition-time: 0.3s;
-
-    .close-icon {
-        border: none;
-        font-size: 0;
-        background: none;
-        width: 10px;
-        top: 5px;
-        right: 5px;
-        cursor: pointer;
-        height: 10px;
-
-        &::before {
-            content: "";
-            position: absolute;
-            height: 10px;
-            width: 2px;
-            background-color: #24a2b4;
-            transform: rotate(45deg);
-            top: 0;
-            left: 6px;
-        }
-
-        &::after {
-            content: "";
-            position: absolute;
-            height: 10px;
-            width: 2px;
-            background-color: #24a2b4;
-            transform: rotate(-45deg);
-            top: 0;
-            left: 6px;
-        }
-    }
-
+    
     *,
     *:after,
     *:before {
@@ -1082,6 +1049,28 @@
             z-index: 5;
             right: 8px;
             cursor: pointer;
+
+            &::before {
+                content: "";
+                position: absolute;
+                height: 10px;
+                width: 2px;
+                background-color: #24a2b4;
+                transform: rotate(45deg);
+                top: 0;
+                left: 6px;
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                height: 10px;
+                width: 2px;
+                background-color: #24a2b4;
+                transform: rotate(-45deg);
+                top: 0;
+                left: 6px;
+            }
         }
 
         &__timebar {

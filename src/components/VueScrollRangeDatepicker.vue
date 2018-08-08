@@ -86,7 +86,8 @@
                 <div class="asd__change-month-button asd__change-month-button--next">
                     <button @click="nextMonth" type="button">
                         <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13 6L7 12V8H0V4H7V0L13 6Z" fill="#24A2B4"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13 6L7 12V8H0V4H7V0L13 6Z"
+                                  fill="#24A2B4"/>
                         </svg>
                     </button>
                 </div>
@@ -432,58 +433,56 @@
                 }
             },
             dateFrom(newVal) {
-                this.currentTimebarEnd = 0;
-                this.currentTimebarWidth = 0;
+                if (newVal) {
+                    this.currentTimebarEnd = 0;
+                    this.currentTimebarWidth = 0;
 
-                let value = newVal;
-                const wrapper = document.querySelector(`#${this.wrapperId}`);
+                    let value = newVal;
+                    const wrapper = document.querySelector(`#${this.wrapperId}`);
+                    let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
+                    let split = value.split('.');
+                    let date = {year: +split[2], month: +split[1], day: +split[0]};
+                    let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
-                let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
-                let split = value.split('.');
+                    if (!currentYear) {
+                        this.currentTimebarStart = 0;
+                    } else {
+                        this.currentTimebarStart = parseInt(currentYear.style.left);
+                        this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+                        this.currentPointScroll = this.currentTimebarWidth;
 
-                let date = {year: +split[2], month: +split[1], day: +split[0]};
-
-                let currentYear = bars.find(it => +it.textContent.trim() === date.year);
-
-                if (!currentYear) {
-                    this.currentTimebarStart = 0;
-                } else {
-                    this.currentTimebarStart = parseInt(currentYear.style.left);
-                    this.currentTimebarLeftPos = parseInt(currentYear.style.left);
-                    this.currentPointScroll = this.currentTimebarWidth;
-
-                    if (this.isFirstLoaded) {
-                        this.currentPointScroll = 0;
-                        this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
+                        if (this.isFirstLoaded) {
+                            this.currentPointScroll = 0;
+                            this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
+                        }
                     }
                 }
             },
             dateTo(newVal) {
-                this.currentTimebarEnd = 0;
-                this.currentTimebarWidth = 0;
+                if (newVal) {
+                    this.currentTimebarEnd = 0;
+                    this.currentTimebarWidth = 0;
 
-                let value = newVal;
-                const wrapper = document.querySelector(`#${this.wrapperId}`);
+                    let value = newVal;
+                    const wrapper = document.querySelector(`#${this.wrapperId}`);
+                    let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
+                    let split = value.split('.');
+                    let date = {year: +split[2], month: +split[1], day: +split[0]};
+                    let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
-                let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
+                    if (!currentYear) {
+                        this.currentTimebarWidth = 1800;
+                    } else {
+                        this.currentTimebarEnd = parseInt(currentYear.style.left);
+                        this.currentTimebarWidth = this.currentProgress;
 
-                let split = value.split('.');
-
-                let date = {year: +split[2], month: +split[1], day: +split[0]};
-                let currentYear = bars.find(it => +it.textContent.trim() === date.year);
-
-                if (!currentYear) {
-                    this.currentTimebarWidth = 1800;
-                } else {
-                    this.currentTimebarEnd = parseInt(currentYear.style.left);
-                    this.currentTimebarWidth = this.currentProgress;
-
-                    if (!this.isFirstLoaded) {
-                        this.currentPointScroll = this.currentTimebarWidth;
+                        if (!this.isFirstLoaded) {
+                            this.currentPointScroll = this.currentTimebarWidth;
+                        }
                     }
-                }
 
-                this.isFirstLoaded = false;
+                    this.isFirstLoaded = false;
+                }
             },
             selectedDate1(newValue, oldValue) {
                 let newDate =
@@ -922,7 +921,7 @@
             },
             nextMonth() {
                 // this.currentPointScroll = this.currentPointScroll + 4;
-                
+
                 this.startingDate = this.addMonths(
                     this.months[this.months.length - 1].firstDateOfMonth
                 );
@@ -968,6 +967,14 @@
                 this.$emit('closed')
             },
             apply() {
+                if (this.dateTo) {
+                    this.$emit('date-one-selected', this.dateFrom);
+                }
+
+                if (this.dateFrom) {
+                    this.$emit('date-two-selected', this.dateTo);
+                }
+
                 this.$emit('apply');
                 this.closeDatepicker()
             },
@@ -1450,7 +1457,6 @@
             border: none;
             color: #24A2B4;
             position: relative;
-
 
             &:last-child {
                 border-right: none;

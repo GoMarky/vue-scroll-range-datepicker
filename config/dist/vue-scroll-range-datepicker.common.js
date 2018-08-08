@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "37e31ac9c88b782fb7a5"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b4a1934ea2449e5f0877"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10540,7 +10540,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.26",
+    version: "2.0.27",
     install: install
 };
 
@@ -10623,6 +10623,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers__ = __webpack_require__(11);
+//
 //
 //
 //
@@ -11019,62 +11020,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         dateFrom: function dateFrom(newVal) {
-            this.currentTimebarEnd = 0;
-            this.currentTimebarWidth = 0;
+            if (newVal) {
+                this.currentTimebarEnd = 0;
+                this.currentTimebarWidth = 0;
 
-            var value = newVal;
-            var wrapper = document.querySelector('#' + this.wrapperId);
+                var value = newVal;
+                var wrapper = document.querySelector('#' + this.wrapperId);
+                var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
+                var split = value.split('.');
+                var date = { year: +split[2], month: +split[1], day: +split[0] };
+                var currentYear = bars.find(function (it) {
+                    return +it.textContent.trim() === date.year;
+                });
 
-            var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
-            var split = value.split('.');
+                if (!currentYear) {
+                    this.currentTimebarStart = 0;
+                } else {
+                    this.currentTimebarStart = parseInt(currentYear.style.left);
+                    this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+                    this.currentPointScroll = this.currentTimebarWidth;
 
-            var date = { year: +split[2], month: +split[1], day: +split[0] };
-
-            var currentYear = bars.find(function (it) {
-                return +it.textContent.trim() === date.year;
-            });
-
-            if (!currentYear) {
-                this.currentTimebarStart = 0;
-            } else {
-                this.currentTimebarStart = parseInt(currentYear.style.left);
-                this.currentTimebarLeftPos = parseInt(currentYear.style.left);
-                this.currentPointScroll = this.currentTimebarWidth;
-
-                if (this.isFirstLoaded) {
-                    this.currentPointScroll = 0;
-                    this.$refs.timebarProgress.style.left = -Math.abs(this.currentTimebarStart) + 'px';
+                    if (this.isFirstLoaded) {
+                        this.currentPointScroll = 0;
+                        this.$refs.timebarProgress.style.left = -Math.abs(this.currentTimebarStart) + 'px';
+                    }
                 }
             }
         },
         dateTo: function dateTo(newVal) {
-            this.currentTimebarEnd = 0;
-            this.currentTimebarWidth = 0;
+            if (newVal) {
+                this.currentTimebarEnd = 0;
+                this.currentTimebarWidth = 0;
 
-            var value = newVal;
-            var wrapper = document.querySelector('#' + this.wrapperId);
+                var value = newVal;
+                var wrapper = document.querySelector('#' + this.wrapperId);
+                var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
+                var split = value.split('.');
+                var date = { year: +split[2], month: +split[1], day: +split[0] };
+                var currentYear = bars.find(function (it) {
+                    return +it.textContent.trim() === date.year;
+                });
 
-            var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
+                if (!currentYear) {
+                    this.currentTimebarWidth = 1800;
+                } else {
+                    this.currentTimebarEnd = parseInt(currentYear.style.left);
+                    this.currentTimebarWidth = this.currentProgress;
 
-            var split = value.split('.');
-
-            var date = { year: +split[2], month: +split[1], day: +split[0] };
-            var currentYear = bars.find(function (it) {
-                return +it.textContent.trim() === date.year;
-            });
-
-            if (!currentYear) {
-                this.currentTimebarWidth = 1800;
-            } else {
-                this.currentTimebarEnd = parseInt(currentYear.style.left);
-                this.currentTimebarWidth = this.currentProgress;
-
-                if (!this.isFirstLoaded) {
-                    this.currentPointScroll = this.currentTimebarWidth;
+                    if (!this.isFirstLoaded) {
+                        this.currentPointScroll = this.currentTimebarWidth;
+                    }
                 }
-            }
 
-            this.isFirstLoaded = false;
+                this.isFirstLoaded = false;
+            }
         },
         selectedDate1: function selectedDate1(newValue, oldValue) {
             var newDate = !newValue || newValue === '' ? '' : __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(newValue, this.dateFormat);
@@ -11514,6 +11513,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('closed');
         },
         apply: function apply() {
+            if (this.dateTo) {
+                this.$emit('date-one-selected', this.dateFrom);
+            }
+
+            if (this.dateFrom) {
+                this.$emit('date-two-selected', this.dateTo);
+            }
+
             this.$emit('apply');
             this.closeDatepicker();
         },

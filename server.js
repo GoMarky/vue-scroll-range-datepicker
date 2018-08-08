@@ -1,7 +1,7 @@
-var connect = require('connect');
-var serveStatic = require('serve-static');
-var path = require('path');
+const connect = require('connect')
+const serveStatic = require('serve-static')
+const path = require('path')
 
-connect().use(serveStatic(path.resolve(__dirname, 'config/dist'),)).listen(8080, function(){
-    console.log('Server running on 8080...');
-});
+connect().use(serveStatic(path.resolve(__dirname, 'config/dist'))).listen('8080', function () {
+  console.log('Server running on 8080...')
+})

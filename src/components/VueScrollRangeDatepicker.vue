@@ -968,11 +968,11 @@
             },
             apply() {
                 if (this.dateTo) {
-                    this.$emit('date-one-selected', this.dateFrom);
+                    this.$emit('date-one-selected', reverseDate(this.dateFrom));
                 }
 
                 if (this.dateFrom) {
-                    this.$emit('date-two-selected', this.dateTo);
+                    this.$emit('date-two-selected', reverseDate(this.dateTo));
                 }
 
                 this.$emit('apply');

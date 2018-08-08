@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "13d0dc1063037361badf"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "37e31ac9c88b782fb7a5"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10540,7 +10540,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.25",
+    version: "2.0.26",
     install: install
 };
 
@@ -11460,21 +11460,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.isDateDisabled(date) || this.isBeforeMinDate(date) || this.isAfterEndDate(date);
         },
         previousMonth: function previousMonth() {
+            // this.currentPointScroll = this.currentPointScroll - 4;
+
             this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
-
-            this.currentPointScroll = this.currentPointScroll - 4;
-
             this.months.unshift(this.getMonth(this.startingDate));
             this.months.splice(this.months.length - 1, 1);
         },
         nextMonth: function nextMonth() {
             var _this3 = this;
 
+            // this.currentPointScroll = this.currentPointScroll + 4;
+
             this.startingDate = this.addMonths(this.months[this.months.length - 1].firstDateOfMonth);
             this.months.push(this.getMonth(this.startingDate));
-
-            this.currentPointScroll = this.currentPointScroll + 4;
-
             setTimeout(function () {
                 _this3.months.splice(0, 1);
             }, 100);

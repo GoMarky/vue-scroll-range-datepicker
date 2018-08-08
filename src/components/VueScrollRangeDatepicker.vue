@@ -914,21 +914,19 @@
                 )
             },
             previousMonth() {
+                // this.currentPointScroll = this.currentPointScroll - 4;
+
                 this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
-
-                this.currentPointScroll = this.currentPointScroll - 4;
-
                 this.months.unshift(this.getMonth(this.startingDate));
                 this.months.splice(this.months.length - 1, 1)
             },
             nextMonth() {
+                // this.currentPointScroll = this.currentPointScroll + 4;
+                
                 this.startingDate = this.addMonths(
                     this.months[this.months.length - 1].firstDateOfMonth
                 );
                 this.months.push(this.getMonth(this.startingDate));
-
-                this.currentPointScroll = this.currentPointScroll + 4;
-
                 setTimeout(() => {
                     this.months.splice(0, 1)
                 }, 100)

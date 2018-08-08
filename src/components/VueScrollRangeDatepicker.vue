@@ -102,7 +102,10 @@
                     <div class="asd__day-title" v-for="day in daysShort" :key="day">{{ day }}</div>
                 </div>
             </div>
-            <div class="asd__inner-wrapper" :style="innerStyles">
+            <div class="asd__inner-wrapper" :style="innerStyles"
+            v-on:touchstart="touchStart($event)"
+            v-on:touchmove="touchMove($event)"
+            v-on:touchend="touchEnd($event)">
                 <div
                         v-for="(month, monthIndex) in months"
                         :key="month.firstDateOfMonth"
@@ -554,6 +557,15 @@
             this.triggerElement.removeEventListener('keyup', this.handleTriggerInput)
         },
         methods: {
+            touchStart(e) {
+
+            },
+            touchMove(e) {
+
+            },
+            touchEnd(e) {
+
+            },
             setFixedDate(type) {
                 this.currentFixedTime = type;
 
@@ -1023,7 +1035,7 @@
     $border-normal: 1px solid $color-gray;
     $border: 1px solid #e4e7e7;
     $transition-time: 0.3s;
-    
+
     *,
     *:after,
     *:before {

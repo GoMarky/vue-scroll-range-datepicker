@@ -8,6 +8,8 @@
                     <input
                             type="text"
                             id="datepicker-input-trigger"
+                            v-bind:readonly="preventWrite"
+                            v-on:focus="preventWrite = true"
                             :value="formatDates(inputDateOne, inputDateTwo)"
                             placeholder="Select dates"
                     >
@@ -44,7 +46,7 @@
             return {
                 dateFormat: 'YYYY.MM.DD',
                 inputDateOne: '01.01.2004',
-                inputDateTwo: '',
+                inputDateTwo: '05.06.2007',
                 inputSingleDateOne: '',
                 buttonDateOne: '',
                 buttonDateTwo: '',
@@ -53,7 +55,8 @@
                 sundayFirst: false,
                 alignRight: false,
                 showDatepickers: true,
-                trigger: false
+                trigger: false,
+                preventWrite: false
             }
         },
         methods: {
@@ -79,9 +82,11 @@
             applyMethod() {
             },
             openedMethod() {
+                
             },
             closedMethod() {
-                this.trigger = false
+                this.trigger = false;
+                this.preventWrite = false;
             }
         }
     }

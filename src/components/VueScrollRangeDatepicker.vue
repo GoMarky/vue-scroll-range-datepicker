@@ -941,14 +941,14 @@
                 )
             },
             previousMonth() {
-                // this.currentPointScroll = this.currentPointScroll - 4;
+                this.currentPointScroll = this.currentPointScroll - 4;
 
                 this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
                 this.months.unshift(this.getMonth(this.startingDate));
                 this.months.splice(this.months.length - 1, 1)
             },
             nextMonth() {
-                // this.currentPointScroll = this.currentPointScroll + 4;
+                this.currentPointScroll = this.currentPointScroll + 4;
 
                 this.startingDate = this.addMonths(
                     this.months[this.months.length - 1].firstDateOfMonth

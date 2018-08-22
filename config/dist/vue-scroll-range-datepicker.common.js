@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "bf093b2d1a81731f7999"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "1be21d7430b3f3fdc7e7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9904,6 +9904,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -9913,7 +9915,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             dateFormat: 'YYYY.MM.DD',
             inputDateOne: '01.01.2004',
-            inputDateTwo: '',
+            inputDateTwo: '05.06.2007',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -9922,7 +9924,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             sundayFirst: false,
             alignRight: false,
             showDatepickers: true,
-            trigger: false
+            trigger: false,
+            preventWrite: false
         };
     },
 
@@ -9950,6 +9953,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         openedMethod: function openedMethod() {},
         closedMethod: function closedMethod() {
             this.trigger = false;
+            this.preventWrite = false;
         }
     }
 });
@@ -10463,10 +10467,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "id": "datepicker-input-trigger",
+      "readonly": _vm.preventWrite,
       "placeholder": "Select dates"
     },
     domProps: {
       "value": _vm.formatDates(_vm.inputDateOne, _vm.inputDateTwo)
+    },
+    on: {
+      "focus": function($event) {
+        _vm.preventWrite = true
+      }
     }
   }), _vm._v(" "), _c('vue-scroll-range-datepicker', {
     attrs: {
@@ -10518,7 +10528,7 @@ if (true) {
 /* WEBPACK VAR INJECTION */(function(global) {/* unused harmony export install */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_VueScrollRangeDatepicker_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_VueScrollRangeDatepicker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_VueScrollRangeDatepicker_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directives_ClickOutside__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directives_ClickOutside__ = __webpack_require__(41);
 /* unused harmony reexport vueScrollRangeDatepicker */
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -10570,7 +10580,7 @@ var Component = __webpack_require__(6)(
   /* script */
   __webpack_require__(35),
   /* template */
-  __webpack_require__(39),
+  __webpack_require__(40),
   /* scopeId */
   null,
   /* cssModules */
@@ -10618,9 +10628,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_get_days_in_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_get_days_in_month__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_is_before__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_valid__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_valid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_is_valid__);
@@ -11477,7 +11487,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.isDateDisabled(date) || this.isBeforeMinDate(date) || this.isAfterEndDate(date);
         },
         previousMonth: function previousMonth() {
-            // this.currentPointScroll = this.currentPointScroll - 4;
+            this.currentPointScroll = this.currentPointScroll - 4;
 
             this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
             this.months.unshift(this.getMonth(this.startingDate));
@@ -11486,7 +11496,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         nextMonth: function nextMonth() {
             var _this3 = this;
 
-            // this.currentPointScroll = this.currentPointScroll + 4;
+            this.currentPointScroll = this.currentPointScroll + 4;
 
             this.startingDate = this.addMonths(this.months[this.months.length - 1].firstDateOfMonth);
             this.months.push(this.getMonth(this.startingDate));
@@ -11638,6 +11648,39 @@ var parse = __webpack_require__(0);
 
 /**
  * @category Common Helpers
+ * @summary Are the given dates equal?
+ *
+ * @description
+ * Are the given dates equal?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to compare
+ * @param {Date|String|Number} dateRight - the second date to compare
+ * @returns {Boolean} the dates are equal
+ *
+ * @example
+ * // Are 2 July 2014 06:30:45.000 and 2 July 2014 06:30:45.500 equal?
+ * var result = isEqual(
+ *   new Date(2014, 6, 2, 6, 30, 45, 0)
+ *   new Date(2014, 6, 2, 6, 30, 45, 500)
+ * )
+ * //=> false
+ */
+function isEqual(dirtyLeftDate, dirtyRightDate) {
+  var dateLeft = parse(dirtyLeftDate);
+  var dateRight = parse(dirtyRightDate);
+  return dateLeft.getTime() === dateRight.getTime();
+}
+
+module.exports = isEqual;
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0);
+
+/**
+ * @category Common Helpers
  * @summary Is the first date after the second one?
  *
  * @description
@@ -11661,7 +11704,7 @@ function isAfter(dirtyDate, dirtyDateToCompare) {
 module.exports = isAfter;
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12014,7 +12057,7 @@ if (true) {
 }
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12033,40 +12076,6 @@ if (true) {
     document.body.removeEventListener('touchstart', el.event);
   }
 });
-
-/***/ }),
-/* 41 */,
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0);
-
-/**
- * @category Common Helpers
- * @summary Are the given dates equal?
- *
- * @description
- * Are the given dates equal?
- *
- * @param {Date|String|Number} dateLeft - the first date to compare
- * @param {Date|String|Number} dateRight - the second date to compare
- * @returns {Boolean} the dates are equal
- *
- * @example
- * // Are 2 July 2014 06:30:45.000 and 2 July 2014 06:30:45.500 equal?
- * var result = isEqual(
- *   new Date(2014, 6, 2, 6, 30, 45, 0)
- *   new Date(2014, 6, 2, 6, 30, 45, 500)
- * )
- * //=> false
- */
-function isEqual(dirtyLeftDate, dirtyRightDate) {
-  var dateLeft = parse(dirtyLeftDate);
-  var dateRight = parse(dirtyRightDate);
-  return dateLeft.getTime() === dateRight.getTime();
-}
-
-module.exports = isEqual;
 
 /***/ })
 /******/ ]);

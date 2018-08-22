@@ -412,6 +412,8 @@
                 const TOGGLE_WIDTH = 60;
                 let currentWay = 1800;
 
+                console.log(val);
+
                 if (val > (PARENT_WIDTH - TOGGLE_WIDTH)) {
                     this.currentPointScroll = PARENT_WIDTH - TOGGLE_WIDTH;
                 }
@@ -431,7 +433,6 @@
                 if (val < this.parentToggleScrollWidth / 2) {
                     this.timebarAllPosLeft = -Math.abs(val * 2);
                 }
-
 
                 let realPassedX = (val * 3);
                 for (let i = this.currentYears.length - 1; i > 0; --i) {
@@ -462,10 +463,6 @@
                         from: newVal,
                         to: this.dateTo
                     });
-
-                    if (this.isFirstLoaded) {
-                        this.timebarAllPosLeft = -Math.abs(this.currentTimebarStart);
-                    }
                 }
             },
             dateTo(newVal) {

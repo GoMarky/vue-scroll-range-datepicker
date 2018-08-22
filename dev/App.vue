@@ -46,8 +46,8 @@
         data() {
             return {
                 dateFormat: 'YYYY.MM.DD',
-                inputDateOne: '01.01.2003',
-                inputDateTwo: '01.01.2008',
+                inputDateOne: '01.01.2012',
+                inputDateTwo: '01.01.2014',
                 inputSingleDateOne: '',
                 buttonDateOne: '',
                 buttonDateTwo: '',

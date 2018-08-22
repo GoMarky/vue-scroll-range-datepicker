@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3d370fbcf4a9128d053e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ecdc5e48136eab6276cc"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9915,8 +9915,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             dateFormat: 'YYYY.MM.DD',
-            inputDateOne: '01.01.2003',
-            inputDateTwo: '01.01.2008',
+            inputDateOne: '01.01.2012',
+            inputDateTwo: '01.01.2014',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10552,7 +10552,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.1.0",
+    version: "3.0.0",
     install: install
 };
 
@@ -11014,6 +11014,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var TOGGLE_WIDTH = 60;
             var currentWay = 1800;
 
+            console.log(val);
+
             if (val > PARENT_WIDTH - TOGGLE_WIDTH) {
                 this.currentPointScroll = PARENT_WIDTH - TOGGLE_WIDTH;
             }
@@ -11063,10 +11065,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     from: newVal,
                     to: this.dateTo
                 });
-
-                if (this.isFirstLoaded) {
-                    this.timebarAllPosLeft = -Math.abs(this.currentTimebarStart);
-                }
             }
         },
         dateTo: function dateTo(newVal) {

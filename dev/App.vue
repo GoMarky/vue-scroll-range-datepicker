@@ -26,6 +26,7 @@
                             v-on:apply="applyMethod"
                             v-on:closed="closedMethod"
                             v-bind:dateFormat="dateFormat"
+                            v-bind:endYearForRange="new Date()"
                     />
                 </div>
             </div>
@@ -45,8 +46,8 @@
         data() {
             return {
                 dateFormat: 'YYYY.MM.DD',
-                inputDateOne: '',
-                inputDateTwo: '',
+                inputDateOne: '01.01.2003',
+                inputDateTwo: '01.01.2008',
                 inputSingleDateOne: '',
                 buttonDateOne: '',
                 buttonDateTwo: '',
@@ -82,7 +83,6 @@
             applyMethod() {
             },
             openedMethod() {
-
             },
             closedMethod() {
                 this.trigger = false;

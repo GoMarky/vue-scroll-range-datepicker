@@ -63,7 +63,7 @@
                     >
                     </div>
                     <div class="asd__timebar-monthes" ref="timebarWrapper">
-                        <div class="asd__timebar-progress" v-bind:style="timebarStyles" ref="timebarProgress">
+                        <div class="asd__timebar-progress" v-bind:style="timebarStyles">
                             <div class="asd__timebar-progress-current" v-bind:style="currentTimebarStyles"
                                  ref="currentProgressBar">
                             </div>
@@ -198,6 +198,18 @@
                 type: Boolean,
                 require: false,
                 default: true
+            },
+            endYearForRange: {
+                type: Date,
+                required: false,
+                default() {
+                    return new Date();
+                }
+            },
+            rangeBarMode: {
+                type: Boolean,
+                required: false,
+                default: true
             }
         },
         data() {
@@ -261,6 +273,7 @@
                 currentTimebarStart: 0,
                 currentTimebarEnd: 0,
                 timebarPosLeft: 0,
+                timebarAllPosLeft: 0,
                 isFirstLoaded: true,
                 parentToggleScrollWidth: 0,
                 currentFixedTime: ``
@@ -271,16 +284,16 @@
                 return this.currentTimebarEnd - this.currentTimebarStart;
             },
             currentYears() {
-                let currentDate = new Date();
+                const currentDate = this.endYearForRange;
                 let currentYear = currentDate.getFullYear() + 1;
-                let currentYears = [];
+                const currentYears = [];
 
                 for (let i = 15; i >= 0; i--) {
                     currentYear--;
 
                     currentYears.push({
-                        item: currentYear,
-                        fullDate: `${currentYear}.01.01`,
+                        item: currentYear + 1,
+                        fullDate: `${currentYear + 1}.01.01`,
                         posLeft: `${120 * i}px`,
                         leftCoords: 120 * i
                     });
@@ -303,7 +316,8 @@
                     }
 
                     return {
-                        width: `${timebarWidth}px`
+                        width: `${timebarWidth}px`,
+                        left: `${this.timebarAllPosLeft}px`
                     }
                 }
             },
@@ -407,15 +421,15 @@
                 }
 
                 if (val > this.parentToggleScrollWidth / 2) {
-                    this.$refs.timebarProgress.style.left = `${-Math.abs(val * 2)}px`;
+                    this.timebarAllPosLeft = -Math.abs(val * 2);
 
-                    if (this.currentPointScroll < this.parentToggleScrollWidth / 2) {
-                        this.$refs.timebarProgress.style.left = `${-Math.abs(val * 2)}px`;
+                    if (val < this.parentToggleScrollWidth / 2) {
+                        this.timebarAllPosLeft = -Math.abs(val * 2);
                     }
                 }
 
-                if (this.currentPointScroll < this.parentToggleScrollWidth / 2) {
-                    this.$refs.timebarProgress.style.left = `${-Math.abs(val * 2)}px`;
+                if (val < this.parentToggleScrollWidth / 2) {
+                    this.timebarAllPosLeft = -Math.abs(val * 2);
                 }
 
 
@@ -444,56 +458,26 @@
             },
             dateFrom(newVal) {
                 if (newVal) {
-                    this.currentTimebarEnd = 0;
-                    this.currentTimebarWidth = 0;
+                    this.setCurrentTimebarWidth({
+                        from: newVal,
+                        to: this.dateTo
+                    });
 
-                    let value = newVal;
-                    const wrapper = document.querySelector(`#${this.wrapperId}`);
-                    let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
-                    let split = value.split('.');
-                    let date = {year: +split[2], month: +split[1], day: +split[0]};
-                    let currentYear = bars.find(it => +it.textContent.trim() === date.year);
-
-                    console.log(currentYear, 'from');
-
-                    // if (!currentYear) {
-                    //     this.currentTimebarStart = 0;
-                    // } else {
-                    //     this.currentTimebarStart = parseInt(currentYear.style.left);
-                    //     this.currentTimebarLeftPos = parseInt(currentYear.style.left);
-                    //     this.currentPointScroll = this.currentTimebarWidth;
-                    //
-                    //     if (this.isFirstLoaded) {
-                    //         this.currentPointScroll = 0;
-                    //         this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
-                    //     }
-                    // }
+                    if (this.isFirstLoaded) {
+                        this.timebarAllPosLeft = -Math.abs(this.currentTimebarStart);
+                    }
                 }
             },
             dateTo(newVal) {
                 if (newVal) {
-                    this.currentTimebarEnd = 0;
-                    this.currentTimebarWidth = 0;
+                    this.setCurrentTimebarWidth({
+                        from: this.dateFrom,
+                        to: newVal
+                    });
 
-                    let value = newVal;
-                    const wrapper = document.querySelector(`#${this.wrapperId}`);
-                    let bars = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
-                    let split = value.split('.');
-                    let date = {year: +split[2], month: +split[1], day: +split[0]};
-                    let currentYear = bars.find(it => +it.textContent.trim() === date.year);
-
-                    console.log(currentYear, 'to');
-
-                    // if (!currentYear) {
-                    //     this.currentTimebarWidth = 1800;
-                    // } else {
-                    //     this.currentTimebarEnd = parseInt(currentYear.style.left);
-                    //     this.currentTimebarWidth = this.currentProgress;
-                    //
-                    //     if (!this.isFirstLoaded) {
-                    //         this.currentPointScroll = this.currentTimebarWidth;
-                    //     }
-                    // }
+                    if (!this.isFirstLoaded) {
+                        // this.currentPointScroll = this.currentTimebarWidth;
+                    }
 
                     this.isFirstLoaded = false;
                 }
@@ -573,6 +557,39 @@
             this.triggerElement.removeEventListener('keyup', this.handleTriggerInput)
         },
         methods: {
+            setCurrentTimebarWidth(date) {
+                const wrapper = document.querySelector(`#${this.wrapperId}`);
+                const years = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
+
+                if (date.to) {
+                    const dateFrom = years.find(it => it.textContent.trim() === date.from.split('.')[2]);
+                    const dateTo = years.find(it => it.textContent.trim() === date.to.split('.')[2]);
+
+                    function getInt(val) {
+                        return parseInt(val.style.left);
+                    }
+
+                    if (dateFrom && dateTo) {
+                        if (getInt(dateFrom) > getInt(dateTo)) {
+                            this.currentTimebarWidth = 0;
+                            return;
+                        }
+                    }
+
+                    if (dateFrom) {
+                        this.currentTimebarStart = getInt(dateFrom);
+                        this.currentTimebarLeftPos = getInt(dateFrom);
+
+                        this.currentPointScroll = getInt(dateFrom) / 3;
+                    }
+
+                    if (dateTo) {
+                        this.currentTimebarEnd = getInt(dateTo);
+                    }
+
+                    this.currentTimebarWidth = this.currentProgress;
+                }
+            },
             touchStart(e) {
 
             },
@@ -617,7 +634,7 @@
                 e.preventDefault();
                 let currentPointX = e.clientX;
 
-                let onMouseMove = moveEvt => {
+                const onMouseMove = moveEvt => {
                     moveEvt.preventDefault();
                     let pressedX = currentPointX - moveEvt.clientX;
                     currentPointX = moveEvt.clientX;
@@ -855,10 +872,8 @@
                 return weeks
             },
             selectDate(date, isFixed) {
-
                 this.currentFixedTime = ``;
-
-                let reversedDate = reverseDate(date);
+                const reversedDate = reverseDate(date);
 
                 if (isFixed) {
                     this.startingDate = reversedDate;

@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "00b86f46021c90e2e95e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d5fde52d2d4263766d39"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9906,6 +9906,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -9914,8 +9915,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             dateFormat: 'YYYY.MM.DD',
-            inputDateOne: '',
-            inputDateTwo: '',
+            inputDateOne: '01.01.2003',
+            inputDateTwo: '01.01.2008',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10486,7 +10487,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "date-two": _vm.inputDateTwo,
       "months-to-show": 3,
       "show-action-buttons": true,
-      "dateFormat": _vm.dateFormat
+      "dateFormat": _vm.dateFormat,
+      "endYearForRange": new Date()
     },
     on: {
       "date-one-selected": function (val) {
@@ -10839,6 +10841,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Boolean,
             require: false,
             default: true
+        },
+        endYearForRange: {
+            type: Date,
+            required: false,
+            default: function _default() {
+                return new Date();
+            }
+        },
+        rangeBarMode: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     data: function data() {
@@ -10881,6 +10895,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currentTimebarStart: 0,
             currentTimebarEnd: 0,
             timebarPosLeft: 0,
+            timebarAllPosLeft: 0,
             isFirstLoaded: true,
             parentToggleScrollWidth: 0,
             currentFixedTime: ''
@@ -10892,7 +10907,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.currentTimebarEnd - this.currentTimebarStart;
         },
         currentYears: function currentYears() {
-            var currentDate = new Date();
+            var currentDate = this.endYearForRange;
             var currentYear = currentDate.getFullYear() + 1;
             var currentYears = [];
 
@@ -10900,8 +10915,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 currentYear--;
 
                 currentYears.push({
-                    item: currentYear,
-                    fullDate: currentYear + '.01.01',
+                    item: currentYear + 1,
+                    fullDate: currentYear + 1 + '.01.01',
                     posLeft: 120 * i + 'px',
                     leftCoords: 120 * i
                 });
@@ -10925,7 +10940,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
 
                 return {
-                    width: timebarWidth + 'px'
+                    width: timebarWidth + 'px',
+                    left: this.timebarAllPosLeft + 'px'
                 };
             }
         },
@@ -11007,15 +11023,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (val > this.parentToggleScrollWidth / 2) {
-                this.$refs.timebarProgress.style.left = -Math.abs(val * 2) + 'px';
+                this.timebarAllPosLeft = -Math.abs(val * 2);
 
-                if (this.currentPointScroll < this.parentToggleScrollWidth / 2) {
-                    this.$refs.timebarProgress.style.left = -Math.abs(val * 2) + 'px';
+                if (val < this.parentToggleScrollWidth / 2) {
+                    this.timebarAllPosLeft = -Math.abs(val * 2);
                 }
             }
 
-            if (this.currentPointScroll < this.parentToggleScrollWidth / 2) {
-                this.$refs.timebarProgress.style.left = -Math.abs(val * 2) + 'px';
+            if (val < this.parentToggleScrollWidth / 2) {
+                this.timebarAllPosLeft = -Math.abs(val * 2);
             }
 
             var realPassedX = val * 3;
@@ -11043,60 +11059,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         dateFrom: function dateFrom(newVal) {
             if (newVal) {
-                this.currentTimebarEnd = 0;
-                this.currentTimebarWidth = 0;
-
-                var value = newVal;
-                var wrapper = document.querySelector('#' + this.wrapperId);
-                var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
-                var split = value.split('.');
-                var date = { year: +split[2], month: +split[1], day: +split[0] };
-                var currentYear = bars.find(function (it) {
-                    return +it.textContent.trim() === date.year;
+                this.setCurrentTimebarWidth({
+                    from: newVal,
+                    to: this.dateTo
                 });
 
-                console.log(currentYear, 'from');
-
-                // if (!currentYear) {
-                //     this.currentTimebarStart = 0;
-                // } else {
-                //     this.currentTimebarStart = parseInt(currentYear.style.left);
-                //     this.currentTimebarLeftPos = parseInt(currentYear.style.left);
-                //     this.currentPointScroll = this.currentTimebarWidth;
-                //
-                //     if (this.isFirstLoaded) {
-                //         this.currentPointScroll = 0;
-                //         this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
-                //     }
-                // }
+                if (this.isFirstLoaded) {
+                    this.timebarAllPosLeft = -Math.abs(this.currentTimebarStart);
+                }
             }
         },
         dateTo: function dateTo(newVal) {
             if (newVal) {
-                this.currentTimebarEnd = 0;
-                this.currentTimebarWidth = 0;
-
-                var value = newVal;
-                var wrapper = document.querySelector('#' + this.wrapperId);
-                var bars = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
-                var split = value.split('.');
-                var date = { year: +split[2], month: +split[1], day: +split[0] };
-                var currentYear = bars.find(function (it) {
-                    return +it.textContent.trim() === date.year;
+                this.setCurrentTimebarWidth({
+                    from: this.dateFrom,
+                    to: newVal
                 });
 
-                console.log(currentYear, 'to');
-
-                // if (!currentYear) {
-                //     this.currentTimebarWidth = 1800;
-                // } else {
-                //     this.currentTimebarEnd = parseInt(currentYear.style.left);
-                //     this.currentTimebarWidth = this.currentProgress;
-                //
-                //     if (!this.isFirstLoaded) {
-                //         this.currentPointScroll = this.currentTimebarWidth;
-                //     }
-                // }
+                if (!this.isFirstLoaded) {
+                    // this.currentPointScroll = this.currentTimebarWidth;
+                }
 
                 this.isFirstLoaded = false;
             }
@@ -11175,6 +11157,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        setCurrentTimebarWidth: function setCurrentTimebarWidth(date) {
+            var wrapper = document.querySelector('#' + this.wrapperId);
+            var years = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
+
+            if (date.to) {
+                var getInt = function getInt(val) {
+                    return parseInt(val.style.left);
+                };
+
+                var dateFrom = years.find(function (it) {
+                    return it.textContent.trim() === date.from.split('.')[2];
+                });
+                var dateTo = years.find(function (it) {
+                    return it.textContent.trim() === date.to.split('.')[2];
+                });
+
+                if (dateFrom && dateTo) {
+                    if (getInt(dateFrom) > getInt(dateTo)) {
+                        this.currentTimebarWidth = 0;
+                        return;
+                    }
+                }
+
+                if (dateFrom) {
+                    this.currentTimebarStart = getInt(dateFrom);
+                    this.currentTimebarLeftPos = getInt(dateFrom);
+
+                    this.currentPointScroll = getInt(dateFrom) / 3;
+                }
+
+                if (dateTo) {
+                    this.currentTimebarEnd = getInt(dateTo);
+                }
+
+                this.currentTimebarWidth = this.currentProgress;
+            }
+        },
         touchStart: function touchStart(e) {},
         touchMove: function touchMove(e) {},
         touchEnd: function touchEnd(e) {},
@@ -11422,9 +11441,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return weeks;
         },
         selectDate: function selectDate(date, isFixed) {
-
             this.currentFixedTime = '';
-
             var reversedDate = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(date);
 
             if (isFixed) {
@@ -11888,7 +11905,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "timebarWrapper",
     staticClass: "asd__timebar-monthes"
   }, [_c('div', {
-    ref: "timebarProgress",
     staticClass: "asd__timebar-progress",
     style: (_vm.timebarStyles)
   }, [_c('div', {

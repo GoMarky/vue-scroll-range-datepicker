@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d5fde52d2d4263766d39"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3d370fbcf4a9128d053e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -11075,12 +11075,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     from: this.dateFrom,
                     to: newVal
                 });
-
-                if (!this.isFirstLoaded) {
-                    // this.currentPointScroll = this.currentTimebarWidth;
-                }
-
-                this.isFirstLoaded = false;
             }
         },
         selectedDate1: function selectedDate1(newValue, oldValue) {

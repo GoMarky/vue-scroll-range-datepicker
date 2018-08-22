@@ -474,12 +474,6 @@
                         from: this.dateFrom,
                         to: newVal
                     });
-
-                    if (!this.isFirstLoaded) {
-                        // this.currentPointScroll = this.currentTimebarWidth;
-                    }
-
-                    this.isFirstLoaded = false;
                 }
             },
             selectedDate1(newValue, oldValue) {

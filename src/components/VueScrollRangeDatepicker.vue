@@ -103,9 +103,9 @@
                 </div>
             </div>
             <div class="asd__inner-wrapper" :style="innerStyles"
-            v-on:touchstart="touchStart($event)"
-            v-on:touchmove="touchMove($event)"
-            v-on:touchend="touchEnd($event)">
+                 v-on:touchstart="touchStart($event)"
+                 v-on:touchmove="touchMove($event)"
+                 v-on:touchend="touchEnd($event)">
                 <div
                         v-for="(month, monthIndex) in months"
                         :key="month.firstDateOfMonth"
@@ -162,6 +162,7 @@
     import addMonths from 'date-fns/add_months'
     import getDaysInMonth from 'date-fns/get_days_in_month'
     import isBefore from 'date-fns/is_before'
+    import isEqual from 'date-fns/is_equal'
     import isAfter from 'date-fns/is_after'
     import isValid from 'date-fns/is_valid'
     import {debounce, copyObject, findAncestor, randomString, isWeekend, reverseDate, inRange} from './../helpers'
@@ -192,6 +193,11 @@
                 type: String,
                 required: false,
                 default: `DD.MM.YYYY`
+            },
+            inBorderMode: {
+                type: Boolean,
+                require: false,
+                default: true
             }
         },
         data() {
@@ -892,6 +898,16 @@
             isInRange(date) {
                 if (!this.allDatesSelected || this.isSingleMode) {
                     return false
+                }
+
+                if (this.inBorderMode) {
+                    return isEqual(date, this.selectedDate1) || (
+                        (isAfter(date, this.selectedDate1) &&
+                            isBefore(date, this.selectedDate2)) ||
+                        (isAfter(date, this.selectedDate1) &&
+                            isBefore(date, this.hoverDate) &&
+                            !this.allDatesSelected)
+                    ) || isEqual(date, this.selectedDate2);
                 }
 
                 return (

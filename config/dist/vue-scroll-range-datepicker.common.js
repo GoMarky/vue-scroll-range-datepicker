@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "09b175460119d3218345"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "bf093b2d1a81731f7999"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10540,7 +10540,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "2.0.29",
+    version: "2.1.0",
     install: install
 };
 
@@ -10618,11 +10618,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_get_days_in_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_get_days_in_month__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_is_before__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_after__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_is_after__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helpers__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_is_after__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_valid__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_is_valid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_is_valid__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__helpers__ = __webpack_require__(11);
 //
 //
 //
@@ -10778,6 +10780,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -10818,13 +10824,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: String,
             required: false,
             default: 'DD.MM.YYYY'
+        },
+        inBorderMode: {
+            type: Boolean,
+            require: false,
+            default: true
         }
     },
     data: function data() {
         return {
             dateTo: '',
             dateFrom: '',
-            wrapperId: 'airbnb-style-datepicker-wrapper-' + Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["f" /* randomString */])(5),
+            wrapperId: 'airbnb-style-datepicker-wrapper-' + Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["f" /* randomString */])(5),
             showDatepicker: false,
             showMonths: 2,
             colors: {
@@ -11003,7 +11014,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var total = currentWay - realPassedX;
                 var month = Math.abs(Math.ceil(total / 10));
 
-                if (Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["d" /* inRange */])(realPassedX, this.currentYears[i - 1].leftCoords, this.currentYears[i].leftCoords)) {
+                if (Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["d" /* inRange */])(realPassedX, this.currentYears[i - 1].leftCoords, this.currentYears[i].leftCoords)) {
                     if (realPassedX === 0) {
                         this.startingDate = this.currentYears[i - 1].item + '-1-' + i;
                         this.generateMonths();
@@ -11079,13 +11090,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var newDate = !newValue || newValue === '' ? '' : __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(newValue, this.dateFormat);
 
             this.$emit('date-one-selected', newDate);
-            this.dateFrom = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(newDate);
+            this.dateFrom = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(newDate);
         },
         selectedDate2: function selectedDate2(newValue, oldValue) {
             var newDate = !newValue || newValue === '' ? '' : __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(newValue, this.dateFormat);
 
             this.$emit('date-two-selected', newDate);
-            this.dateTo = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(newDate);
+            this.dateTo = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(newDate);
         },
         mode: function mode(newValue, oldValue) {
             this.setStartDates();
@@ -11107,7 +11118,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.setSundayToFirstDayInWeek();
         }
 
-        this._handleWindowResizeEvent = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["b" /* debounce */])(function () {
+        this._handleWindowResizeEvent = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["b" /* debounce */])(function () {
             _this.positionDatepicker();
             _this.setStartDates();
         }, 200);
@@ -11144,6 +11155,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        touchStart: function touchStart(e) {},
+        touchMove: function touchMove(e) {},
+        touchEnd: function touchEnd(e) {},
         setFixedDate: function setFixedDate(type) {
             this.currentFixedTime = type;
 
@@ -11198,7 +11212,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             document.addEventListener('mouseup', onMouseUp);
         },
         isWeekendDay: function isWeekendDay(date, day) {
-            var weekends = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["e" /* isWeekend */])(date);
+            var weekends = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["e" /* isWeekend */])(date);
 
             return weekends.sat.some(function (elem) {
                 return elem === day;
@@ -11261,7 +11275,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             var valueAsDateObject = new Date(value);
-            if (!__WEBPACK_IMPORTED_MODULE_6_date_fns_is_valid___default()(valueAsDateObject)) {
+            if (!__WEBPACK_IMPORTED_MODULE_7_date_fns_is_valid___default()(valueAsDateObject)) {
                 return;
             }
             var formattedDate = __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(valueAsDateObject, this.dateFormat);
@@ -11281,7 +11295,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         setupDatepicker: function setupDatepicker() {
             if (this.$options.sundayFirst) {
-                this.sundayFirst = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["a" /* copyObject */])(this.$options.sundayFirst);
+                this.sundayFirst = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["a" /* copyObject */])(this.$options.sundayFirst);
             }
 
             this.$nextTick(function () {
@@ -11289,7 +11303,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
 
             if (this.$options.colors) {
-                var colors = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["a" /* copyObject */])(this.$options.colors);
+                var colors = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["a" /* copyObject */])(this.$options.colors);
                 this.colors.selected = colors.selected || this.colors.selected;
                 this.colors.inRange = colors.inRange || this.colors.inRange;
                 this.colors.selectedText = colors.selectedText || this.colors.selectedText;
@@ -11298,16 +11312,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.colors.disabled = colors.disabled || this.colors.disabled;
             }
             if (this.$options.monthNames && this.$options.monthNames.length === 12) {
-                this.monthNames = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["a" /* copyObject */])(this.$options.monthNames);
+                this.monthNames = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["a" /* copyObject */])(this.$options.monthNames);
             }
             if (this.$options.days && this.$options.days.length === 7) {
-                this.days = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["a" /* copyObject */])(this.$options.days);
+                this.days = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["a" /* copyObject */])(this.$options.days);
             }
             if (this.$options.daysShort && this.$options.daysShort.length === 7) {
-                this.daysShort = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["a" /* copyObject */])(this.$options.daysShort);
+                this.daysShort = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["a" /* copyObject */])(this.$options.daysShort);
             }
             if (this.$options.texts) {
-                var texts = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["a" /* copyObject */])(this.$options.texts);
+                var texts = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["a" /* copyObject */])(this.$options.texts);
                 this.texts.apply = texts.apply || this.texts.apply;
                 this.texts.cancel = texts.cancel || this.texts.cancel;
             }
@@ -11391,7 +11405,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.currentFixedTime = '';
 
-            var reversedDate = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(date);
+            var reversedDate = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(date);
 
             if (isFixed) {
                 this.startingDate = reversedDate;
@@ -11419,7 +11433,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.selectedDate2 = reversedDate;
                 this.isSelectingDate1 = true;
 
-                if (__WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default()(this.selectedDate1, reversedDate)) {
+                if (__WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(this.selectedDate1, reversedDate)) {
                     this.selectedDate1 = '';
                 }
             }
@@ -11438,7 +11452,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return false;
             }
 
-            return __WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.selectedDate2) || __WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.hoverDate) && !this.allDatesSelected;
+            if (this.inBorderMode) {
+                return __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal___default()(date, this.selectedDate1) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.selectedDate2) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.hoverDate) && !this.allDatesSelected || __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal___default()(date, this.selectedDate2);
+            }
+
+            return __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.selectedDate2) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.hoverDate) && !this.allDatesSelected;
         },
         isBeforeMinDate: function isBeforeMinDate(date) {
             if (!this.minDate) {
@@ -11450,7 +11468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!this.endDate) {
                 return false;
             }
-            return __WEBPACK_IMPORTED_MODULE_5_date_fns_is_after___default()(date, this.endDate);
+            return __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.endDate);
         },
         isDateDisabled: function isDateDisabled(date) {
             return this.disabledDates.indexOf(date) > -1;
@@ -11514,18 +11532,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         apply: function apply() {
             if (this.dateTo) {
-                this.$emit('date-one-selected', Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(this.dateFrom));
+                this.$emit('date-one-selected', Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(this.dateFrom));
             }
 
             if (this.dateFrom) {
-                this.$emit('date-two-selected', Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["g" /* reverseDate */])(this.dateTo));
+                this.$emit('date-two-selected', Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(this.dateTo));
             }
 
             this.$emit('apply');
             this.closeDatepicker();
         },
         positionDatepicker: function positionDatepicker() {
-            var triggerWrapperElement = Object(__WEBPACK_IMPORTED_MODULE_7__helpers__["c" /* findAncestor */])(this.triggerElement, '.datepicker-trigger');
+            var triggerWrapperElement = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["c" /* findAncestor */])(this.triggerElement, '.datepicker-trigger');
             this.triggerPosition = this.triggerElement.getBoundingClientRect();
             if (triggerWrapperElement) {
                 this.triggerWrapperPosition = triggerWrapperElement.getBoundingClientRect();
@@ -11904,7 +11922,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }))
   })), _vm._v(" "), _c('div', {
     staticClass: "asd__inner-wrapper",
-    style: (_vm.innerStyles)
+    style: (_vm.innerStyles),
+    on: {
+      "touchstart": function($event) {
+        _vm.touchStart($event)
+      },
+      "touchmove": function($event) {
+        _vm.touchMove($event)
+      },
+      "touchend": function($event) {
+        _vm.touchEnd($event)
+      }
+    }
   }, _vm._l((_vm.months), function(month, monthIndex) {
     return _c('div', {
       key: month.firstDateOfMonth,
@@ -12004,6 +12033,40 @@ if (true) {
     document.body.removeEventListener('touchstart', el.event);
   }
 });
+
+/***/ }),
+/* 41 */,
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0);
+
+/**
+ * @category Common Helpers
+ * @summary Are the given dates equal?
+ *
+ * @description
+ * Are the given dates equal?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to compare
+ * @param {Date|String|Number} dateRight - the second date to compare
+ * @returns {Boolean} the dates are equal
+ *
+ * @example
+ * // Are 2 July 2014 06:30:45.000 and 2 July 2014 06:30:45.500 equal?
+ * var result = isEqual(
+ *   new Date(2014, 6, 2, 6, 30, 45, 0)
+ *   new Date(2014, 6, 2, 6, 30, 45, 500)
+ * )
+ * //=> false
+ */
+function isEqual(dirtyLeftDate, dirtyRightDate) {
+  var dateLeft = parse(dirtyLeftDate);
+  var dateRight = parse(dirtyRightDate);
+  return dateLeft.getTime() === dateRight.getTime();
+}
+
+module.exports = isEqual;
 
 /***/ })
 /******/ ]);

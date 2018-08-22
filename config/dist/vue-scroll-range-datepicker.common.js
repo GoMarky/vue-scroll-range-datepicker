@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1be21d7430b3f3fdc7e7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "00b86f46021c90e2e95e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9914,8 +9914,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             dateFormat: 'YYYY.MM.DD',
-            inputDateOne: '01.01.2004',
-            inputDateTwo: '05.06.2007',
+            inputDateOne: '',
+            inputDateTwo: '',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10467,7 +10467,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "id": "datepicker-input-trigger",
-      "readonly": _vm.preventWrite,
+      "readonly": "",
       "placeholder": "Select dates"
     },
     domProps: {
@@ -11035,6 +11035,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     if (month === 0) {
                         month = 1;
                     }
+
                     this.startingDate = this.currentYears[i - 1].item + '-' + month + '-' + i;
                     this.generateMonths();
                 }
@@ -11054,18 +11055,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return +it.textContent.trim() === date.year;
                 });
 
-                if (!currentYear) {
-                    this.currentTimebarStart = 0;
-                } else {
-                    this.currentTimebarStart = parseInt(currentYear.style.left);
-                    this.currentTimebarLeftPos = parseInt(currentYear.style.left);
-                    this.currentPointScroll = this.currentTimebarWidth;
+                console.log(currentYear, 'from');
 
-                    if (this.isFirstLoaded) {
-                        this.currentPointScroll = 0;
-                        this.$refs.timebarProgress.style.left = -Math.abs(this.currentTimebarStart) + 'px';
-                    }
-                }
+                // if (!currentYear) {
+                //     this.currentTimebarStart = 0;
+                // } else {
+                //     this.currentTimebarStart = parseInt(currentYear.style.left);
+                //     this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+                //     this.currentPointScroll = this.currentTimebarWidth;
+                //
+                //     if (this.isFirstLoaded) {
+                //         this.currentPointScroll = 0;
+                //         this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
+                //     }
+                // }
             }
         },
         dateTo: function dateTo(newVal) {
@@ -11082,16 +11085,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return +it.textContent.trim() === date.year;
                 });
 
-                if (!currentYear) {
-                    this.currentTimebarWidth = 1800;
-                } else {
-                    this.currentTimebarEnd = parseInt(currentYear.style.left);
-                    this.currentTimebarWidth = this.currentProgress;
+                console.log(currentYear, 'to');
 
-                    if (!this.isFirstLoaded) {
-                        this.currentPointScroll = this.currentTimebarWidth;
-                    }
-                }
+                // if (!currentYear) {
+                //     this.currentTimebarWidth = 1800;
+                // } else {
+                //     this.currentTimebarEnd = parseInt(currentYear.style.left);
+                //     this.currentTimebarWidth = this.currentProgress;
+                //
+                //     if (!this.isFirstLoaded) {
+                //         this.currentPointScroll = this.currentTimebarWidth;
+                //     }
+                // }
 
                 this.isFirstLoaded = false;
             }
@@ -11116,6 +11121,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.startingDate = this.dateOne;
                 this.setStartDates();
                 this.generateMonths();
+            }
+
+            if (this.isDateTwoBeforeDateOne) {
+                this.selectedDate2 = '';
+                this.$emit('date-two-selected', '');
             }
         }
     },

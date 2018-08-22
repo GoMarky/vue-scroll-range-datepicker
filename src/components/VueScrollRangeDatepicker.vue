@@ -436,6 +436,7 @@
                         if (month === 0) {
                             month = 1
                         }
+
                         this.startingDate = `${this.currentYears[i - 1].item}-${month}-${i}`;
                         this.generateMonths();
                     }
@@ -453,18 +454,20 @@
                     let date = {year: +split[2], month: +split[1], day: +split[0]};
                     let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
-                    if (!currentYear) {
-                        this.currentTimebarStart = 0;
-                    } else {
-                        this.currentTimebarStart = parseInt(currentYear.style.left);
-                        this.currentTimebarLeftPos = parseInt(currentYear.style.left);
-                        this.currentPointScroll = this.currentTimebarWidth;
+                    console.log(currentYear, 'from');
 
-                        if (this.isFirstLoaded) {
-                            this.currentPointScroll = 0;
-                            this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
-                        }
-                    }
+                    // if (!currentYear) {
+                    //     this.currentTimebarStart = 0;
+                    // } else {
+                    //     this.currentTimebarStart = parseInt(currentYear.style.left);
+                    //     this.currentTimebarLeftPos = parseInt(currentYear.style.left);
+                    //     this.currentPointScroll = this.currentTimebarWidth;
+                    //
+                    //     if (this.isFirstLoaded) {
+                    //         this.currentPointScroll = 0;
+                    //         this.$refs.timebarProgress.style.left = `${-Math.abs(this.currentTimebarStart)}px`;
+                    //     }
+                    // }
                 }
             },
             dateTo(newVal) {
@@ -479,16 +482,18 @@
                     let date = {year: +split[2], month: +split[1], day: +split[0]};
                     let currentYear = bars.find(it => +it.textContent.trim() === date.year);
 
-                    if (!currentYear) {
-                        this.currentTimebarWidth = 1800;
-                    } else {
-                        this.currentTimebarEnd = parseInt(currentYear.style.left);
-                        this.currentTimebarWidth = this.currentProgress;
+                    console.log(currentYear, 'to');
 
-                        if (!this.isFirstLoaded) {
-                            this.currentPointScroll = this.currentTimebarWidth;
-                        }
-                    }
+                    // if (!currentYear) {
+                    //     this.currentTimebarWidth = 1800;
+                    // } else {
+                    //     this.currentTimebarEnd = parseInt(currentYear.style.left);
+                    //     this.currentTimebarWidth = this.currentProgress;
+                    //
+                    //     if (!this.isFirstLoaded) {
+                    //         this.currentPointScroll = this.currentTimebarWidth;
+                    //     }
+                    // }
 
                     this.isFirstLoaded = false;
                 }
@@ -515,6 +520,11 @@
                     this.startingDate = this.dateOne;
                     this.setStartDates();
                     this.generateMonths()
+                }
+
+                if (this.isDateTwoBeforeDateOne) {
+                    this.selectedDate2 = '';
+                    this.$emit('date-two-selected', '');
                 }
             }
         },

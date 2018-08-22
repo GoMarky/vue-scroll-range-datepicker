@@ -412,8 +412,6 @@
                 const TOGGLE_WIDTH = 60;
                 let currentWay = 1800;
 
-                console.log(val);
-
                 if (val > (PARENT_WIDTH - TOGGLE_WIDTH)) {
                     this.currentPointScroll = PARENT_WIDTH - TOGGLE_WIDTH;
                 }
@@ -552,13 +550,13 @@
                 const wrapper = document.querySelector(`#${this.wrapperId}`);
                 const years = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
 
+                function getInt(val) {
+                    return parseInt(val.style.left);
+                }
+
                 if (date.to) {
                     const dateFrom = years.find(it => it.textContent.trim() === date.from.split('.')[2]);
                     const dateTo = years.find(it => it.textContent.trim() === date.to.split('.')[2]);
-
-                    function getInt(val) {
-                        return parseInt(val.style.left);
-                    }
 
                     if (dateFrom && dateTo) {
                         if (getInt(dateFrom) > getInt(dateTo)) {
@@ -579,6 +577,12 @@
                     }
 
                     this.currentTimebarWidth = this.currentProgress;
+                } else {
+                    const dateFrom = years.find(it => it.textContent.trim() === date.from.split('.')[2]);
+
+                    this.currentTimebarStart = getInt(dateFrom);
+                    this.currentTimebarLeftPos = getInt(dateFrom);
+                    this.currentPointScroll = getInt(dateFrom) / 3;
                 }
             },
             touchStart(e) {
@@ -613,7 +617,6 @@
                         startDate = new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), currentDate.getDate());
                         break;
                 }
-
 
                 this.selectedDate1 = startDate;
                 this.selectedDate2 = currentDate;
@@ -756,6 +759,8 @@
                 if (this.$options.sundayFirst) {
                     this.sundayFirst = copyObject(this.$options.sundayFirst)
                 }
+
+
 
                 this.$nextTick(function () {
                     this.parentToggleScrollWidth = this.$refs.timebarScroll.parentNode.offsetWidth - this.$refs.timebarScroll.offsetWidth;

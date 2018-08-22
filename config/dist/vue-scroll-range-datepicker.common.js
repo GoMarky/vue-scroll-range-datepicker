@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ecdc5e48136eab6276cc"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "30629ec73c8d044a3a73"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9915,8 +9915,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             dateFormat: 'YYYY.MM.DD',
-            inputDateOne: '01.01.2012',
-            inputDateTwo: '01.01.2014',
+            inputDateOne: '',
+            inputDateTwo: '01.01.2018',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10552,7 +10552,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "3.0.0",
+    version: "3.0.1",
     install: install
 };
 
@@ -11014,8 +11014,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var TOGGLE_WIDTH = 60;
             var currentWay = 1800;
 
-            console.log(val);
-
             if (val > PARENT_WIDTH - TOGGLE_WIDTH) {
                 this.currentPointScroll = PARENT_WIDTH - TOGGLE_WIDTH;
             }
@@ -11153,11 +11151,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var wrapper = document.querySelector('#' + this.wrapperId);
             var years = Array.from(wrapper.querySelectorAll('.asd__timebar-progress > span'));
 
-            if (date.to) {
-                var getInt = function getInt(val) {
-                    return parseInt(val.style.left);
-                };
+            function getInt(val) {
+                return parseInt(val.style.left);
+            }
 
+            if (date.to) {
                 var dateFrom = years.find(function (it) {
                     return it.textContent.trim() === date.from.split('.')[2];
                 });
@@ -11184,6 +11182,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
 
                 this.currentTimebarWidth = this.currentProgress;
+            } else {
+                var _dateFrom = years.find(function (it) {
+                    return it.textContent.trim() === date.from.split('.')[2];
+                });
+
+                this.currentTimebarStart = getInt(_dateFrom);
+                this.currentTimebarLeftPos = getInt(_dateFrom);
+                this.currentPointScroll = getInt(_dateFrom) / 3;
             }
         },
         touchStart: function touchStart(e) {},

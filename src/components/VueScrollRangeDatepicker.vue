@@ -210,6 +210,11 @@
                 type: Boolean,
                 required: false,
                 default: true
+            },
+            bookingMode: {
+                type: Boolean,
+                required: false,
+                default: false
             }
         },
         data() {
@@ -495,9 +500,11 @@
                     this.generateMonths()
                 }
 
-                if (this.isDateTwoBeforeDateOne) {
-                    this.selectedDate2 = '';
-                    this.$emit('date-two-selected', '');
+                if (this.bookingMode) {
+                    if (this.isDateTwoBeforeDateOne) {
+                        this.selectedDate2 = '';
+                        this.$emit('date-two-selected', '');
+                    }
                 }
             }
         },
@@ -761,7 +768,6 @@
                 }
 
 
-
                 this.$nextTick(function () {
                     this.parentToggleScrollWidth = this.$refs.timebarScroll.parentNode.offsetWidth - this.$refs.timebarScroll.offsetWidth;
                 });
@@ -894,16 +900,19 @@
                     this.selectedDate1 = reversedDate;
                     this.isSelectingDate1 = false;
 
+                    if (!this.bookingMode) {
+                        this.selectedDate2 = ``;
+                    }
 
                     if (isBefore(this.selectedDate2, reversedDate)) {
-                        this.selectedDate2 = ''
+                        this.selectedDate2 = ``;
                     }
                 } else {
                     this.selectedDate2 = reversedDate;
                     this.isSelectingDate1 = true;
 
                     if (isAfter(this.selectedDate1, reversedDate)) {
-                        this.selectedDate1 = ''
+                        this.selectedDate1 = ``;
                     }
                 }
             },

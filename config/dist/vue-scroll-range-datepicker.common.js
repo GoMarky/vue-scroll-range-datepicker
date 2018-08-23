@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "30629ec73c8d044a3a73"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2d3935066b23c8e8027d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10552,7 +10552,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "3.0.1",
+    version: "3.0.2",
     install: install
 };
 
@@ -10853,6 +10853,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Boolean,
             required: false,
             default: true
+        },
+        bookingMode: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     data: function data() {
@@ -11095,9 +11100,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.generateMonths();
             }
 
-            if (this.isDateTwoBeforeDateOne) {
-                this.selectedDate2 = '';
-                this.$emit('date-two-selected', '');
+            if (this.bookingMode) {
+                if (this.isDateTwoBeforeDateOne) {
+                    this.selectedDate2 = '';
+                    this.$emit('date-two-selected', '');
+                }
             }
         }
     },
@@ -11460,6 +11467,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.isSelectingDate1 || __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(reversedDate, this.selectedDate1)) {
                 this.selectedDate1 = reversedDate;
                 this.isSelectingDate1 = false;
+
+                if (!this.bookingMode) {
+                    this.selectedDate2 = '';
+                }
 
                 if (__WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(this.selectedDate2, reversedDate)) {
                     this.selectedDate2 = '';

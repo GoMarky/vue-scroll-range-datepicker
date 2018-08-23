@@ -474,6 +474,8 @@
                         from: this.dateFrom,
                         to: newVal
                     });
+                } else {
+                    this.currentTimebarWidth = 0;
                 }
             },
             selectedDate1(newValue, oldValue) {

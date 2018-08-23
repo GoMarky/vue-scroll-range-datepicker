@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2d3935066b23c8e8027d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e4a92c708d42e400faf0"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10552,7 +10552,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "3.0.2",
+    version: "3.0.3",
     install: install
 };
 
@@ -11076,6 +11076,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     from: this.dateFrom,
                     to: newVal
                 });
+            } else {
+                this.currentTimebarWidth = 0;
             }
         },
         selectedDate1: function selectedDate1(newValue, oldValue) {

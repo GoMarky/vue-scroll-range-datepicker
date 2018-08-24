@@ -63,7 +63,8 @@
                     >
                     </div>
                     <div class="asd__timebar-monthes" ref="timebarWrapper">
-                        <div class="asd__timebar-progress" v-bind:style="timebarStyles">
+                        <div class="asd__timebar-progress"
+                             v-bind:style="timebarStyles">
                             <div class="asd__timebar-progress-current" v-bind:style="currentTimebarStyles"
                                  ref="currentProgressBar">
                             </div>
@@ -97,8 +98,7 @@
                         class="asd__days-legend"
                         v-for="(month, index) in showMonths"
                         :key="month"
-                        :style="[monthWidthStyles, {left: (width * index) + 'px'}]"
-                >
+                        :style="[monthWidthStyles, {left: (width * index) + 'px'}]">
                     <div class="asd__day-title" v-for="day in daysShort" :key="day">{{ day }}</div>
                 </div>
             </div>
@@ -919,7 +919,9 @@
                 }
             },
             setHoverDate(date) {
-                this.hoverDate = date
+                if (this.bookingMode) {
+                    this.hoverDate = date
+                }
             },
             isSelected(date) {
                 if (!date) {
@@ -928,11 +930,7 @@
                 return this.selectedDate1 === date || this.selectedDate2 === date
             },
             isInRange(date) {
-                if (!this.allDatesSelected || this.isSingleMode) {
-                    return false
-                }
-
-                if (this.inBorderMode) {
+                if (this.inBorderMode || !this.allDatesSelected) {
                     return isEqual(date, this.selectedDate1) || (
                         (isAfter(date, this.selectedDate1) &&
                             isBefore(date, this.selectedDate2)) ||
@@ -940,6 +938,10 @@
                             isBefore(date, this.hoverDate) &&
                             !this.allDatesSelected)
                     ) || isEqual(date, this.selectedDate2);
+                }
+
+                if (!this.allDatesSelected || this.isSingleMode) {
+                    return false
                 }
 
                 return (

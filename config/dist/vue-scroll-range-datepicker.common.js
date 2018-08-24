@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e4a92c708d42e400faf0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "cb0242eba4541e4cfa44"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -9906,7 +9906,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -9916,7 +9915,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             dateFormat: 'YYYY.MM.DD',
             inputDateOne: '',
-            inputDateTwo: '01.01.2018',
+            inputDateTwo: '',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -10473,11 +10472,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     domProps: {
       "value": _vm.formatDates(_vm.inputDateOne, _vm.inputDateTwo)
-    },
-    on: {
-      "focus": function($event) {
-        _vm.preventWrite = true
-      }
     }
   }), _vm._v(" "), _c('vue-scroll-range-datepicker', {
     attrs: {
@@ -11487,7 +11481,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         setHoverDate: function setHoverDate(date) {
-            this.hoverDate = date;
+            if (this.bookingMode) {
+                this.hoverDate = date;
+            }
         },
         isSelected: function isSelected(date) {
             if (!date) {
@@ -11496,12 +11492,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.selectedDate1 === date || this.selectedDate2 === date;
         },
         isInRange: function isInRange(date) {
-            if (!this.allDatesSelected || this.isSingleMode) {
-                return false;
+            if (this.inBorderMode || !this.allDatesSelected) {
+                return __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal___default()(date, this.selectedDate1) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.selectedDate2) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.hoverDate) && !this.allDatesSelected || __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal___default()(date, this.selectedDate2);
             }
 
-            if (this.inBorderMode) {
-                return __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal___default()(date, this.selectedDate1) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.selectedDate2) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.hoverDate) && !this.allDatesSelected || __WEBPACK_IMPORTED_MODULE_5_date_fns_is_equal___default()(date, this.selectedDate2);
+            if (!this.allDatesSelected || this.isSingleMode) {
+                return false;
             }
 
             return __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.selectedDate2) || __WEBPACK_IMPORTED_MODULE_6_date_fns_is_after___default()(date, this.selectedDate1) && __WEBPACK_IMPORTED_MODULE_4_date_fns_is_before___default()(date, this.hoverDate) && !this.allDatesSelected;

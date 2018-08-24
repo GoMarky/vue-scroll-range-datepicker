@@ -9,7 +9,6 @@
                             type="text"
                             id="datepicker-input-trigger"
                             readonly
-                            v-on:focus="preventWrite = true"
                             :value="formatDates(inputDateOne, inputDateTwo)"
                             placeholder="Select dates"
                     >
@@ -47,7 +46,7 @@
             return {
                 dateFormat: 'YYYY.MM.DD',
                 inputDateOne: '',
-                inputDateTwo: '01.01.2018',
+                inputDateTwo: '',
                 inputSingleDateOne: '',
                 buttonDateOne: '',
                 buttonDateTwo: '',

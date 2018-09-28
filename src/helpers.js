@@ -73,7 +73,7 @@ export const isWeekend = date => {
         sun
     };
 
-    function daysInMonth(month, year) {
+    function daysInMonth (month, year) {
         return new Date(year, month, 0).getDate();
     }
 };
@@ -106,3 +106,9 @@ export const inRange = (x, min, max) => {
     }
     return ((x - min) * (x - max) <= 0);
 };
+
+export const isValidDate = (val) => {
+    if (!val) return true
+
+    return (val instanceof Date && !isNaN(val.valueOf())) || val.match(/\d{4}.\d{2}.\d{2}/) || val.match(/\d{2}.\d{2}.\d{4}/)
+}

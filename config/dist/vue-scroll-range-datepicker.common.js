@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "cb0242eba4541e4cfa44"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "9cbb2a0c5aa527670bc5"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -1331,7 +1331,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(process, global, setImmediate) {var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /*!
- * Vue.js v2.5.16
+ * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -5899,7 +5899,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.16';
+Vue.version = '2.5.17';
 
 /*  */
 
@@ -9338,11 +9338,12 @@ module.exports = isValid;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return debounce; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return copyObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return findAncestor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return randomString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return isWeekend; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return reverseDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return randomString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return isWeekend; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return reverseDate; });
 /* unused harmony export compareNumbers */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return inRange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return isValidDate; });
 /* eslint-disable */
 
 // Returns a function, that, as long as it continues to be invoked, will not
@@ -9448,6 +9449,12 @@ var inRange = function inRange(x, min, max) {
         return false;
     }
     return (x - min) * (x - max) <= 0;
+};
+
+var isValidDate = function isValidDate(val) {
+    if (!val) return true;
+
+    return val instanceof Date && !isNaN(val.valueOf()) || val.match(/\d{4}.\d{2}.\d{2}/) || val.match(/\d{2}.\d{2}.\d{4}/);
 };
 
 /***/ }),
@@ -9914,8 +9921,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             dateFormat: 'YYYY.MM.DD',
-            inputDateOne: '',
-            inputDateTwo: '',
+            inputDateOne: '02.02.2016',
+            inputDateTwo: '02.04.2016',
             inputSingleDateOne: '',
             buttonDateOne: '',
             buttonDateTwo: '',
@@ -9933,10 +9940,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         formatDates: function formatDates(dateOne, dateTwo) {
             var formattedDates = '';
             if (dateOne) {
-                formattedDates = Object(__WEBPACK_IMPORTED_MODULE_1__src_helpers__["g" /* reverseDate */])(__WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(dateOne, this.dateFormat));
+                formattedDates = Object(__WEBPACK_IMPORTED_MODULE_1__src_helpers__["h" /* reverseDate */])(__WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(dateOne, this.dateFormat));
             }
             if (dateTwo) {
-                formattedDates += ' - ' + Object(__WEBPACK_IMPORTED_MODULE_1__src_helpers__["g" /* reverseDate */])(__WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(dateTwo, this.dateFormat));
+                formattedDates += ' - ' + Object(__WEBPACK_IMPORTED_MODULE_1__src_helpers__["h" /* reverseDate */])(__WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(dateTwo, this.dateFormat));
             }
             return formattedDates;
         },
@@ -10546,7 +10553,7 @@ function install(Vue, options) {
 // Plugin
 var plugin = {
     /* eslint-disable no-undef */
-    version: "3.0.3",
+    version: "3.0.5",
     install: install
 };
 
@@ -10804,8 +10811,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     name: 'vueScrollRangeDatepicker',
     props: {
         triggerElementId: { type: String },
-        dateOne: { type: [String, Date], default: __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(new Date()) },
-        dateTwo: { type: [String, Date] },
+        dateOne: {
+            type: [String, Date],
+            default: __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(new Date()),
+            validator: function validator(val) {
+                if (!val) return true;
+                return Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["e" /* isValidDate */])(val);
+            }
+        },
+        dateTwo: {
+            type: [String, Date],
+            default: '',
+            validator: function validator(val) {
+                if (!val) return true;
+                return Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["e" /* isValidDate */])(val);
+            }
+        },
         minDate: { type: [String, Date] },
         endDate: { type: [String, Date] },
         mode: { type: String, default: 'range' },
@@ -10858,7 +10879,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             dateTo: '',
             dateFrom: '',
-            wrapperId: 'airbnb-style-datepicker-wrapper-' + Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["f" /* randomString */])(5),
+            wrapperId: 'airbnb-style-datepicker-wrapper-' + Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* randomString */])(5),
             showDatepicker: false,
             showMonths: 2,
             colors: {
@@ -11057,6 +11078,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         dateFrom: function dateFrom(newVal) {
+            if (!Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["e" /* isValidDate */])(newVal)) {
+                this.$emit('date-one-selected', '');
+                this.$emit('inCorrectDate', 'dateFrom');
+            }
+
             if (newVal) {
                 this.setCurrentTimebarWidth({
                     from: newVal,
@@ -11065,6 +11091,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         dateTo: function dateTo(newVal) {
+            if (!Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["e" /* isValidDate */])(newVal)) {
+                this.$emit('date-two-selected', '');
+                this.$emit('inCorrectDate', 'dateTo');
+            }
+
             if (newVal) {
                 this.setCurrentTimebarWidth({
                     from: this.dateFrom,
@@ -11078,13 +11109,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var newDate = !newValue || newValue === '' ? '' : __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(newValue, this.dateFormat);
 
             this.$emit('date-one-selected', newDate);
-            this.dateFrom = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(newDate);
+            this.dateFrom = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["h" /* reverseDate */])(newDate);
         },
         selectedDate2: function selectedDate2(newValue, oldValue) {
             var newDate = !newValue || newValue === '' ? '' : __WEBPACK_IMPORTED_MODULE_0_date_fns_format___default()(newValue, this.dateFormat);
 
             this.$emit('date-two-selected', newDate);
-            this.dateTo = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(newDate);
+            this.dateTo = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["h" /* reverseDate */])(newDate);
         },
         mode: function mode(newValue, oldValue) {
             this.setStartDates();
@@ -11252,7 +11283,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             document.addEventListener('mouseup', onMouseUp);
         },
         isWeekendDay: function isWeekendDay(date, day) {
-            var weekends = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["e" /* isWeekend */])(date);
+            var weekends = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["f" /* isWeekend */])(date);
 
             return weekends.sat.some(function (elem) {
                 return elem === day;
@@ -11443,7 +11474,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         selectDate: function selectDate(date, isFixed) {
             this.currentFixedTime = '';
-            var reversedDate = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(date);
+            var reversedDate = Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["h" /* reverseDate */])(date);
 
             if (isFixed) {
                 this.startingDate = reversedDate;
@@ -11576,11 +11607,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         apply: function apply() {
             if (this.dateTo) {
-                this.$emit('date-one-selected', Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(this.dateFrom));
+                this.$emit('date-one-selected', Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["h" /* reverseDate */])(this.dateFrom));
             }
 
             if (this.dateFrom) {
-                this.$emit('date-two-selected', Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["g" /* reverseDate */])(this.dateTo));
+                this.$emit('date-two-selected', Object(__WEBPACK_IMPORTED_MODULE_8__helpers__["h" /* reverseDate */])(this.dateTo));
             }
 
             this.$emit('apply');

@@ -165,14 +165,37 @@
     import isEqual from 'date-fns/is_equal'
     import isAfter from 'date-fns/is_after'
     import isValid from 'date-fns/is_valid'
-    import {debounce, copyObject, findAncestor, randomString, isWeekend, reverseDate, inRange} from './../helpers'
+    import {
+        debounce,
+        copyObject,
+        findAncestor,
+        randomString,
+        isWeekend,
+        reverseDate,
+        inRange,
+        isValidDate
+    } from './../helpers'
 
     export default {
         name: 'vueScrollRangeDatepicker',
         props: {
             triggerElementId: {type: String},
-            dateOne: {type: [String, Date], default: format(new Date())},
-            dateTwo: {type: [String, Date]},
+            dateOne: {
+                type: [String, Date],
+                default: format(new Date()),
+                validator (val) {
+                    if (!val) return true
+                    return isValidDate(val)
+                }
+            },
+            dateTwo: {
+                type: [String, Date],
+                default: '',
+                validator (val) {
+                    if (!val) return true
+                    return isValidDate(val)
+                }
+            },
             minDate: {type: [String, Date]},
             endDate: {type: [String, Date]},
             mode: {type: String, default: 'range'},
@@ -202,7 +225,7 @@
             endYearForRange: {
                 type: Date,
                 required: false,
-                default() {
+                default () {
                     return new Date();
                 }
             },
@@ -217,7 +240,7 @@
                 default: false
             }
         },
-        data() {
+        data () {
             return {
                 dateTo: '',
                 dateFrom: '',
@@ -285,10 +308,10 @@
             }
         },
         computed: {
-            currentProgress() {
+            currentProgress () {
                 return this.currentTimebarEnd - this.currentTimebarStart;
             },
-            currentYears() {
+            currentYears () {
                 const currentDate = this.endYearForRange;
                 let currentYear = currentDate.getFullYear() + 1;
                 const currentYears = [];
@@ -306,14 +329,14 @@
 
                 return currentYears.reverse();
             },
-            currentTimebarStyles() {
+            currentTimebarStyles () {
                 return {
                     width: `${this.currentTimebarWidth}px`,
                     left: `${this.currentTimebarLeftPos}px`
                 }
             },
             timebarStyles: {
-                get() {
+                get () {
                     let timebarWidth = 0;
 
                     for (let i = 0; i < this.currentYears.length - 1; i++) {
@@ -326,19 +349,19 @@
                     }
                 }
             },
-            scrollStyles() {
+            scrollStyles () {
                 return {
                     left: `${this.currentPointScroll}px`
                 }
             },
-            wrapperClasses() {
+            wrapperClasses () {
                 return {
                     'asd__wrapper--datepicker-open': this.showDatepicker,
                     'asd__wrapper--full-screen': this.showFullscreen,
                     'asd__wrapper--inline': this.inline
                 }
             },
-            wrapperStyles() {
+            wrapperStyles () {
                 return {
                     position: this.inline ? 'static' : 'absolute',
                     top: this.inline
@@ -360,28 +383,28 @@
                     zIndex: this.inline ? '0' : '100'
                 }
             },
-            innerStyles() {
+            innerStyles () {
                 return {
                     'margin-left': this.showFullscreen
                         ? '-' + this.viewportWidth
                         : `-${this.width}px`
                 }
             },
-            monthWidthStyles() {
+            monthWidthStyles () {
                 return {
                     width: this.showFullscreen ? this.viewportWidth : this.width + 'px'
                 }
             },
-            showFullscreen() {
+            showFullscreen () {
                 return this.isMobile && this.fullscreenMobile
             },
-            datesSelected() {
+            datesSelected () {
                 return !!(
                     (this.selectedDate1 && this.selectedDate1 !== '') ||
                     (this.selectedDate2 && this.selectedDate2 !== '')
                 )
             },
-            allDatesSelected() {
+            allDatesSelected () {
                 return !!(
                     this.selectedDate1 &&
                     this.selectedDate1 !== '' &&
@@ -389,22 +412,22 @@
                     this.selectedDate2 !== ''
                 )
             },
-            hasMinDate() {
+            hasMinDate () {
                 return !!(this.minDate && this.minDate !== '')
             },
-            isRangeMode() {
+            isRangeMode () {
                 return this.mode === 'range'
             },
-            isSingleMode() {
+            isSingleMode () {
                 return this.mode === 'single'
             },
-            datepickerWidth() {
+            datepickerWidth () {
                 return this.width * this.showMonths
             },
-            datePropsCompound() {
+            datePropsCompound () {
                 return this.dateOne + this.dateTwo
             },
-            isDateTwoBeforeDateOne() {
+            isDateTwoBeforeDateOne () {
                 if (!this.dateTwo) {
                     return false
                 }
@@ -412,7 +435,7 @@
             }
         },
         watch: {
-            currentPointScroll(val) {
+            currentPointScroll (val) {
                 const PARENT_WIDTH = 668;
                 const TOGGLE_WIDTH = 60;
                 let currentWay = 1800;
@@ -460,7 +483,12 @@
                     }
                 }
             },
-            dateFrom(newVal) {
+            dateFrom (newVal) {
+                if (!isValidDate(newVal)) {
+                    this.$emit('date-one-selected', '')
+                    this.$emit('inCorrectDate', 'dateFrom')
+                }
+
                 if (newVal) {
                     this.setCurrentTimebarWidth({
                         from: newVal,
@@ -468,7 +496,12 @@
                     });
                 }
             },
-            dateTo(newVal) {
+            dateTo (newVal) {
+                if (!isValidDate(newVal)) {
+                    this.$emit('date-two-selected', '')
+                    this.$emit('inCorrectDate', 'dateTo')
+                }
+
                 if (newVal) {
                     this.setCurrentTimebarWidth({
                         from: this.dateFrom,
@@ -478,24 +511,24 @@
                     this.currentTimebarWidth = 0;
                 }
             },
-            selectedDate1(newValue, oldValue) {
+            selectedDate1 (newValue, oldValue) {
                 let newDate =
                     !newValue || newValue === '' ? '' : format(newValue, this.dateFormat);
 
                 this.$emit('date-one-selected', newDate);
                 this.dateFrom = reverseDate(newDate);
             },
-            selectedDate2(newValue, oldValue) {
+            selectedDate2 (newValue, oldValue) {
                 let newDate =
                     !newValue || newValue === '' ? '' : format(newValue, this.dateFormat);
 
                 this.$emit('date-two-selected', newDate);
                 this.dateTo = reverseDate(newDate);
             },
-            mode(newValue, oldValue) {
+            mode (newValue, oldValue) {
                 this.setStartDates()
             },
-            datePropsCompound(newValue) {
+            datePropsCompound (newValue) {
                 if (this.dateOne !== this.selectedDate1) {
                     this.startingDate = this.dateOne;
                     this.setStartDates();
@@ -510,7 +543,7 @@
                 }
             }
         },
-        created() {
+        created () {
             this.setupDatepicker();
 
             if (this.sundayFirst) {
@@ -531,7 +564,7 @@
             window.addEventListener('resize', this._handleWindowResizeEvent);
             window.addEventListener('click', this._handleWindowClickEvent)
         },
-        mounted() {
+        mounted () {
             this.triggerElement = this.isTest
                 ? document.createElement('input')
                 : document.getElementById(this.triggerElementId);
@@ -545,21 +578,21 @@
 
             this.triggerElement.addEventListener('keyup', this.handleTriggerInput)
         },
-        beforeDestroy() {
+        beforeDestroy () {
             this.isFirstLoaded = true;
         },
-        destroyed() {
+        destroyed () {
             window.removeEventListener('resize', this._handleWindowResizeEvent);
             window.removeEventListener('click', this._handleWindowClickEvent);
 
             this.triggerElement.removeEventListener('keyup', this.handleTriggerInput)
         },
         methods: {
-            setCurrentTimebarWidth(date) {
+            setCurrentTimebarWidth (date) {
                 const wrapper = document.querySelector(`#${this.wrapperId}`);
                 const years = Array.from(wrapper.querySelectorAll(`.asd__timebar-progress > span`));
 
-                function getInt(val) {
+                function getInt (val) {
                     return parseInt(val.style.left);
                 }
 
@@ -594,16 +627,16 @@
                     this.currentPointScroll = getInt(dateFrom) / 3;
                 }
             },
-            touchStart(e) {
+            touchStart (e) {
 
             },
-            touchMove(e) {
+            touchMove (e) {
 
             },
-            touchEnd(e) {
+            touchEnd (e) {
 
             },
-            setFixedDate(type) {
+            setFixedDate (type) {
                 this.currentFixedTime = type;
 
                 let currentDate = new Date();
@@ -633,7 +666,7 @@
 
                 this.generateMonths();
             },
-            toggleScroll(e) {
+            toggleScroll (e) {
                 e.preventDefault();
                 let currentPointX = e.clientX;
 
@@ -654,12 +687,12 @@
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
             },
-            isWeekendDay(date, day) {
+            isWeekendDay (date, day) {
                 let weekends = isWeekend(date);
 
                 return weekends.sat.some(elem => elem === day) || weekends.sun.some(elem => elem === day);
             },
-            getDayStyles(date) {
+            getDayStyles (date) {
                 const isSelected = this.isSelected(date);
                 const isInRange = this.isInRange(date);
                 const isDisabled = this.isDisabled(date);
@@ -671,7 +704,7 @@
                         : isInRange ? this.colors.inRange : '',
                     color: isSelected
                         ? this.colors.selectedText
-                        : isInRange ? this.colors.selectedText : this.colors.text,
+                        : isInRange ? this.colors.selectedText : this.colors.text
                 };
 
                 if (isDisabled) {
@@ -679,7 +712,7 @@
                 }
                 return styles
             },
-            handleClickOutside(event) {
+            handleClickOutside (event) {
                 if (
                     event.target.id === this.triggerElementId ||
                     !this.showDatepicker ||
@@ -689,7 +722,7 @@
                 }
                 this.closeDatepicker()
             },
-            handleTriggerInput(event) {
+            handleTriggerInput (event) {
                 const keys = {
                     arrowDown: 40,
                     arrowUp: 38,
@@ -726,7 +759,7 @@
                     }
                 }
             },
-            setDateFromText(value) {
+            setDateFromText (value) {
                 if (value.length < 10) {
                     return
                 }
@@ -757,14 +790,14 @@
                 this.generateMonths();
                 this.selectDate(formattedDate)
             },
-            generateMonths() {
+            generateMonths () {
                 this.months = [];
                 for (let i = 0; i < this.showMonths + 3; i++) {
                     this.months.push(this.getMonth(this.startingDate));
                     this.startingDate = this.addMonths(this.startingDate)
                 }
             },
-            setupDatepicker() {
+            setupDatepicker () {
                 if (this.$options.sundayFirst) {
                     this.sundayFirst = copyObject(this.$options.sundayFirst)
                 }
@@ -800,7 +833,7 @@
                     this.texts.cancel = texts.cancel || this.texts.cancel
                 }
             },
-            setStartDates(date) {
+            setStartDates (date) {
                 let startDate;
 
                 if (date) {
@@ -816,13 +849,13 @@
                 this.selectedDate1 = this.dateOne;
                 this.selectedDate2 = this.dateTwo;
             },
-            setSundayToFirstDayInWeek() {
+            setSundayToFirstDayInWeek () {
                 const lastDay = this.days.pop();
                 this.days.unshift(lastDay);
                 const lastDayShort = this.daysShort.pop();
                 this.daysShort.unshift(lastDayShort)
             },
-            getMonth(date) {
+            getMonth (date) {
                 const firstDateOfMonth = format(date, 'YYYY-MM-01');
                 const year = format(date, 'YYYY');
                 const monthNumber = parseInt(format(date, 'M'));
@@ -836,7 +869,7 @@
                     weeks: this.getWeeks(firstDateOfMonth)
                 }
             },
-            getWeeks(date) {
+            getWeeks (date) {
                 const weekDayNotInMonth = {dayNumber: 0};
                 const daysInMonth = getDaysInMonth(date);
                 const year = format(date, 'YYYY');
@@ -875,7 +908,7 @@
                 }
                 return weeks
             },
-            selectDate(date, isFixed) {
+            selectDate (date, isFixed) {
                 this.currentFixedTime = ``;
                 const reversedDate = reverseDate(date);
 
@@ -918,18 +951,18 @@
                     }
                 }
             },
-            setHoverDate(date) {
+            setHoverDate (date) {
                 if (this.bookingMode) {
                     this.hoverDate = date
                 }
             },
-            isSelected(date) {
+            isSelected (date) {
                 if (!date) {
                     return
                 }
                 return this.selectedDate1 === date || this.selectedDate2 === date
             },
-            isInRange(date) {
+            isInRange (date) {
                 if (this.inBorderMode || !this.allDatesSelected) {
                     return isEqual(date, this.selectedDate1) || (
                         (isAfter(date, this.selectedDate1) &&
@@ -952,36 +985,36 @@
                         !this.allDatesSelected)
                 )
             },
-            isBeforeMinDate(date) {
+            isBeforeMinDate (date) {
                 if (!this.minDate) {
                     return false
                 }
                 return isBefore(date, this.minDate)
             },
-            isAfterEndDate(date) {
+            isAfterEndDate (date) {
                 if (!this.endDate) {
                     return false
                 }
                 return isAfter(date, this.endDate)
             },
-            isDateDisabled(date) {
+            isDateDisabled (date) {
                 return this.disabledDates.indexOf(date) > -1;
             },
-            isDisabled(date) {
+            isDisabled (date) {
                 return (
                     this.isDateDisabled(date) ||
                     this.isBeforeMinDate(date) ||
                     this.isAfterEndDate(date)
                 )
             },
-            previousMonth() {
+            previousMonth () {
                 this.currentPointScroll = this.currentPointScroll - 4;
 
                 this.startingDate = this.subtractMonths(this.months[0].firstDateOfMonth);
                 this.months.unshift(this.getMonth(this.startingDate));
                 this.months.splice(this.months.length - 1, 1)
             },
-            nextMonth() {
+            nextMonth () {
                 this.currentPointScroll = this.currentPointScroll + 4;
 
                 this.startingDate = this.addMonths(
@@ -992,20 +1025,20 @@
                     this.months.splice(0, 1)
                 }, 100)
             },
-            subtractMonths(date) {
+            subtractMonths (date) {
                 return format(subMonths(date, 1), this.dateFormat)
             },
-            addMonths(date) {
+            addMonths (date) {
                 return format(addMonths(date, 1), this.dateFormat)
             },
-            toggleDatepicker() {
+            toggleDatepicker () {
                 if (this.showDatepicker) {
                     this.closeDatepicker()
                 } else {
                     this.openDatepicker()
                 }
             },
-            openDatepicker() {
+            openDatepicker () {
                 this.positionDatepicker();
                 this.setStartDates();
                 this.triggerElement.classList.add('datepicker-open');
@@ -1013,14 +1046,14 @@
                 this.initialDate1 = this.dateOne;
                 this.initialDate2 = this.dateTwo
             },
-            closeDatepickerCancel() {
+            closeDatepickerCancel () {
                 if (this.showDatepicker) {
                     this.selectedDate1 = this.initialDate1;
                     this.selectedDate2 = this.initialDate2;
                     this.closeDatepicker()
                 }
             },
-            closeDatepicker() {
+            closeDatepicker () {
                 if (this.inline) {
                     return
                 }
@@ -1028,7 +1061,7 @@
                 this.triggerElement.classList.remove('datepicker-open');
                 this.$emit('closed')
             },
-            apply() {
+            apply () {
                 if (this.dateTo) {
                     this.$emit('date-one-selected', reverseDate(this.dateFrom));
                 }
@@ -1040,7 +1073,7 @@
                 this.$emit('apply');
                 this.closeDatepicker()
             },
-            positionDatepicker() {
+            positionDatepicker () {
                 const triggerWrapperElement = findAncestor(
                     this.triggerElement,
                     '.datepicker-trigger'

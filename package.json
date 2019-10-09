@@ -16,11 +16,11 @@
   "unpkg": "dist/vue-scroll-range-datepicker.browser.js",
   "module": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack --config config/webpack.config.dev.js --progress --watch --hot",
-    "build": "npm run build:browser && npm run build:common",
-    "build:browser": "cross-env NODE_ENV=production webpack --config config/webpack.config.browser.js --progress --hide-modules",
-    "build:common": "cross-env NODE_ENV=production webpack --config config/webpack.config.common.js --progress --hide-modules",
-    "prepublish": "npm run build"
+    "dev": "cross-env NODE_ENV=development rollup -c -w --config cfg/rollup.config.dev.js",
+    "build:browser": "cross-env NODE_ENV=production webpack --config cfg/webpack.config.browser.js --progress --hide-modules",
+    "build:common": "cross-env NODE_ENV=production webpack --config cfg/webpack.config.common.js --progress --hide-modules",
+    "prepublish": "npm run build",
+    "build": "npm run build:browser && npm run build:common"
   },
   "repository": {
     "type": "git",
@@ -53,13 +53,15 @@
     "vue-loader": "^10.3.0",
     "vue-template-compiler": "^2.6.10",
     "vuex": "3.0.1",
-    "webpack": "^3.11.0",
+    "webpack": "^4.11.1",
     "webpack-cli": "^2.1.4",
     "webpack-dev-server": "^2.11.2",
     "webpack-merge": "^1.1.2"
   },
   "dependencies": {
     "date-fns": "^1.29.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-vue": "^5.0.1",
     "vue": "^2.6.10"
   }
 }

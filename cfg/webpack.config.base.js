@@ -1,11 +1,10 @@
-var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+import webpack from 'webpack'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import config from '../package.json'
 
-var outputFile = 'vue-scroll-range-datepicker'
+const outputFile = 'vue-scroll-range-datepicker'
 
-var config = require('../package.json')
-
-module.exports = {
+const baseConfig = {
   entry: './src/index.js',
   module: {
     rules: [
@@ -39,3 +38,5 @@ module.exports = {
     new ExtractTextPlugin(outputFile + '.css'),
   ],
 }
+
+export default baseConfig

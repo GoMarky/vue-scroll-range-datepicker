@@ -3,7 +3,7 @@ import VuePlugin from 'rollup-plugin-vue'
 
 export default [
   {
-    input: './src/index.js',
+    input: './dev/index.js',
     output: {
       name: 'test',
       file: './dist/build.js',
@@ -11,7 +11,7 @@ export default [
     },
     plugins: [
       commonjs(),
-      VuePlugin(/* VuePluginOptions */),
+      VuePlugin(),
     ],
   },
 ]

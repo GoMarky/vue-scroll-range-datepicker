@@ -16,9 +16,9 @@
   "unpkg": "dist/vue-scroll-range-datepicker.browser.js",
   "module": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development rollup -c -w --config cfg/rollup.config.dev.js",
-    "build:browser": "cross-env NODE_ENV=production webpack --config cfg/webpack.config.browser.js --progress --hide-modules",
-    "build:common": "cross-env NODE_ENV=production webpack --config cfg/webpack.config.common.js --progress --hide-modules",
+    "dev": "cross-env NODE_ENV=development rollup -w --config config/rollup.dev.js",
+    "build:browser": "cross-env NODE_ENV=production rollup --config config/rollup.config.browser.js",
+    "build:common": "cross-env NODE_ENV=production rollup --config config/rollup.config.common.js",
     "prepublish": "npm run build",
     "build": "npm run build:browser && npm run build:common"
   },
